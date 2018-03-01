@@ -1,0 +1,47 @@
+//
+//  GCDHelpers.swift
+//
+//  Created by Rok Gregorič
+//  Copyright © 2018 Rok Gregorič. All rights reserved.
+//
+
+import Foundation
+
+class Run {
+  static func on(_ queue: DispatchQueue, after: Double = 0, _ block: @escaping @convention(block) () -> Void) {
+    if after == 0 {
+      queue.async(execute: block)
+    } else {
+      queue.asyncAfter(deadline: .now() + after, execute: block)
+    }
+  }
+
+  static func main(after: Double = 0, _ block: @escaping () -> Void) {
+    on(.main, after: after, block)
+  }
+
+  static func background(after: Double = 0, _ block: @escaping () -> Void) {
+    on(.global(qos: .background), after: after, block)
+  }
+
+  static func concurrent(after: Double = 0, _ block: @escaping () -> Void) {
+    on(.global(qos: .userInteractive), after: after, block)
+  }
+}
+
+
+class Task {
+    fileprivate var block: (() -> Void)?
+
+    init(_ after: Double, _ block: @escaping () -> Void) {
+        self.block = block
+        Run.main(after: after) { [weak self] in
+            self?.run()
+        }
+    }
+
+    func run() {
+        block?()
+        block = nil
+    }
+}
