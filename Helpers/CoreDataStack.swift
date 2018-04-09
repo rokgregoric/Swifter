@@ -24,7 +24,7 @@ class CoreDataStack {
       Log.debug(desc, context: "db")
       if let _ = error as NSError? {
         Log.error("flushing", context: "db")
-        persistentContainer.persistentStoreDescriptions.flatMap { $0.url }.forEach {
+        persistentContainer.persistentStoreDescriptions.compactMap { $0.url }.forEach {
           try? FileManager.default.removeItem(at: $0)
         }
         self.initContainer { _, error in

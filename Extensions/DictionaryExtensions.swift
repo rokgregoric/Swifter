@@ -13,7 +13,7 @@ extension Dictionary {
   }
   
   func flatMap<K, V>(transform: (_ key: Key, _ value: Value) -> (K?, V?)) -> [K: V] {
-    return dic(flatMap { let (k, v) = transform($0, $1); return (k == nil || v == nil ? nil : (k!, v!)) })
+    return dic(compactMap { let (k, v) = transform($0, $1); return (k == nil || v == nil ? nil : (k!, v!)) })
   }
 }
 
