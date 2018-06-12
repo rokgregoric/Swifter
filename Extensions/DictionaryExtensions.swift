@@ -17,6 +17,14 @@ extension Dictionary {
   }
 }
 
+extension Dictionary where Value: OptionalProtocol {
+  var flat: [Key: Value.Wrapped] {
+    var dic = [Key: Value.Wrapped]()
+    forEach { dic[$0.key] = $0.value.value }
+    return dic
+  }
+}
+
 func dic<K, V>(_ tupples: [(K, V)]) -> [K: V] {
   var dic = [K: V]()
   tupples.forEach { dic[$0.0] = $0.1 }
@@ -31,4 +39,10 @@ func + <K, V>(left: [K: V], right: [K: V]) -> [K: V] {
 
 func += <K, V> (left: inout [K: V], right: [K: V]) {
   right.forEach { left[$0.key] = $0.value }
+}
+
+func flat<K, V>(_ opt: [K: V?]) -> [K: V] {
+  var dic = [K: V]()
+  opt.forEach { dic[$0.key] = $0.value }
+  return dic
 }
