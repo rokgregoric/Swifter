@@ -90,6 +90,10 @@ extension Sequence where Iterator.Element: Hashable {
   func unique() -> [Iterator.Element] {
     return Array(Set<Iterator.Element>(self))
   }
+
+  func uniqueOrdered() -> [Iterator.Element] {
+    return reduce([Iterator.Element]()) { $0.contains($1) ? $0 : $0 + [$1] }
+  }
 }
 
 protocol OptionalProtocol {
