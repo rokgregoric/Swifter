@@ -8,47 +8,51 @@
 import Foundation
 
 struct Environment {
-    fileprivate static func valueForKey(_ key: String) -> String {
-        return Bundle.main.object(forInfoDictionaryKey: key) as? String ?? ""
-    }
+  fileprivate static func valueForKey(_ key: String) -> String {
+    return Bundle.main.object(forInfoDictionaryKey: key) as? String ?? ""
+  }
 
-    static var appName: String {
-        return valueForKey("CFBundleName")
-    }
+  static var appName: String {
+    return valueForKey("CFBundleName")
+  }
 
-    static var build: String {
-        return valueForKey("CFBundleVersion")
-    }
+  static var build: String {
+    return valueForKey("CFBundleVersion")
+  }
 
-    static var version: String {
-        return valueForKey("CFBundleShortVersionString")
-    }
+  static var version: String {
+    return valueForKey("CFBundleShortVersionString")
+  }
 
-    static let isProduction: Bool = {
-        #if PRODUCTION
-            return true
-        #else
-            return false
-        #endif
-    }()
+  static var verBuild: String {
+    return "v\(version) (\(build))"
+  }
 
-    static let isDevelopment: Bool = {
-        #if DEBUG
-            return true
-        #else
-            return false
-        #endif
-    }()
+  static let isProduction: Bool = {
+    #if PRODUCTION
+    return true
+    #else
+    return false
+    #endif
+  }()
 
-    static let isTestFlight: Bool = {
-        return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
-    }()
+  static let isDevelopment: Bool = {
+    #if DEBUG
+    return true
+    #else
+    return false
+    #endif
+  }()
 
-    static let isSimulator: Bool = {
-        var sim = false
-        #if arch(i386) || arch(x86_64)
-            sim = true
-        #endif
-        return sim
-    }()
+  static let isTestFlight: Bool = {
+    return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
+  }()
+
+  static let isSimulator: Bool = {
+    var sim = false
+    #if arch(i386) || arch(x86_64)
+    sim = true
+    #endif
+    return sim
+  }()
 }
