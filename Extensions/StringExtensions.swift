@@ -86,7 +86,7 @@ extension String {
                                         upper: clamp(r.upperBound, min: 0, max: count)))
     let start = index(startIndex, offsetBy: range.lowerBound)
     let end = index(start, offsetBy: range.upperBound - range.lowerBound)
-    return String(self[Range(start ..< end)])
+    return String(self[start ..< end])
   }
 
   typealias RegexMatch = (match: String, range: NSRange)
@@ -96,7 +96,6 @@ extension String {
       let nsString = self as NSString
       let results = regex.matches(in: self, range: NSRange(location: 0, length: nsString.length))
       return results.map { (match: nsString.substring(with: $0.range), range: $0.range) }
-
     } catch _ {
       return []
     }
