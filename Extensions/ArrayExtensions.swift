@@ -66,8 +66,11 @@ extension Array {
 }
 
 extension Array where Iterator.Element: Equatable {
-  mutating func remove(_ element: Element) {
-    _ = index(of: element).map { remove(at: $0 ) }
+  @discardableResult
+  mutating func remove(_ element: Element) -> Int? {
+    let idx = index(of: element)
+    _ = idx.map { remove(at: $0 ) }
+    return idx
   }
   
   mutating func toggle(_ element: Element) {
