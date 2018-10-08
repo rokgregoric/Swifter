@@ -11,7 +11,7 @@ extension UIView {
 
   static let fadeDuration = 0.2
   static let animationDuration = 0.4
-  static let animationOptionsCurveEaseOut = UIViewAnimationOptions(rawValue: 7 << 16)
+  static let animationOptionsCurveEaseOut = UIView.AnimationOptions(rawValue: 7 << 16)
 
   static var identifier: String {
     return String(describing: self)
@@ -84,8 +84,8 @@ extension UIView {
   func fade(_ duration: Double = fadeDuration) {
     let fade = CATransition()
     fade.duration = duration
-    fade.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
-    layer.add(fade, forKey: kCATransitionFade)
+    fade.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+    layer.add(fade, forKey: CATransitionType.fade.rawValue)
   }
 
   // MARK: - Graphics

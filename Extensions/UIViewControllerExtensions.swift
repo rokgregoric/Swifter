@@ -60,15 +60,15 @@ extension UIViewController {
   // MARK: - Controller Management
 
   func add(child: UIViewController) {
-    addChildViewController(child)
+    addChild(child)
     view.addSubview(child.view)
-    child.didMove(toParentViewController: self)
+    child.didMove(toParent: self)
   }
 
   func remove(child: UIViewController?) {
-    child?.willMove(toParentViewController: nil)
+    child?.willMove(toParent: nil)
     child?.view.removeFromSuperview()
-    child?.removeFromParentViewController()
+    child?.removeFromParent()
   }
 }
 
