@@ -111,8 +111,8 @@ extension Optional: OptionalProtocol {
 extension Sequence where Iterator.Element: OptionalProtocol {
   var flat: [Iterator.Element.Wrapped] {
     return compactMap {
-      if let str = $0.value as? String? {
-        return str?.nilIfEmpty as? Iterator.Element.Wrapped
+      if let str = ($0.value as? String)?.nilIfEmpty {
+        return str as? Iterator.Element.Wrapped
       }
       return $0.value
     }
