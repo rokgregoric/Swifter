@@ -63,6 +63,10 @@ extension Array {
     forEach { result.insert(random: $0) }
     return result
   }
+
+  var nilIfEmpty: [Element]? {
+    return isEmpty ? nil : self
+  }
 }
 
 extension Array where Iterator.Element: Equatable {
