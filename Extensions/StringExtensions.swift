@@ -28,6 +28,10 @@ extension String {
     return trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
+  var digits: String {
+    return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
+  }
+
   func escaped(_ characterSet: CharacterSet) -> String {
     return addingPercentEncoding(withAllowedCharacters: characterSet) ?? ""
   }
