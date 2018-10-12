@@ -89,6 +89,10 @@ extension NSManagedObjectContext {
     return try! fetch(fr)
   }
 
+  func find<T: BaseObject>(_ predicates: [NSPredicate], sortDescriptors: [NSSortDescriptor]? = nil, limit: Int? = nil) -> [T] {
+    return find(NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+  }
+
   // MARK: - Counts
 
   func count<T: BaseObject>(_ type: T.Type) -> Int {
