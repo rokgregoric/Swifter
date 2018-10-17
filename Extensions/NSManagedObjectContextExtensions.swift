@@ -34,7 +34,7 @@ extension NSManagedObjectContext {
 
   @discardableResult
   public func object<T: BaseObject>(from json: JSON, id: String? = nil) -> T? {
-    if let id = id ?? json[T.idKey].string {
+    if let id = id ?? json[T.idKey].string ?? json[T.idKey].intString {
       let object: T = findOrAdd(id)
       object.update(from: json)
       return object
@@ -122,5 +122,13 @@ extension NSManagedObjectContext {
       }
     }
     return false
+  }
+}
+
+// MARK: - JSON intString
+
+extension JSON {
+  var intString: String? {
+    return int64.map { "\($0)" }
   }
 }
