@@ -67,6 +67,10 @@ extension NSManagedObjectContext {
     return try! fetch(FetchRequest(type: T.self))
   }
 
+  public func all<T: BaseObject>(_ type: T.Type) -> [T] {
+    return try! fetch(FetchRequest(type: T.self))
+  }
+
   func first<T: BaseObject>() -> T? {
     let fr = FetchRequest(type: T.self)
     fr.fetchLimit = 1
@@ -122,6 +126,14 @@ extension NSManagedObjectContext {
       }
     }
     return false
+  }
+
+  // MARK: - Child contexts
+
+  func child(type: NSManagedObjectContextConcurrencyType) -> NSManagedObjectContext {
+    let child = NSManagedObjectContext(concurrencyType: type)
+    child.parent = self
+    return child
   }
 }
 
