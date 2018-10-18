@@ -13,10 +13,11 @@ extension DateFormatter {
     self.dateFormat = format
   }
 
-  convenience init(dateStyle: Style = .none, timeStyle: Style = .none) {
+  convenience init(dateStyle: Style = .none, timeStyle: Style = .none, relative: Bool = false) {
     self.init()
     self.dateStyle = dateStyle
     self.timeStyle = timeStyle
+    doesRelativeDateFormatting = relative
   }
 
   public static var iso8601: DateFormatter {
