@@ -66,9 +66,8 @@ extension NSManagedObjectContext {
   public func all<T: BaseObject>() -> [T] {
     return try! fetch(FetchRequest(type: T.self))
   }
-
-  public func all<T: BaseObject>(_ type: T.Type) -> [T] {
-    return try! fetch(FetchRequest(type: T.self))
+  public func all<T: BaseObject>(_ type: T.Type? = nil) -> [T] {
+    return all()
   }
 
   func first<T: BaseObject>() -> T? {
@@ -76,13 +75,22 @@ extension NSManagedObjectContext {
     fr.fetchLimit = 1
     return try! fetch(fr).first
   }
+  func first<T: BaseObject>(_ type: T.Type? = nil) -> T? {
+    return first()
+  }
 
   func find<T: BaseObject>(_ id: String) -> T? {
     return find(NSPredicate(format: "id = %@", id), limit: 1).first
   }
+  func find<T: BaseObject>(_ id: String, _ type: T.Type? = nil) -> T? {
+    return find(id)
+  }
 
   func find<T: BaseObject>(_ ids: [String]) -> [T] {
     return find(NSPredicate(format: "id IN %@", ids))
+  }
+  func find<T: BaseObject>(_ ids: [String], _ type: T.Type? = nil) -> [T] {
+    return find(ids)
   }
 
   func find<T: BaseObject>(_ predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, limit: Int? = nil) -> [T] {
@@ -92,9 +100,15 @@ extension NSManagedObjectContext {
     limit.map { fr.fetchLimit = $0 }
     return try! fetch(fr)
   }
+  func find<T: BaseObject>(_ predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, limit: Int? = nil, _ type: T.Type? = nil) -> [T] {
+    return find(predicate, sortDescriptors: sortDescriptors, limit: limit)
+  }
 
   func find<T: BaseObject>(_ predicates: [NSPredicate], sortDescriptors: [NSSortDescriptor]? = nil, limit: Int? = nil) -> [T] {
     return find(NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+  }
+  func find<T: BaseObject>(_ predicates: [NSPredicate], sortDescriptors: [NSSortDescriptor]? = nil, limit: Int? = nil, _ type: T.Type? = nil) -> [T] {
+    return find(predicates, sortDescriptors: sortDescriptors, limit: limit)
   }
 
   // MARK: - Counts
@@ -103,7 +117,7 @@ extension NSManagedObjectContext {
     return try! count(for: FetchRequest(type: T.self))
   }
 
-  func count<T: BaseObject>(_ predicate: NSPredicate?, type: T.Type) -> Int {
+  func count<T: BaseObject>(_ predicate: NSPredicate?, _ type: T.Type) -> Int {
     let fr = FetchRequest(type: T.self)
     fr.predicate = predicate
     return try! count(for: fr)
