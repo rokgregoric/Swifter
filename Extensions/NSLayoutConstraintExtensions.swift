@@ -17,4 +17,9 @@ extension NSLayoutConstraint {
     get { return constant }
     set { if isIphoneX { constant = newValue } }
   }
+
+  @IBInspectable var iPhoneSEConstant: CGFloat {
+    get { return constant }
+    set { if isIphoneSE { constant = newValue } }
+  }
 }

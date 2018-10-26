@@ -41,6 +41,16 @@ extension UIView {
     set { transform = CGAffineTransform(scaleX: newValue, y: newValue) }
   }
 
+  @IBInspectable var iPhoneXscale: CGFloat {
+    get { return 0 }
+    set { if isIphoneX { transform = CGAffineTransform(scaleX: newValue, y: newValue) } }
+  }
+
+  @IBInspectable var iPhoneSEscale: CGFloat {
+    get { return 0 }
+    set { if isIphoneSE { transform = CGAffineTransform(scaleX: newValue, y: newValue) } }
+  }
+
   // MARK: - Frame helpers
 
   @nonobjc
