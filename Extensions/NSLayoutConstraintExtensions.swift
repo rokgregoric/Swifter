@@ -12,14 +12,24 @@ extension NSLayoutConstraint {
     get { return constant * mainScreenScale }
     set { constant = Double(newValue).pixelValue }
   }
-  
-  @IBInspectable var iPhoneXConstant: CGFloat {
-    get { return constant }
-    set { if isIphoneX { constant = newValue } }
-  }
 
   @IBInspectable var iPhoneSEConstant: CGFloat {
     get { return constant }
     set { if isIphoneSE { constant = newValue } }
+  }
+
+  @IBInspectable var nonPlusConstant: CGFloat {
+    get { return constant }
+    set { if isNonPlusPhone { constant = newValue } }
+  }
+
+  @IBInspectable var plusConstant: CGFloat {
+    get { return constant }
+    set { if isPlusPhone { constant = newValue } }
+  }
+
+  @IBInspectable var iPhoneXConstant: CGFloat {
+    get { return constant }
+    set { if isIphoneX { constant = newValue } }
   }
 }

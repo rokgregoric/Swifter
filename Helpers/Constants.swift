@@ -10,6 +10,8 @@ import UIKit
 var mainScreenSize: CGSize { return UIScreen.main.bounds.size }
 let isIphoneX = mainScreenSize.height > 800 && UIDevice.current.userInterfaceIdiom == .phone
 let isIphoneSE = mainScreenSize.width == 320 && UIDevice.current.userInterfaceIdiom == .phone
+let isNonPlusPhone = mainScreenSize.width == 375 && !isIphoneX
+let isPlusPhone = mainScreenSize.width > 400 && !isIphoneX
 
 struct RawString {
   let rawValue: String
