@@ -12,6 +12,10 @@ extension String {
     return URL(string: self)
   }
 
+  var fileURL: URL? {
+    return URL(fileURLWithPath: self)
+  }
+
   var urlEncoded: String {
     return escaped(.urlHostAllowed).replace("+", with: "%2B").replace("&", with: "%26")
   }
