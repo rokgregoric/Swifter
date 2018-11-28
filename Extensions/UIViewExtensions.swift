@@ -126,6 +126,12 @@ extension UIView {
     return img
   }
 
+  func snapshotView() -> UIView {
+    let iv = UIImageView(image: snapshot())
+    iv.frame = frame
+    return iv
+  }
+
   func roundCorners(radius: CGFloat? = nil) {
     self.layer.cornerRadius = radius ?? (self.frame.size.height / 2)
     self.clipsToBounds = true
