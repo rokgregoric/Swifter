@@ -150,9 +150,9 @@ extension UIView {
 
   // MARK: - Shadow & Border layer
 
-  func addShadow(radius: CGFloat? = nil, offset: CGSize = .zero, opacity: Float = 0.2) {
+  func addShadow(radius: CGFloat = 3, offset: CGSize = .zero, opacity: Float = 0.2) {
     layer.shadowColor = UIColor.black.cgColor
-    layer.shadowRadius = radius ?? layer.cornerRadius
+    layer.shadowRadius = radius
     layer.shadowOpacity = opacity
     layer.shadowOffset = offset
     layer.masksToBounds = false
