@@ -69,10 +69,6 @@ extension String {
     return splitString.joined(separator: " ")
   }
 
-  var nilIfEmpty: String? {
-    return isEmpty ? nil : self
-  }
-
   var localized: String {
     return NSLocalizedString(self, comment: "")
   }

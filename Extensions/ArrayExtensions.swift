@@ -63,9 +63,17 @@ extension Array {
     forEach { result.insert(random: $0) }
     return result
   }
+}
 
-  var nilIfEmpty: [Element]? {
+extension Collection {
+  var nilIfEmpty: Self? {
     return isEmpty ? nil : self
+  }
+}
+
+extension Optional where Wrapped: Collection {
+  var nilIfEmpty: Wrapped? {
+    return self?.nilIfEmpty
   }
 }
 
