@@ -1,8 +1,8 @@
 //
 //  UIScrollViewExtensions.swift
 //
-//  Created by Rok Gregoric on 02/03/2018.
-//  Copyright © 2018 GFA. All rights reserved.
+//  Created by Rok Gregorič
+//  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
 import UIKit

@@ -1,8 +1,8 @@
 //
 //  DateExtensions.swift
 //
-//  Created by Rok Gregoric on 20/03/2018.
-//  Copyright © 2018 Riley Inc. All rights reserved.
+//  Created by Rok Gregorič
+//  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
 import Foundation

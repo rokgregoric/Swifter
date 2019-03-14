@@ -1,8 +1,8 @@
 //
 //  DateConverter.swift
 //
-//  Created by Rok Gregoric on 08/06/2018.
-//  Copyright © 2018 Rok Gregoric. All rights reserved.
+//  Created by Rok Gregorič
+//  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
 import Foundation
