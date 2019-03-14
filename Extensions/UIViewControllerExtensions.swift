@@ -8,10 +8,6 @@
 import UIKit
 
 extension UIViewController {
-  static var identifier: String {
-    return String(describing: self)
-  }
-
   class func instantiate(_ name: UIStoryboard.Name, identifier: String? = nil) -> Self {
     return instantiate(string: name.rawValue, identifier: identifier ?? self.identifier)
   }

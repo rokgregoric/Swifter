@@ -8,13 +8,16 @@
 import UIKit
 
 var mainScreenSize: CGSize { return UIScreen.main.bounds.size }
+
 let isIpad = UIDevice.current.userInterfaceIdiom == .pad
 let isIphone = UIDevice.current.userInterfaceIdiom == .phone
 let isIphoneX = mainScreenSize.height > 800 && isIphone
 let isIphoneSE = mainScreenSize.width == 320 && isIphone
 let isNonPlusPhone = mainScreenSize.width == 375 && !isIphoneX
 let isPlusPhone = mainScreenSize.width > 400 && !isIphoneX
+
 var keyWindowSafeAreaInsets: UIEdgeInsets { return UIApplication.shared.keyWindow?.safeAreaInsets ?? .zero }
+let isSafeAreaInset = keyWindowSafeAreaInsets != .zero
 
 struct RawString {
   let rawValue: String

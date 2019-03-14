@@ -8,12 +8,12 @@
 import UIKit
 
 extension UITableViewCell {
-  @objc class func dequeueReusableCell(identifier: String? = nil, for indexPath: IndexPath, in tableView: UITableView) -> Self {
+  @objc class func dequeueReusableCell(identifier: String? = nil, for indexPath: IndexPath, on tableView: UITableView) -> Self {
     let cell = tableView.dequeueReusableCell(withIdentifier: identifier ?? self.identifier, for: indexPath)
     return castToSelf(cell)
   }
 
-  @objc class func dequeueReusableCell(identifier: String? = nil, in tableView: UITableView) -> Self? {
+  @objc class func dequeueReusableCell(identifier: String? = nil, on tableView: UITableView) -> Self? {
     let cell = tableView.dequeueReusableCell(withIdentifier: identifier ?? self.identifier)
     return castIfSelf(cell)
   }

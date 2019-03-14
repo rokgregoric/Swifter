@@ -8,8 +8,12 @@
 import UIKit
 
 extension UICollectionViewCell {
-  class func dequeueReusableCell(identifier: String? = nil, for indexPath: IndexPath, in collectionView: UICollectionView) -> Self {
+  class func dequeueReusableCell(identifier: String? = nil, for indexPath: IndexPath, on collectionView: UICollectionView) -> Self {
     let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier ?? self.identifier, for: indexPath)
     return castToSelf(cell)
+  }
+
+  class func register(identifier: String? = nil, on collectionView: UICollectionView) {
+    collectionView.register(nib(), forCellWithReuseIdentifier: identifier ?? self.identifier)
   }
 }

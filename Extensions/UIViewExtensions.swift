@@ -13,16 +13,16 @@ extension UIView {
   static let animationDuration = 0.4
   static let animationOptionsCurveEaseOut = UIView.AnimationOptions(rawValue: 7 << 16)
 
-  static var identifier: String {
-    return String(describing: self)
+  class func nib(name: String? = nil, bundle: Bundle? = nil) -> UINib {
+    return UINib(nibName: name ?? identifier, bundle: bundle)
   }
 
   class func loadFromNib() -> Self {
-    return castToSelf(loadFromNibNamed(identifier)!)
+    return castToSelf(loadFromNibNamed()!)
   }
 
-  class func loadFromNibNamed(_ name: String, bundle: Bundle? = nil) -> UIView? {
-    return UINib(nibName: name, bundle: bundle).instantiate(withOwner: nil, options: nil).first as? UIView
+  class func loadFromNibNamed(_ name: String? = nil, bundle: Bundle? = nil) -> UIView? {
+    return nib(name: name, bundle: bundle).instantiate(withOwner: nil, options: nil).first as? UIView
   }
 
   var isVisible: Bool {
