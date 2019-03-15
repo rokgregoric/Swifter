@@ -27,4 +27,8 @@ extension DateFormatter {
     formatter.timeZone = TimeZone.current
     return formatter
   }
+
+  func string(if date: Date?) -> String? {
+    return date.map(string(from:))
+  }
 }

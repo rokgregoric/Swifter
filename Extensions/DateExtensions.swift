@@ -7,6 +7,14 @@
 
 import Foundation
 
+fileprivate var formatter: DateComponentsFormatter = {
+  let formatter = DateComponentsFormatter()
+  formatter.unitsStyle = .full
+  formatter.maximumUnitCount = 1
+  formatter.allowedUnits = [.year, .month, .day, .hour, .minute, .second]
+  return formatter
+}()
+
 extension Date {
   func adding(days: Int) -> Date {
     return adding(days: Double(days))
@@ -30,5 +38,9 @@ extension Date {
 
   var isInLast7days: Bool {
     return Calendar.current.startOfDay(for: Date().adding(days: -7)) < self
+  }
+
+  var relativeString: String? {
+    return formatter.string(from: self, to: Date()).map { "\($0) ago" }?.localized
   }
 }
