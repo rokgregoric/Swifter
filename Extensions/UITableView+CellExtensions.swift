@@ -26,3 +26,8 @@ extension UITableView {
   }
 }
 
+extension Int {
+  var indexPath: IndexPath {
+    return IndexPath(row: self, section: 0)
+  }
+}
