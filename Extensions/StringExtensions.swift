@@ -112,6 +112,11 @@ extension String {
   var comparable: String? {
     return trimmedEmpty?.lowercased()
   }
+
+  static func random(length: Int) -> String {
+    let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+    return String(length.maps { letters.randomElement()! })
+  }
 }
 
 extension Substring {
