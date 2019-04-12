@@ -27,4 +27,8 @@ extension URL {
     comp.queryItems = queryItems + new.map { URLQueryItem(name: $0.key, value: $0.value) }
     return comp.url!
   }
+
+  var data: Data? {
+    return try? Data(contentsOf: self)
+  }
 }
