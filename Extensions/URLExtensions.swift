@@ -28,6 +28,10 @@ extension URL {
     return comp.url!
   }
 
+  var request: URLRequest {
+    return URLRequest(url: self)
+  }
+
   var data: Data? {
     return try? Data(contentsOf: self)
   }
