@@ -17,6 +17,10 @@ extension UITableViewCell {
     let cell = tableView.dequeueReusableCell(withIdentifier: identifier ?? self.identifier)
     return castIfSelf(cell)
   }
+
+  class func register(identifier: String? = nil, on tableView: UITableView) {
+    tableView.register(nib(), forCellReuseIdentifier: identifier ?? self.identifier)
+  }
 }
 
 extension UITableView {
