@@ -80,7 +80,7 @@ extension Optional where Wrapped: Collection {
 extension Array where Iterator.Element: Equatable {
   @discardableResult
   mutating func remove(_ element: Element) -> Int? {
-    let idx = index(of: element)
+    let idx = firstIndex(of: element)
     _ = idx.map { remove(at: $0 ) }
     return idx
   }
