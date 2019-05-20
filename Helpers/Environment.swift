@@ -8,20 +8,20 @@
 import Foundation
 
 struct Environment {
-  fileprivate static func valueForKey(_ key: String) -> String {
-    return Bundle.main.object(forInfoDictionaryKey: key) as? String ?? ""
+  static func value<T>(for key: String) -> T? {
+    return Bundle.main.infoDictionary?[key] as? T
   }
 
   static var appName: String {
-    return valueForKey("CFBundleName")
+    return value(for: "CFBundleName") ?? ""
   }
 
   static var build: String {
-    return valueForKey("CFBundleVersion")
+    return value(for: "CFBundleVersion") ?? ""
   }
 
   static var version: String {
-    return valueForKey("CFBundleShortVersionString")
+    return value(for: "CFBundleShortVersionString") ?? ""
   }
 
   static var verBuild: String {
