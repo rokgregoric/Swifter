@@ -117,6 +117,11 @@ extension String {
     let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
     return String(length.maps { letters.randomElement()! })
   }
+
+  static func randomDigits(length: Int) -> String {
+    let letters = "0123456789"
+    return String(length.maps { letters.randomElement()! })
+  }
 }
 
 extension Substring {
