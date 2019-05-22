@@ -41,6 +41,11 @@ extension Date {
   }
 
   var relativeString: String? {
-    return formatter.string(from: self, to: Date()).map { "\($0) ago" }?.localized
+    if self < Date() { return formatter.string(from: self, to: Date()) }
+    return formatter.string(from: Date(), to: self)
+  }
+
+  var longRelativeString: String? {
+    return relativeString.map { self < Date() ? "\($0) ago" : "in \($0)" }?.localized
   }
 }
