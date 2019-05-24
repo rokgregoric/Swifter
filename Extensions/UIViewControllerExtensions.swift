@@ -48,9 +48,7 @@ extension UIViewController {
   // workaround to enable interactivePopGestureRecognizer
   open override func awakeFromNib() {
     super.awakeFromNib()
-    guard let nc = navigationController, nc.isNavigationBarHidden else { return }
-    nc.isNavigationBarHidden = false
-    nc.navigationBar.isHidden = true
+    navigationController?.setInteractivePopGestureRecognizer(enabled: true)
   }
 
   // MARK: - Controller Management
