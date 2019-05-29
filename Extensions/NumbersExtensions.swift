@@ -77,6 +77,12 @@ extension Int {
   }
 }
 
+extension Bool {
+  var int: Int {
+    return self ? 1 : 0
+  }
+}
+
 extension Decimal {
   public func stringValue() -> String? {
     let formatter = NumberFormatter()
