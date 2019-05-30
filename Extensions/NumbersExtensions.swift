@@ -75,6 +75,10 @@ extension Int {
   func map<T>(_ block: (Int) -> T) -> [T] {
     return range.map(block)
   }
+
+  var string: String {
+    return "\(self)"
+  }
 }
 
 extension Bool {
