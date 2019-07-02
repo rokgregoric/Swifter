@@ -7,7 +7,7 @@
 
 import Foundation
 
-fileprivate var formatter: DateComponentsFormatter = {
+fileprivate var componentsFormatter: DateComponentsFormatter = {
   let formatter = DateComponentsFormatter()
   formatter.unitsStyle = .full
   formatter.maximumUnitCount = 1
@@ -41,8 +41,8 @@ extension Date {
   }
 
   var relativeString: String? {
-    if self < Date() { return formatter.string(from: self, to: Date()) }
-    return formatter.string(from: Date(), to: self)
+    if self < Date() { return componentsFormatter.string(from: self, to: Date()) }
+    return componentsFormatter.string(from: Date(), to: self)
   }
 
   var longRelativeString: String? {
