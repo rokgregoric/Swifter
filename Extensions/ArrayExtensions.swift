@@ -113,20 +113,20 @@ extension Sequence where Iterator.Element: Hashable {
 
 protocol OptionalProtocol {
   associatedtype Wrapped
-  var value: Wrapped? { get }
+  var val: Wrapped? { get }
 }
 
 extension Optional: OptionalProtocol {
-  public var value: Wrapped? { return self }
+  public var val: Wrapped? { return self }
 }
 
 extension Sequence where Iterator.Element: OptionalProtocol {
   var flat: [Iterator.Element.Wrapped] {
     return compactMap {
-      if let str = ($0.value as? String)?.nilIfEmpty {
+      if let str = ($0.val as? String)?.nilIfEmpty {
         return str as? Iterator.Element.Wrapped
       }
-      return $0.value
+      return $0.val
     }
   }
 }
