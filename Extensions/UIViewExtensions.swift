@@ -172,9 +172,19 @@ extension UIView {
     set { layer.borderColor = newValue?.cgColor }
   }
 
+  @IBInspectable var borderWidth: CGFloat {
+    get { return layer.borderWidth }
+    set { layer.borderWidth = newValue }
+  }
+
   @IBInspectable var pixelBorderWidth: CGFloat {
     get { return layer.borderWidth * mainScreenScale }
     set { layer.borderWidth = Double(newValue).pixelValue }
+  }
+
+  @IBInspectable var cornerRadius: CGFloat {
+    get { return layer.cornerRadius }
+    set { layer.cornerRadius = newValue }
   }
 
   // MARK: - Standard animation
