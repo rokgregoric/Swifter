@@ -33,7 +33,7 @@ extension UIView {
 
   @IBInspectable var rotation: CGFloat {
     get { return 0 }
-    set { transform = transform.rotated(by: newValue * 2 * .pi) }
+    set { transform = CGAffineTransform(rotationAngle: newValue * 2 * .pi) }
   }
 
   @IBInspectable var scale: CGFloat {

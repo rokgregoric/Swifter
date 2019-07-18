@@ -92,7 +92,7 @@ extension UIPopoverPresentationController {
     backgroundColor = color ?? vc?.view.backgroundColor
   }
 
-  func setup(view: UIView, arrowDirections: UIPopoverArrowDirection) {
+  func setup(view: UIView?, arrowDirections: UIPopoverArrowDirection) {
     sourceView = view
     permittedArrowDirections = arrowDirections
   }
