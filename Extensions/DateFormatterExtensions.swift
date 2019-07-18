@@ -8,16 +8,18 @@
 import Foundation
 
 extension DateFormatter {
-  convenience init(format: String) {
+  convenience init(format: String, timeZone: String? = nil) {
     self.init()
-    self.dateFormat = format
+    dateFormat = format
+    timeZone.map { self.timeZone = TimeZone(identifier: $0) }
   }
 
-  convenience init(dateStyle: Style = .none, timeStyle: Style = .none, relative: Bool = false) {
+  convenience init(dateStyle: Style = .none, timeStyle: Style = .none, relative: Bool = false, timeZone: String? = nil) {
     self.init()
     self.dateStyle = dateStyle
     self.timeStyle = timeStyle
     doesRelativeDateFormatting = relative
+    timeZone.map { self.timeZone = TimeZone(identifier: $0) }
   }
 
   public static var iso8601: DateFormatter {
