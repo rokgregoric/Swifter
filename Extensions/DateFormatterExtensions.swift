@@ -22,11 +22,19 @@ extension DateFormatter {
     timeZone.map { self.timeZone = TimeZone(identifier: $0) }
   }
 
-  public static var iso8601: DateFormatter {
-    let formatter = DateFormatter(format: "yyy-MM-dd'T'HH:mm:ss.SSSZZZZZ")
+  public static var iso8601full: DateFormatter {
+    let formatter = DateFormatter(format: "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ")
     formatter.calendar = Calendar(identifier: .iso8601)
-    formatter.locale = Locale.current
-    formatter.timeZone = TimeZone.current
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    return formatter
+  }
+
+  public static var iso8601: DateFormatter {
+    let formatter = DateFormatter(format: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
+    formatter.calendar = Calendar(identifier: .iso8601)
+    formatter.timeZone = TimeZone(secondsFromGMT: 0)
+    formatter.locale = Locale(identifier: "en_US_POSIX")
     return formatter
   }
 
