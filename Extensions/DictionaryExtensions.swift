@@ -20,7 +20,7 @@ extension Dictionary {
 extension Dictionary where Value: OptionalProtocol {
   var flat: [Key: Value.Wrapped] {
     var dic = [Key: Value.Wrapped]()
-    forEach { dic[$0.key] = $0.value.value }
+    forEach { dic[$0.key] = $0.value.val }
     return dic
   }
 }

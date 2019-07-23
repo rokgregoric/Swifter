@@ -33,7 +33,7 @@ extension UIView {
 
   @IBInspectable var rotation: CGFloat {
     get { return 0 }
-    set { transform = transform.rotated(by: newValue * 2 * .pi) }
+    set { transform = CGAffineTransform(rotationAngle: newValue * 2 * .pi) }
   }
 
   @IBInspectable var scale: CGFloat {
@@ -154,8 +154,8 @@ extension UIView {
 
   // MARK: - Shadow & Border layer
 
-  func addShadow(radius: CGFloat = 3, offset: CGSize = .zero, opacity: Float = 0.2) {
-    layer.shadowColor = UIColor.black.cgColor
+  func addShadow(color: UIColor = .black, radius: CGFloat = 3, offset: CGSize = .zero, opacity: Float = 0.2) {
+    layer.shadowColor = color.cgColor
     layer.shadowRadius = radius
     layer.shadowOpacity = opacity
     layer.shadowOffset = offset
@@ -172,9 +172,19 @@ extension UIView {
     set { layer.borderColor = newValue?.cgColor }
   }
 
+  @IBInspectable var borderWidth: CGFloat {
+    get { return layer.borderWidth }
+    set { layer.borderWidth = newValue }
+  }
+
   @IBInspectable var pixelBorderWidth: CGFloat {
     get { return layer.borderWidth * mainScreenScale }
     set { layer.borderWidth = Double(newValue).pixelValue }
+  }
+
+  @IBInspectable var cornerRadius: CGFloat {
+    get { return layer.cornerRadius }
+    set { layer.cornerRadius = newValue }
   }
 
   // MARK: - Standard animation

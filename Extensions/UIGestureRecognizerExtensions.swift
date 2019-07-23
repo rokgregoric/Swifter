@@ -16,6 +16,7 @@ extension UIGestureRecognizer.State {
       case .ended: return "ended"
       case .cancelled: return "cancelled"
       case .failed: return "failed"
+      @unknown default: return "unknown"
     }
   }
 }

@@ -13,6 +13,11 @@ extension UIButton {
     set { setTitle(newValue, for: .normal) }
   }
 
+  var attributedTitle: NSAttributedString? {
+    get { return attributedTitle(for: .normal) }
+    set { setAttributedTitle(newValue, for: .normal) }
+  }
+
   var image: UIImage? {
     get { return image(for: .normal) }
     set { setImage(newValue, for: .normal) }

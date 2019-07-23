@@ -150,11 +150,3 @@ extension NSManagedObjectContext {
     return child
   }
 }
-
-// MARK: - JSON intString
-
-extension JSON {
-  var intString: String? {
-    return int64.map { "\($0)" }
-  }
-}
