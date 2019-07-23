@@ -1,5 +1,5 @@
 //
-//  DateConverter.swift
+//  DateFormat.swift
 //
 //  Created by Rok Gregorič
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
@@ -7,14 +7,13 @@
 
 import Foundation
 
-enum DateConverter: String {
-  case dateTime = "yyyy-MM-dd'T'HH:mm:ssZ"
-  case dateTimeMili = "yyyy-MM-dd'T'HH:mm:ss.SSSZ"
+enum DateFormat: String {
   case dateOnly = "yyyy-MM-dd"
+  case dateTime = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
+  case dateTimeFull = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
 
   fileprivate var formatter: DateFormatter {
-    let formatter = DateFormatter()
-    formatter.dateFormat = rawValue
+    let formatter = DateFormatter(format: rawValue)
     formatter.locale = Locale(identifier: "en_US_POSIX")
     return formatter
   }
@@ -28,6 +27,6 @@ enum DateConverter: String {
   }
 
   static func date(from string: String) -> Date? {
-    return dateTime.date(from: string) ?? dateTimeMili.date(from: string) ?? dateOnly.date(from: string)
+    return dateTime.date(from: string) ?? dateTimeFull.date(from: string) ?? dateOnly.date(from: string)
   }
 }

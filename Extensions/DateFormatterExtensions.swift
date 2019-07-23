@@ -8,37 +8,47 @@
 import Foundation
 
 extension DateFormatter {
-  convenience init(format: String, timeZone: String? = nil) {
+  convenience init(timeZone: TimeZone? = nil, timeZoneID: String? = nil) {
     self.init()
-    dateFormat = format
-    timeZone.map { self.timeZone = TimeZone(identifier: $0) }
+    (timeZone ?? timeZoneID.flatMap(TimeZone.init(identifier:))).map { self.timeZone = $0 }
   }
 
-  convenience init(dateStyle: Style = .none, timeStyle: Style = .none, relative: Bool = false, timeZone: String? = nil) {
-    self.init()
+  convenience init(format: String, timeZone: TimeZone? = nil, timeZoneID: String? = nil) {
+    self.init(timeZone: timeZone, timeZoneID: timeZoneID)
+    dateFormat = format
+  }
+
+  convenience init(dateStyle: Style = .none, timeStyle: Style = .none, relative: Bool = false, timeZone: TimeZone? = nil, timeZoneID: String? = nil) {
+    self.init(timeZone: timeZone, timeZoneID: timeZoneID)
     self.dateStyle = dateStyle
     self.timeStyle = timeStyle
     doesRelativeDateFormatting = relative
-    timeZone.map { self.timeZone = TimeZone(identifier: $0) }
+  }
+
+  public static func iso8601(format: String) -> DateFormatter {
+    let formatter = DateFormatter(format: format, timeZone: .UTC)
+    formatter.calendar = Calendar(identifier: .iso8601)
+    formatter.locale = Locale(identifier: "en_US_POSIX")
+    return formatter
   }
 
   public static var iso8601full: DateFormatter {
-    let formatter = DateFormatter(format: "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ")
-    formatter.calendar = Calendar(identifier: .iso8601)
-    formatter.timeZone = TimeZone(secondsFromGMT: 0)
-    formatter.locale = Locale(identifier: "en_US_POSIX")
-    return formatter
+    return iso8601(format: DateFormat.dateTimeFull.rawValue)
   }
 
   public static var iso8601: DateFormatter {
-    let formatter = DateFormatter(format: "yyyy-MM-dd'T'HH:mm:ssZZZZZ")
-    formatter.calendar = Calendar(identifier: .iso8601)
-    formatter.timeZone = TimeZone(secondsFromGMT: 0)
-    formatter.locale = Locale(identifier: "en_US_POSIX")
-    return formatter
+    return iso8601(format: DateFormat.dateTime.rawValue)
   }
 
   func string(if date: Date?) -> String? {
     return date.map(string(from:))
+  }
+}
+
+// MARK: -
+
+extension TimeZone {
+  static var UTC: TimeZone {
+    return TimeZone(secondsFromGMT: 0)!
   }
 }
