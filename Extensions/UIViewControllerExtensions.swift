@@ -45,6 +45,10 @@ extension UIViewController {
     return view.isVisible && presentedViewController == nil
   }
 
+  var navBar: UINavigationBar? {
+    return navigationController?.navigationBar
+  }
+
   // workaround to enable interactivePopGestureRecognizer
   open override func awakeFromNib() {
     super.awakeFromNib()
