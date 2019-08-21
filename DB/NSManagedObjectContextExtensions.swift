@@ -14,9 +14,9 @@ extension NSManagedObjectContext {
   // MARK: - Creation
 
   @discardableResult
-  func array<T: BaseObject>(from jsons: JSON) -> [T] {
+  func array<T: BaseObject>(from jsons: JSON?) -> [T] {
     var array = [T]()
-    for json in jsons.arrayValue {
+    for json in jsons?.array ?? [] {
       if let object: T = object(from: json) {
         array.append(object)
       }
@@ -24,8 +24,12 @@ extension NSManagedObjectContext {
     return array
   }
 
+  func `import`<T: BaseObject>(_ json: JSON?, _ type: T.Type) {
+    let _: [T] = array(from: json)
+  }
+
   @discardableResult
-  func array<T: BaseObject>(from json: JSON, cleanup: (T) -> Bool) -> [T] {
+  func array<T: BaseObject>(from json: JSON?, cleanup: (T) -> Bool) -> [T] {
     let old: [T] = all().filter(cleanup)
     let new: [T] = array(from: json)
     old.filter { !new.contains($0) }.forEach { $0.delete() } // delete obsolete objects
@@ -33,8 +37,8 @@ extension NSManagedObjectContext {
   }
 
   @discardableResult
-  public func object<T: BaseObject>(from json: JSON, id: String? = nil) -> T? {
-    if let id = id ?? json[T.idKey].string ?? json[T.idKey].intString {
+  public func object<T: BaseObject>(from json: JSON?, id: String? = nil) -> T? {
+    if let id = id ?? json?[T.uniqKey].string ?? json?[T.uniqKey].intString {
       let object: T = findOrAdd(id)
       object.update(from: json)
       return object
@@ -121,6 +125,10 @@ extension NSManagedObjectContext {
     let fr = FetchRequest(type: T.self)
     fr.predicate = predicate
     return try! count(for: fr)
+  }
+
+  public func sorted<T: BaseObject>(_ type: T.Type? = nil) -> [T] {
+    return find(sortDescriptors: T.sortDesc)
   }
 
   // MARK: - Saving
