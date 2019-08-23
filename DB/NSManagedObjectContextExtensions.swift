@@ -13,7 +13,6 @@ extension NSManagedObjectContext {
 
   // MARK: - Creation
 
-  @discardableResult
   func array<T: BaseObject>(from jsons: JSON?) -> [T] {
     var array = [T]()
     for json in jsons?.array ?? [] {
@@ -28,7 +27,6 @@ extension NSManagedObjectContext {
     let _: [T] = array(from: json)
   }
 
-  @discardableResult
   func array<T: BaseObject>(from json: JSON?, cleanup: (T) -> Bool) -> [T] {
     let old: [T] = all().filter(cleanup)
     let new: [T] = array(from: json)
@@ -36,7 +34,6 @@ extension NSManagedObjectContext {
     return new
   }
 
-  @discardableResult
   public func object<T: BaseObject>(from json: JSON?, id: String? = nil) -> T? {
     if let id = id ?? json?[T.uniqKey].string ?? json?[T.uniqKey].intString {
       let object: T = findOrAdd(id)

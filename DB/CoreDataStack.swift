@@ -14,8 +14,21 @@ class CoreDataStack {
     return persistentContainer.viewContext
   }
 
-  static func initContainer(completion: @escaping (NSPersistentStoreDescription, Error?) -> Void) {
+  static var inMemoryContext: NSManagedObjectContext {
+    if persistentContainer == nil { initPersistentContainer() }
+    let psc = NSPersistentStoreCoordinator(managedObjectModel: persistentContainer.managedObjectModel)
+    do { try psc.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil) } catch {}
+    let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
+    context.persistentStoreCoordinator = psc
+    return context
+  }
+
+  static func initPersistentContainer() {
     persistentContainer = NSPersistentContainer(name: "db")
+  }
+
+  static func initContainer(completion: @escaping (NSPersistentStoreDescription, Error?) -> Void) {
+    initPersistentContainer()
     persistentContainer.loadPersistentStores(completionHandler: completion)
   }
 
