@@ -69,6 +69,10 @@ extension Collection {
   var nilIfEmpty: Self? {
     return isEmpty ? nil : self
   }
+
+  var hasOne: Bool {
+    return count == 1
+  }
 }
 
 extension Optional where Wrapped: Collection {
