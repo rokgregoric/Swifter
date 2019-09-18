@@ -99,9 +99,16 @@ extension Array where Iterator.Element: Equatable {
 }
 
 extension Sequence where Iterator.Element: Equatable {
-  /// Return `true` if `element` is not in `self`.
-  public func containsNot(_ element: Iterator.Element) -> Bool {
+  public func containsNil(_ element: Iterator.Element?) -> Bool {
+    return element.map(contains) ?? false
+  }
+
+  public func excludes(_ element: Iterator.Element) -> Bool {
     return !contains(element)
+  }
+
+  public func excludesNil(_ element: Iterator.Element?) -> Bool {
+    return element.map(excludes) ?? true
   }
 }
 
