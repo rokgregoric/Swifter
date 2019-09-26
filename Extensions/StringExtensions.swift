@@ -36,6 +36,10 @@ extension String {
     return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
   }
 
+  var removedSpacesAndNewlines: String {
+    return components(separatedBy: CharacterSet.whitespacesAndNewlines).joined()
+  }
+
   func escaped(_ characterSet: CharacterSet) -> String {
     return addingPercentEncoding(withAllowedCharacters: characterSet) ?? ""
   }
@@ -97,12 +101,15 @@ extension String {
   func matches(for regex: String) -> [RegexMatch] {
     do {
       let regex = try NSRegularExpression(pattern: regex)
-      let nsString = self as NSString
-      let results = regex.matches(in: self, range: NSRange(location: 0, length: nsString.length))
-      return results.map { (match: nsString.substring(with: $0.range), range: $0.range) }
+      let results = regex.matches(in: self, range: NSRange(location: 0, length: ns.length))
+      return results.map { (match: ns.substring(with: $0.range), range: $0.range) }
     } catch _ {
       return []
     }
+  }
+
+  var ns: NSString {
+    return self as NSString
   }
 
   var trimmedEmpty: String? {
