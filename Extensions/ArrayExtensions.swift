@@ -73,6 +73,10 @@ extension Collection {
   var hasOne: Bool {
     return count == 1
   }
+
+  var notEmpty: Bool {
+    return !isEmpty
+  }
 }
 
 extension Optional where Wrapped: Collection {
