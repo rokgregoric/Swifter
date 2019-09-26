@@ -34,21 +34,13 @@ extension NSManagedObjectContext {
 
   @discardableResult
   func object<T: BaseObject>(from json: JSON?, _ type: T.Type? = nil, id: String? = nil) -> T? {
-    if let id = id ?? json?[T.uniqKey].string ?? json?[T.uniqKey].intString {
-      let object = findOrAdd(id, T.self)
-      object.update(from: json)
-      return object
-    }
-    return nil
+    return T.object(from: json, type, id: id, in: self)
   }
 
   // MARK: - Fetching
 
   func findOrAdd<T: BaseObject>(_ id: String) -> T {
-    if let object = find(id, T.self) {
-      return object
-    }
-    return add(id)
+    return find(id, T.self) ?? add(id)
   }
   func findOrAdd<T: BaseObject>(_ id: String, _ type: T.Type) -> T { return findOrAdd(id) }
 
