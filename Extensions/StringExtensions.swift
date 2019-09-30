@@ -89,6 +89,10 @@ extension String {
     return self[0 ..< clamp(to, min: 0, max: count)]
   }
 
+  func substring(from: Int, to: Int) -> String {
+    return substring(from: from).substring(to: to-from)
+  }
+
   subscript(r: Range<Int>) -> String {
     let range = Range(uncheckedBounds: (lower: clamp(r.lowerBound, min: 0, max: count),
                                         upper: clamp(r.upperBound, min: 0, max: count)))
