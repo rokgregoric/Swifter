@@ -31,17 +31,21 @@ class Run {
 
 
 class Task {
-    fileprivate var block: (() -> Void)?
+  fileprivate var block: (() -> Void)?
 
-    init(_ after: Double, _ block: @escaping () -> Void) {
-        self.block = block
-        Run.main(after: after) { [weak self] in
-            self?.run()
-        }
+  init(_ after: Double, _ block: @escaping () -> Void) {
+    self.block = block
+    Run.main(after: after) { [weak self] in
+      self?.run()
     }
+  }
 
-    func run() {
-        block?()
-        block = nil
-    }
+  func run() {
+    block?()
+    block = nil
+  }
+
+  var fired: Bool {
+    return block == nil
+  }
 }
