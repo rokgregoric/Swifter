@@ -62,10 +62,6 @@ class Log {
   static func custom(level: Level, message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
     let m = stringify(message)
     let c = context.map { "[\($0.uppercased())]" }
-    if Environment.isDevelopment, !Environment.isSimulator {
-      NSLog("DEBUG: %@ %@", level.symbol, [c, m].flatJoined(" "))
-    } else {
-      print(level.symbol, [c, m].flatJoined(" "))
-    }
+    print(level.symbol, [c, m].flatJoined(" "))
   }
 }
