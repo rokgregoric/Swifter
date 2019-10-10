@@ -14,9 +14,10 @@ extension NSManagedObjectContext {
   // MARK: - Creation
 
   @discardableResult
-  func array<T: BaseObject>(from jsons: JSON?, _ type: T.Type? = nil) -> [T] {
+  func array<T: BaseObject>(from jsons: JSON?, _ type: T.Type? = nil) -> [T]? {
+    guard let arr = jsons?.array else { return nil }
     var array = [T]()
-    for json in jsons?.array ?? [] {
+    for json in arr {
       if let object = object(from: json, T.self) {
         array.append(object)
       }
@@ -25,9 +26,9 @@ extension NSManagedObjectContext {
   }
 
   @discardableResult
-  func array<T: BaseObject>(from json: JSON?, _ type: T.Type? = nil, cleanup: (T) -> Bool) -> [T] {
+  func array<T: BaseObject>(from json: JSON?, _ type: T.Type? = nil, cleanup: (T) -> Bool) -> [T]? {
     let old = all(T.self).filter(cleanup)
-    let new = array(from: json, T.self)
+    guard let new = array(from: json, T.self) else { return nil }
     old.filter { !new.contains($0) }.forEach { $0.delete() } // delete obsolete objects
     return new
   }
