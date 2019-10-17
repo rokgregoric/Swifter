@@ -150,4 +150,8 @@ extension Sequence where Iterator.Element == Optional<String> {
   func flatJoined(_ separator: String) -> String {
     return flat.joined(separator: separator)
   }
+
+  func nilFlatJoined(_ separator: String) -> String? {
+    return map { $0?.nilIfEmpty }.nilIfEmpty?.flatJoined(separator)
+  }
 }
