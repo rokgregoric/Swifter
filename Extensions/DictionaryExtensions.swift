@@ -41,8 +41,8 @@ func += <K, V> (left: inout [K: V], right: [K: V]) {
   right.forEach { left[$0.key] = $0.value }
 }
 
-func flat<K, V>(_ opt: [K: V?]) -> [K: V] {
-  var dic = [K: V]()
+func flat<K>(_ opt: [K: Any?]) -> [K: Any] {
+  var dic = [K: Any]()
   opt.forEach { dic[$0.key] = $0.value }
   return dic
 }
