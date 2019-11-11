@@ -205,6 +205,10 @@ extension UIView {
     animate(withDuration: animationDuration, delay: delay, options: animationOptionsCurveEaseOut.union(.allowUserInteraction), animations: animations) { _ in completion() }
   }
 
+  class func animate(duration: Double, animations: @escaping () -> Void) {
+    animate(withDuration: duration, delay: 0, options: .allowUserInteraction, animations: animations, completion: nil)
+  }
+
   class func spring(_ duration: Double, delay: Double = 0, damping: CGFloat, velocity: CGFloat, animations: @escaping () -> Void) {
     spring(duration, delay: delay, damping: damping, velocity: velocity, animations: animations) {}
   }
