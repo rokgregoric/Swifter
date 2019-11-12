@@ -206,7 +206,11 @@ extension UIView {
   }
 
   class func animate(duration: Double, animations: @escaping () -> Void) {
-    animate(withDuration: duration, delay: 0, options: .allowUserInteraction, animations: animations, completion: nil)
+    animate(duration: duration, animations: animations) {}
+  }
+
+  class func animate(duration: Double, animations: @escaping () -> Void, completion: @escaping () -> Void) {
+    animate(withDuration: duration, delay: 0, options: .allowUserInteraction, animations: animations) { _ in completion() }
   }
 
   class func spring(_ duration: Double, delay: Double = 0, damping: CGFloat, velocity: CGFloat, animations: @escaping () -> Void) {
