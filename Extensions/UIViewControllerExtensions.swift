@@ -58,15 +58,24 @@ extension UIViewController {
   // MARK: - Controller Management
 
   func add(child: UIViewController) {
+    child.beginAppearanceTransition(true, animated: false)
     addChild(child)
-    view.addSubview(child.view)
     child.didMove(toParent: self)
+    view.addSubview(child.view)
+    child.endAppearanceTransition()
   }
 
   func remove(child: UIViewController?) {
-    child?.willMove(toParent: nil)
-    child?.view.removeFromSuperview()
-    child?.removeFromParent()
+    guard let child = child else { return }
+    child.beginAppearanceTransition(false, animated: false)
+    child.willMove(toParent: nil)
+    child.removeFromParent()
+
+    if child.viewIfLoaded?.superview != nil {
+      child.viewIfLoaded?.removeFromSuperview()
+    }
+
+    child.endAppearanceTransition()
   }
 }
 
