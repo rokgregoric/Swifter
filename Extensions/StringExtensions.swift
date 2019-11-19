@@ -133,6 +133,10 @@ extension String {
     let letters = "0123456789"
     return String(length.maps { letters.randomElement()! })
   }
+
+  var firstCapitalized: String {
+    return substring(to: 1).capitalized + substring(from: 1)
+  }
 }
 
 extension Substring {
