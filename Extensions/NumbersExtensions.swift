@@ -34,6 +34,10 @@ extension CGFloat {
   var pixelRounded: CGFloat {
     return (self * mainScreenScale).rounded() / mainScreenScale
   }
+
+  func formatted(to decimals: Int) -> String {
+    return String(format: "%.\(decimals)f", self)
+  }
 }
 
 extension NSNumber {
