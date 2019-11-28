@@ -13,24 +13,44 @@ extension NSLayoutConstraint {
     set { constant = Double(newValue).pixelValue }
   }
 
-  @IBInspectable var iPhoneSEConstant: CGFloat {
+  @IBInspectable var smallPhoneConstant: CGFloat {
     get { return constant }
-    set { if isIphoneSE { constant = newValue } }
+    set { if isSmallPhone { constant = newValue } }
   }
 
-  @IBInspectable var nonPlusConstant: CGFloat {
+  @IBInspectable var normalPhoneConstant: CGFloat {
     get { return constant }
-    set { if isNonPlusPhone { constant = newValue } }
+    set { if isNormalPhone { constant = newValue } }
   }
 
-  @IBInspectable var plusConstant: CGFloat {
+  @IBInspectable var largePhoneConstant: CGFloat {
     get { return constant }
-    set { if isPlusPhone { constant = newValue } }
+    set { if isLargePhone { constant = newValue } }
   }
 
-  @IBInspectable var iPhoneXConstant: CGFloat {
+  @IBInspectable var tallPhoneConstant: CGFloat {
     get { return constant }
-    set { if isIphoneX { constant = newValue } }
+    set { if isTallPhone { constant = newValue } }
+  }
+
+  @IBInspectable var normalTallPhoneConstant: CGFloat {
+    get { return constant }
+    set { if isNormalTallPhone { constant = newValue } }
+  }
+
+  @IBInspectable var normalShortPhoneConstant: CGFloat {
+    get { return constant }
+    set { if isNormalShortPhone { constant = newValue } }
+  }
+
+  @IBInspectable var largeTallPhoneConstant: CGFloat {
+    get { return constant }
+    set { if isLargeTallPhone { constant = newValue } }
+  }
+
+  @IBInspectable var largeShortPhoneConstant: CGFloat {
+    get { return constant }
+    set { if isLargeShortPhone { constant = newValue } }
   }
 
   @IBInspectable var iPadConstant: CGFloat {

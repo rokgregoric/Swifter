@@ -41,24 +41,49 @@ extension UIView {
     set { transform = CGAffineTransform(scaleX: newValue, y: newValue) }
   }
 
-  @IBInspectable var iPhoneSEscale: CGFloat {
+  @IBInspectable var smallPhoneScale: CGFloat {
     get { return 0 }
-    set { if isIphoneSE { scale = newValue } }
+    set { if isSmallPhone { scale = newValue } }
   }
 
-  @IBInspectable var nonPlusScale: CGFloat {
+  @IBInspectable var normalPhoneScale: CGFloat {
     get { return 0 }
-    set { if isNonPlusPhone { scale = newValue } }
+    set { if isNormalPhone { scale = newValue } }
   }
 
-  @IBInspectable var plusScale: CGFloat {
+  @IBInspectable var largePhoneScale: CGFloat {
     get { return 0 }
-    set { if isPlusPhone { scale = newValue } }
+    set { if isLargePhone { scale = newValue } }
   }
 
-  @IBInspectable var iPhoneXscale: CGFloat {
+  @IBInspectable var tallPhoneScale: CGFloat {
     get { return 0 }
-    set { if isIphoneX { scale = newValue } }
+    set { if isTallPhone { scale = newValue } }
+  }
+
+  @IBInspectable var normalTallPhoneScale: CGFloat {
+    get { return 0 }
+    set { if isNormalTallPhone { scale = newValue } }
+  }
+
+  @IBInspectable var normalShortPhoneScale: CGFloat {
+    get { return 0 }
+    set { if isNormalShortPhone { scale = newValue } }
+  }
+
+  @IBInspectable var largeTallPhoneScale: CGFloat {
+    get { return 0 }
+    set { if isLargeTallPhone { scale = newValue } }
+  }
+
+  @IBInspectable var largeShortPhoneScale: CGFloat {
+    get { return 0 }
+    set { if isLargeShortPhone { scale = newValue } }
+  }
+
+  @IBInspectable var iPadScale: CGFloat {
+    get { return 0 }
+    set { if isIpad { scale = newValue } }
   }
 
   // MARK: - Frame helpers

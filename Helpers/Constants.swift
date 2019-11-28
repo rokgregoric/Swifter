@@ -11,10 +11,22 @@ var mainScreenSize: CGSize { return UIScreen.main.bounds.size }
 
 let isIpad = UIDevice.current.userInterfaceIdiom == .pad
 let isIphone = UIDevice.current.userInterfaceIdiom == .phone
-let isIphoneX = mainScreenSize.height > 800 && isIphone
-let isIphoneSE = mainScreenSize.width == 320 && isIphone
-let isNonPlusPhone = mainScreenSize.width == 375 && isIphone && !isIphoneX
-let isPlusPhone = mainScreenSize.width > 400 && isIphone && !isIphoneX
+
+let isSmallPhone = mainScreenSize.width < 375 && isIphone
+let isNormalPhone = mainScreenSize.width == 375 && isIphone
+let isLargePhone = mainScreenSize.width > 375 && isIphone
+let isTallPhone = mainScreenSize.height > 800 && isIphone
+
+let isNormalShortPhone = isNormalPhone && !isTallPhone // 4.7" - 6, 6s, 7, 8
+let isLargeShortPhone = isLargePhone && !isTallPhone // 5.5" - 6+, 6s+, 7+, 8+
+
+let isNormalTallPhone = isNormalPhone && isTallPhone // 5.8" - X, Xs, 11
+let isLargeTallPhone = isLargePhone && isTallPhone // 6.1" & 6.5" - Xs-max, Xr, 11-max, 11r
+
+let isIphoneX = isTallPhone // deprecated
+let isIphoneSE = isSmallPhone // deprecated
+let isNonPlusPhone = isNormalShortPhone // deprecated
+let isPlusPhone = isLargeShortPhone // deprecated
 
 var keyWindowSafeAreaInsets: UIEdgeInsets { return UIApplication.shared.keyWindow?.safeAreaInsets ?? .zero }
 let isSafeAreaInset = keyWindowSafeAreaInsets != .zero
