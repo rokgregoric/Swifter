@@ -205,11 +205,11 @@ extension UIView {
     animate(withDuration: animationDuration, delay: delay, options: animationOptionsCurveEaseOut.union(.allowUserInteraction), animations: animations) { _ in completion() }
   }
 
-  class func animate(duration: Double, animations: @escaping () -> Void) {
+  class func animate(duration: Double, delay: Double = 0, animations: @escaping () -> Void) {
     animate(duration: duration, animations: animations) {}
   }
 
-  class func animate(duration: Double, animations: @escaping () -> Void, completion: @escaping () -> Void) {
+  class func animate(duration: Double, delay: Double = 0, animations: @escaping () -> Void, completion: @escaping () -> Void) {
     animate(withDuration: duration, delay: 0, options: .allowUserInteraction, animations: animations) { _ in completion() }
   }
 
