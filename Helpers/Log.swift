@@ -18,11 +18,11 @@ class Log {
 
     var symbol: String {
       switch self {
-        case .verbose: return "💜"
-        case .debug: return "💚"
-        case .info: return "💙"
-        case .warning: return "💛"
-        case .error: return "❤️"
+        case .verbose: return "🟣"
+        case .debug: return "🟢"
+        case .info: return "🔵"
+        case .warning: return "🟡"
+        case .error: return "🔴"
       }
     }
 
