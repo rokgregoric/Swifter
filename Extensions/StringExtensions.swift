@@ -137,6 +137,24 @@ extension String {
   var firstCapitalized: String {
     return substring(to: 1).capitalized + substring(from: 1)
   }
+
+  var isValidEmail: Bool {
+    let regExp = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}"
+    let predicate = NSPredicate(format:"SELF MATCHES %@", regExp)
+    return predicate.evaluate(with: self)
+  }
+
+  var int: Int {
+    return Int(digits) ?? 0
+  }
+
+  var float: Float {
+    let arr = components(separatedBy: ".")
+    let major = arr.object(at: 0).flatMap(Int.init) ?? 0
+    let minor = arr.object(at: 1).flatMap(Int.init) ?? 0
+    let str = String(format: "%d.%d", major, minor)
+    return Float(str) ?? 0
+  }
 }
 
 extension Substring {

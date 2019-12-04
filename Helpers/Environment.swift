@@ -23,7 +23,7 @@ struct Environment {
   static var version: String {
     return value(for: "CFBundleShortVersionString") ?? ""
   }
-  
+
   static var identifier: String {
     return value(for: "CFBundleIdentifier") ?? ""
   }
