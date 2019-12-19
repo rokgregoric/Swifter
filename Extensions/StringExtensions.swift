@@ -52,12 +52,16 @@ extension String {
     return replacingOccurrences(of: substring, with: with, options: options)
   }
 
+  func regplace(_ regexp: String, with: String) -> String {
+    return replace(regexp, with: with, options: .regularExpression)
+  }
+
   func remove(_ substring: String) -> String {
     return replace(substring, with: "")
   }
 
-  func filter(_ regexp: String) -> String {
-    return replacingOccurrences(of: regexp, with: "", options: .regularExpression)
+  func regmove(_ regexp: String) -> String {
+    return regplace(regexp, with: "")
   }
 
   func splitString(_ string: String, length: Int) -> [String] {
