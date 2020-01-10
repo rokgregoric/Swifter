@@ -19,4 +19,9 @@ extension NSObject {
   class func castIfSelf<T: NSObject>(_ object: NSObject?) -> T? {
     return object as? T
   }
+
+  var objectAddress: String {
+    let opaque = Unmanaged.passUnretained(self).toOpaque()
+    return String(describing: opaque)
+  }
 }
