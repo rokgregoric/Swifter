@@ -218,31 +218,31 @@ extension UIView {
     animate(animations) {}
   }
 
-  class func animate(_ delay: Double, animations: @escaping () -> Void) {
-    animate(delay, animations: animations) {}
+  class func animate(delay: Double, animations: @escaping () -> Void) {
+    animate(delay: delay, animations) {}
   }
 
   class func animate(_ animations: @escaping () -> Void, completion: @escaping () -> Void) {
-    animate(0, animations: animations, completion: completion)
+    animate(delay: 0, animations, completion: completion)
   }
 
-  class func animate(_ delay: Double, animations: @escaping () -> Void, completion: @escaping () -> Void) {
-    animate(withDuration: animationDuration, delay: delay, options: animationOptionsCurveEaseOut.union(.allowUserInteraction), animations: animations) { _ in completion() }
+  class func animate(delay: Double, _ animations: @escaping () -> Void, completion: @escaping () -> Void) {
+    animate(duration: animationDuration, delay: delay, options: animationOptionsCurveEaseOut.union(.allowUserInteraction), animations, completion: completion)
   }
 
-  class func animate(duration: Double, delay: Double = 0, animations: @escaping () -> Void) {
-    animate(duration: duration, animations: animations) {}
+  class func animate(duration: Double, delay: Double = 0, options: UIView.AnimationOptions = [], _ animations: @escaping () -> Void) {
+    animate(duration: duration, delay: delay, options: options, animations) {}
   }
 
-  class func animate(duration: Double, delay: Double = 0, animations: @escaping () -> Void, completion: @escaping () -> Void) {
-    animate(withDuration: duration, delay: 0, options: .allowUserInteraction, animations: animations) { _ in completion() }
+  class func animate(duration: Double, delay: Double = 0, options: UIView.AnimationOptions = [], _ animations: @escaping () -> Void, completion: @escaping () -> Void) {
+    animate(withDuration: duration, delay: 0, options: options.union(.allowUserInteraction), animations: animations) { _ in completion() }
   }
 
-  class func spring(_ duration: Double, delay: Double = 0, damping: CGFloat, velocity: CGFloat, animations: @escaping () -> Void) {
-    spring(duration, delay: delay, damping: damping, velocity: velocity, animations: animations) {}
+  class func spring(_ duration: Double, delay: Double = 0, damping: CGFloat, velocity: CGFloat, _ animations: @escaping () -> Void) {
+    spring(duration, delay: delay, damping: damping, velocity: velocity, animations) {}
   }
 
-  class func spring(_ duration: Double, delay: Double = 0, damping: CGFloat, velocity: CGFloat, animations: @escaping () -> Void, completion: @escaping () -> Void) {
+  class func spring(_ duration: Double, delay: Double = 0, damping: CGFloat, velocity: CGFloat, _ animations: @escaping () -> Void, completion: @escaping () -> Void) {
     animate(withDuration: duration, delay: delay, usingSpringWithDamping: damping, initialSpringVelocity: velocity, options: .allowUserInteraction, animations: animations) { _ in completion() }
   }
 }
