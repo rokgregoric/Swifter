@@ -6,9 +6,9 @@
 //
 
 import Foundation
+import SwifterJSON
 
 class Log {
-
   enum Level: Int {
     case verbose = 0
     case debug = 1
@@ -35,33 +35,45 @@ class Log {
     }
   }
 
-  fileprivate static func stringify(_ messages: [Any?]) -> String {
-    return messages.flat.map { "\($0)" }.joined(separator: " ")
+  private class func stringify(_ messages: [Any?]) -> String {
+    return messages.flat.map { ($0 is [String: Any]) ? "\(JSON($0))" : "\($0)" }.joined(separator: " ")
   }
 
-  static func verbose(_ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
+  class func verbose(_ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .verbose, message: stringify(message), file: file, function: function, line: line, context: context)
   }
 
-  static func debug(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
+  class func debug(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .debug, message: stringify(message), file: file, function: function, line: line, context: context)
   }
 
-  static func info(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
+  class func info(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .info, message: stringify(message), file: file, function: function, line: line, context: context)
   }
 
-  static func warning(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
+  class func warning(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .warning, message: stringify(message), file: file, function: function, line: line, context: context)
   }
 
-  static func error(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
+  class func error(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .error, message: stringify(message), file: file, function: function, line: line, context: context)
   }
 
-  static func custom(level: Level, message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
-    let m = stringify(message)
-    let c = context.map { "[\($0.uppercased())]" }
-    print(level.symbol, [c, m].flatJoined(" "))
+  private static let shared = Log()
+
+  class func custom(level: Level, message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
+    shared.custom(id: level.id, symbol: level.symbol, name: level.name, messages: stringify(message), file: file, function: function, line: line, context: context)
   }
+
+  /// swizzlable
+  @objc dynamic func custom(id: String, symbol: String, name: String,  messages: String, file: String, function: String, line: Int, context: String?) {
+    let c = context.map { "[\($0.uppercased())]" }
+    print(symbol, [c, messages].flatJoined(" "))
+  }
+}
+
+// MARK: Equatable
+
+func ==(lhs: Log.Level, rhs: Log.Level) -> Bool {
+  return lhs.rawValue == rhs.rawValue
 }

@@ -35,4 +35,8 @@ extension Data {
   var image: UIImage? {
     return UIImage(data: self)
   }
+
+  var base64ImageString: String {
+    return "data:image/png;base64,\(base64EncodedString(options:.lineLength64Characters))"
+  }
 }

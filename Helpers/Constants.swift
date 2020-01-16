@@ -39,6 +39,13 @@ struct RawString {
   }
 }
 
+// MARK: Equatable
+
+func ==(lhs: RawString, rhs: RawString) -> Bool {
+  return lhs.rawValue == rhs.rawValue
+}
+
+
 //extension Notification.Name {
 //  static let loggedIn = Notification.Name("loggedIn")
 //}
@@ -50,4 +57,3 @@ struct RawString {
 //extension Defaults.Key {
 //  static let loggedIn = Defaults.Key("loggedIn")
 //}
-

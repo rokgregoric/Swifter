@@ -8,41 +8,28 @@
 import CoreData
 
 class CoreDataStack {
-  static var persistentContainer: NSPersistentContainer!
+  static var name = "db"
+  static var persistentContainer = NSPersistentContainer(name: name)
 
-  static var context: NSManagedObjectContext {
-    return persistentContainer.viewContext
-  }
+  static var context: NSManagedObjectContext { return persistentContainer.viewContext }
 
   static var inMemoryContext: NSManagedObjectContext {
-    if persistentContainer == nil { initPersistentContainer() }
     let psc = NSPersistentStoreCoordinator(managedObjectModel: persistentContainer.managedObjectModel)
-    do { try psc.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil) } catch {}
+    _ = try? psc.addPersistentStore(ofType: NSInMemoryStoreType, configurationName: nil, at: nil)
     let context = NSManagedObjectContext(concurrencyType: .mainQueueConcurrencyType)
     context.persistentStoreCoordinator = psc
     return context
   }
 
-  static func initPersistentContainer() {
-    persistentContainer = NSPersistentContainer(name: "db")
-  }
-
-  static func initContainer(completion: @escaping (NSPersistentStoreDescription, Error?) -> Void) {
-    initPersistentContainer()
-    persistentContainer.loadPersistentStores(completionHandler: completion)
-  }
-
-  static func initCoreDataStack(completion: @escaping () -> Void) {
-    initContainer { desc, error in
+  static func setup(completion: @escaping () -> Void) {
+    persistentContainer.loadPersistentStores { desc, err in
       Log.debug(desc, context: "db")
-      if let _ = error as NSError? {
+      if let _ = err as NSError? {
         Log.error("flushing", context: "db")
-        persistentContainer.persistentStoreDescriptions.compactMap { $0.url }.forEach {
-          try? FileManager.default.removeItem(at: $0)
-        }
-        self.initContainer { _, error in
-          if let error = error as NSError? {
-            Log.error(error, context: "db")
+        persistentContainer.persistentStoreDescriptions.forEach { try? $0.url.map(FileManager.default.removeItem) }
+        persistentContainer.loadPersistentStores { _, err in
+          if let err = err as NSError? {
+            Log.error(err, context: "db")
           } else {
             completion()
           }

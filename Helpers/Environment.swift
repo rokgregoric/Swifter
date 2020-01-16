@@ -48,15 +48,19 @@ struct Environment {
     #endif
   }()
 
+  static let isSimulator: Bool = {
+    #if arch(i386) || arch(x86_64)
+    return true
+    #else
+    return false
+    #endif
+  }()
+
   static let isTestFlight: Bool = {
     return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
   }()
 
-  static let isSimulator: Bool = {
-    var sim = false
-    #if arch(i386) || arch(x86_64)
-    sim = true
-    #endif
-    return sim
+  static let isUnitTest: Bool = {
+      return ProcessInfo.processInfo.environment["UNITTEST"] == "1"
   }()
 }

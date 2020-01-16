@@ -137,8 +137,8 @@ extension UIView {
 
   func addGradient(from fromColor: UIColor, to toColor: UIColor) {
     let gradient = CAGradientLayer()
-    gradient.cornerRadius = self.layer.cornerRadius
-    gradient.frame = self.bounds
+    gradient.cornerRadius = cornerRadius
+    gradient.frame = bounds
     gradient.colors = [fromColor.cgColor, toColor.cgColor]
     self.layer.insertSublayer(gradient, at: 0)
   }
@@ -158,8 +158,8 @@ extension UIView {
   }
 
   func roundCorners(radius: CGFloat? = nil) {
-    self.layer.cornerRadius = radius ?? (self.frame.size.height / 2)
-    self.clipsToBounds = true
+    cornerRadius = radius ?? (height / 2)
+    clipsToBounds = true
   }
 
   func roundTopCorners(radius: CGFloat? = nil) {
@@ -203,8 +203,8 @@ extension UIView {
   }
 
   @IBInspectable var pixelBorderWidth: CGFloat {
-    get { return layer.borderWidth * mainScreenScale }
-    set { layer.borderWidth = Double(newValue).pixelValue }
+    get { return borderWidth * mainScreenScale }
+    set { borderWidth = Double(newValue).pixelValue }
   }
 
   @IBInspectable var cornerRadius: CGFloat {

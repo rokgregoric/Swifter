@@ -109,8 +109,12 @@ extension Decimal {
     self = formatter.number(from: fromString)!.decimalValue
   }
 
+  var decimalNumber: NSDecimalNumber {
+    return self as NSDecimalNumber
+  }
+
   var doubleValue: Double {
-    return (self as NSDecimalNumber).doubleValue
+    return decimalNumber.doubleValue
   }
 }
 

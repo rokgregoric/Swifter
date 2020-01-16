@@ -17,7 +17,15 @@ extension String {
   }
 
   var urlEncoded: String {
-    return escaped(.urlHostAllowed).replace("+", with: "%2B").replace("&", with: "%26")
+    return escaped(.urlHostAllowed).plusAndEncoded
+  }
+
+  var plusAndEncoded: String {
+    return replace("+", with: "%2B").replace("&", with: "%26")
+  }
+
+  var plusAndDecoded: String {
+    return replace("%2B", with: "+").replace("%26", with: "&").replace("(", with: "%28").replace(")", with: "%29")
   }
 
   var htmlEncoded: String {

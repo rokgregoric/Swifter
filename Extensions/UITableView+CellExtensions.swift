@@ -28,6 +28,10 @@ extension UITableView {
     beginUpdates()
     endUpdates()
   }
+
+  func deselectSelectedRow(animated: Bool) {
+      indexPathForSelectedRow.map { self.deselectRow(at: $0, animated: animated) }
+  }
 }
 
 extension Int {
@@ -37,31 +41,5 @@ extension Int {
 
   func indexPath(_ section: Int) -> IndexPath {
     return IndexPath(row: self, section: section)
-  }
-}
-
-extension UIScrollView {
-  func scrollToTop(animated: Bool) {
-    return scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: animated)
-  }
-
-  @IBInspectable var topContentInset: CGFloat {
-    get { return contentInset.top }
-    set { contentInset.top = newValue }
-  }
-
-  @IBInspectable var bottomContentInset: CGFloat {
-    get { return contentInset.bottom }
-    set { contentInset.bottom = newValue }
-  }
-
-  @IBInspectable var leftContentInset: CGFloat {
-    get { return contentInset.left }
-    set { contentInset.left = newValue }
-  }
-
-  @IBInspectable var rightContentInset: CGFloat {
-    get { return contentInset.right }
-    set { contentInset.right = newValue }
   }
 }

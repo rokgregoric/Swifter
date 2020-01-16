@@ -1,5 +1,5 @@
 //
-//  UIApplicationExtensiions.swift
+//  UIApplicationExtensions.swift
 //
 //  Created by Rok Gregoric on 16/12/2019.
 //  Copyright © 2019 Rok Gregoric. All rights reserved.
