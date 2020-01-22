@@ -92,7 +92,13 @@ extension Array where Iterator.Element: Equatable {
     _ = idx.map { remove(at: $0 ) }
     return idx
   }
-  
+
+  func removing(_ element: Element) -> [Element] {
+    var copy = self
+    copy.remove(element)
+    return copy
+  }
+
   mutating func toggle(_ element: Element) {
     if self.contains(element) {
       remove(element)
