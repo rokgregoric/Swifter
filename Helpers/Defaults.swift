@@ -20,6 +20,11 @@ class Defaults {
     set(object: object, for: key.rawValue)
   }
 
+  /// Set default value if object doesn't exist
+  class func set(default d: Any?, for key: Key) {
+    if !hasObject(for: key) { set(object: d, for: key.rawValue) }
+  }
+
   class func hasObject(for key: Key) -> Bool {
     return object(for: key.rawValue) != nil
   }
