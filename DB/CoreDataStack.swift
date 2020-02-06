@@ -21,7 +21,11 @@ class CoreDataStack {
     return context
   }
 
-  static func setup(completion: @escaping () -> Void) {
+  enum CompletionStatus {
+    case normal, deleted
+  }
+
+  static func setup(completion: @escaping (CompletionStatus) -> Void) {
     persistentContainer.loadPersistentStores { desc, err in
       Log.debug(desc, context: "db")
       if let _ = err as NSError? {
@@ -31,11 +35,11 @@ class CoreDataStack {
           if let err = err as NSError? {
             Log.error(err, context: "db")
           } else {
-            completion()
+            completion(.deleted)
           }
         }
       } else {
-        completion()
+        completion(.normal)
       }
     }
   }
