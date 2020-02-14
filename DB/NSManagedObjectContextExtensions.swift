@@ -53,10 +53,14 @@ extension NSManagedObjectContext {
   func add<T: BaseObject>(_ id: String, _ type: T.Type) -> T { return add(id) }
 
   func deleteAll() {
-    all().forEach(delete)
+    CoreDataStack.persistentContainer.managedObjectModel.entities.forEach { $0.name.map(all)?.forEach(delete) }
   }
 
   // MARK: - Fetching
+
+  func all(_ type: String) -> [NSManagedObject] {
+    return try! fetch(NSFetchRequest<NSManagedObject>(entityName: type))
+  }
 
   func all<T: BaseObject>() -> [T] {
     return try! fetch(FetchRequest(type: T.self))
