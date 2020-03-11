@@ -18,10 +18,10 @@ extension UIAlertController {
     UIViewController.rootVC?.present(vc, animated: true)
   }
 
-  static func show(title: String? = nil, message: String? = nil, cancel: (() -> Void)? = nil, accept: (() -> Void)? = nil) {
+  static func show(title: String? = nil, message: String? = nil, acceptTitle: String = "Continue", cancel: (() -> Void)? = nil, accept: (() -> Void)? = nil) {
     let vc = UIAlertController(title: title, message: message, preferredStyle: .alert)
     vc.addAction(UIAlertAction(title: "Cancel", style: .cancel) { _ in cancel?() })
-    vc.addAction(UIAlertAction(title: "Continue", style: .default) { _ in accept?() })
+    vc.addAction(UIAlertAction(title: acceptTitle, style: .default) { _ in accept?() })
     UIViewController.rootVC?.present(vc, animated: true)
   }
 
