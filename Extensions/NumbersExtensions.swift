@@ -91,22 +91,26 @@ extension Bool {
   }
 }
 
+private func formatter() -> NumberFormatter {
+  let formatter = NumberFormatter()
+  formatter.numberStyle = .decimal
+  formatter.maximumFractionDigits = 2
+  formatter.minimumFractionDigits = 2
+  return formatter
+}
+
 extension Decimal {
   public func stringValue() -> String? {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .decimal
-    formatter.maximumFractionDigits = 2
-    formatter.minimumFractionDigits = 2
-    return formatter.string(for: self)
+    return formatter().string(for: self)
   }
 
-  public init(fromString: String) {
-    let formatter = NumberFormatter()
-    formatter.numberStyle = .decimal
-    formatter.maximumFractionDigits = 2
-    formatter.minimumFractionDigits = 2
-
-    self = formatter.number(from: fromString)!.decimalValue
+  public init?(fromString: String) {
+    let separator = Locale.current.decimalSeparator ?? "."
+    if let value = formatter().number(from: fromString.replace(".", with: separator))?.decimalValue {
+      self = value
+    } else {
+      return nil
+    }
   }
 
   var decimalNumber: NSDecimalNumber {
