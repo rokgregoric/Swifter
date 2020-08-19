@@ -1,8 +1,8 @@
 //
 //  UINavigationControllerExtensions.swift
 //
-//  Created by Rok Gregoric on 24/05/2019.
-//  Copyright © 2019 Rok Gregoric. All rights reserved.
+//  Created by Rok Gregorič
+//  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
 import UIKit
