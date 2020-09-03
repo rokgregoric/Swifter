@@ -89,7 +89,7 @@ extension String {
     return NSLocalizedString(self, comment: "")
   }
 
-  subscript (i: Int) -> String {
+  subscript(i: Int) -> String {
     return self[i ..< i + 1]
   }
 
@@ -103,6 +103,10 @@ extension String {
 
   func substring(from: Int, to: Int) -> String {
     return substring(from: from).substring(to: to-from)
+  }
+
+  mutating func insert(_ char: Character, at: Int) {
+    insert(char, at: String.Index(utf16Offset: at, in: self))
   }
 
   subscript(r: Range<Int>) -> String {
