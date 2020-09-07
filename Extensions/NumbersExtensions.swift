@@ -89,6 +89,10 @@ extension Bool {
   var int: Int {
     return self ? 1 : 0
   }
+
+  var cgfloat: CGFloat {
+    return CGFloat(int)
+  }
 }
 
 private func formatter() -> NumberFormatter {
