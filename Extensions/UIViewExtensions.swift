@@ -212,6 +212,12 @@ extension UIView {
     set { layer.cornerRadius = newValue }
   }
 
+  @available(iOS 13.0, *)
+  @IBInspectable var continuousCornerRadius: Bool {
+    get { return layer.cornerCurve == .continuous }
+    set { layer.cornerCurve = newValue ? .continuous : .circular }
+  }
+
   // MARK: - Standard animation
 
   class func animate(_ animations: @escaping () -> Void) {
