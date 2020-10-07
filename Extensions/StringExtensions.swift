@@ -154,10 +154,17 @@ extension String {
     return substring(to: 1).capitalized + substring(from: 1)
   }
 
-  var isValidEmail: Bool {
-    let regExp = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}"
+  func matches(regExp: String) -> Bool {
     let predicate = NSPredicate(format:"SELF MATCHES %@", regExp)
     return predicate.evaluate(with: self)
+  }
+
+  var isValidEmail: Bool {
+    return matches(regExp: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}")
+  }
+
+  var isValidSSN: Bool {
+    return matches(regExp: "^\\d{3}-\\d{2}-\\d{4}$")
   }
 
   var int: Int {
