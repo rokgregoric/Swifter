@@ -187,6 +187,13 @@ extension UIView {
     layer.masksToBounds = false
   }
 
+  func removeShadow() {
+    layer.shadowColor = nil
+    layer.shadowRadius = 0
+    layer.shadowOpacity = 0
+    layer.shadowOffset = .zero
+  }
+
   @IBInspectable var shadowColor: UIColor? {
     get { return UIColor(cgColor: layer.shadowColor!) }
     set { layer.shadowColor = newValue?.cgColor }
