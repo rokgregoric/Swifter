@@ -44,19 +44,11 @@ extension UIViewController {
   var isFocussed: Bool {
     return view.isVisible && presentedViewController == nil
   }
+}
 
-  var navBar: UINavigationBar? {
-    return navigationController?.navigationBar
-  }
+// MARK: - Controller Management
 
-  // workaround to enable interactivePopGestureRecognizer
-  open override func awakeFromNib() {
-    super.awakeFromNib()
-    navigationController?.setInteractivePopGestureRecognizer(enabled: true)
-  }
-
-  // MARK: - Controller Management
-
+extension UIViewController {
   func add(child: UIViewController) {
     child.beginAppearanceTransition(true, animated: false)
     addChild(child)
@@ -78,6 +70,42 @@ extension UIViewController {
     child.endAppearanceTransition()
   }
 }
+
+// MARK: - Navigation Controller Helpers
+
+extension UIViewController {
+  var navBar: UINavigationBar? {
+    return navigationController?.navigationBar
+  }
+
+  // workaround to enable interactivePopGestureRecognizer
+  open override func awakeFromNib() {
+    super.awakeFromNib()
+    navigationController?.setInteractivePopGestureRecognizer(enabled: true)
+  }
+
+  fileprivate var nc: UINavigationController? {
+    return (self as? UINavigationController) ?? navigationController
+  }
+
+  func push(_ vc: UIViewController, animated: Bool) {
+    nc?.pushViewController(vc, animated: animated)
+  }
+
+  func pop(animated: Bool) {
+    nc?.popViewController(animated: animated)
+  }
+
+  func pop(to vc: UIViewController, animated: Bool) {
+    nc?.popToViewController(vc, animated: animated)
+  }
+
+  func popToRoot(animated: Bool) {
+    nc?.popToRootViewController(animated: animated)
+  }
+}
+
+// MARK: - UIPopoverPresentationController
 
 extension UIPopoverPresentationController {
   enum Position {
