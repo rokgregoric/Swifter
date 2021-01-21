@@ -52,13 +52,6 @@ extension TimeInterval {
   }
 }
 
-@available(iOS 10.0, *)
-extension Date {
-  var internetString: String {
-    return ISO8601DateFormatter.string(from: self, timeZone: .current, formatOptions: .withInternetDateTime)
-  }
-}
-
 extension Int {
   var range: CountableRange<Int> {
     return (0..<self)

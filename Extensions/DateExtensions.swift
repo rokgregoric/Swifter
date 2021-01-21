@@ -48,4 +48,9 @@ extension Date {
   var longRelativeString: String? {
     return relativeString.map { self < Date() ? "\($0) ago" : "in \($0)" }?.localized
   }
+
+  @available(iOS 10.0, *)
+  func iso8601string(timeZone: TimeZone = .UTC) -> String {
+    return ISO8601DateFormatter.string(from: self, timeZone: timeZone, formatOptions: .withInternetDateTime)
+  }
 }
