@@ -195,12 +195,12 @@ extension UIView {
   }
 
   @IBInspectable var shadowColor: UIColor? {
-    get { return UIColor(cgColor: layer.shadowColor!) }
+    get { return layer.shadowColor.map(UIColor.init) }
     set { layer.shadowColor = newValue?.cgColor }
   }
 
   @IBInspectable var borderColor: UIColor? {
-    get { return UIColor(cgColor: layer.borderColor!) }
+    get { return layer.borderColor.map(UIColor.init) }
     set { layer.borderColor = newValue?.cgColor }
   }
 
