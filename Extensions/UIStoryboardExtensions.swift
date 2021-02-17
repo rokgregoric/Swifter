@@ -29,4 +29,3 @@ extension UIStoryboard {
     UIViewController.rootVC?.present(instantiate(name, identifier: identifier), animated: animated)
   }
 }
-
