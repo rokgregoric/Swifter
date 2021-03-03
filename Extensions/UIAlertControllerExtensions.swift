@@ -30,12 +30,12 @@ extension UIAlertController {
       $0.text = text
       $0.placeholder = placeholder
       $0.keyboardType = keyboardType
-      if UIDevice.current.systemVersion.float < 13 { $0.borderStyle = borderStyle }
+      if UIDevice.current.systemVersion.safeDouble < 13 { $0.borderStyle = borderStyle }
     }
   }
 
   func fixTextFieldsRoundedBorders() {
-    if UIDevice.current.systemVersion.float >= 13 { return }
+    if UIDevice.current.systemVersion.safeDouble >= 13 { return }
     for textField in textFields ?? [] {
       if let container = textField.superview, let effectView = container.superview?.subviews.first, effectView is UIVisualEffectView {
         container.backgroundColor = .clear

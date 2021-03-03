@@ -171,12 +171,12 @@ extension String {
     return Int(digits) ?? 0
   }
 
-  var float: Float {
+  var safeDouble: Double {
     let arr = components(separatedBy: ".")
     let major = arr.object(at: 0).flatMap(Int.init) ?? 0
     let minor = arr.object(at: 1).flatMap(Int.init) ?? 0
     let str = String(format: "%d.%d", major, minor)
-    return Float(str) ?? 0
+    return Double(str) ?? 0
   }
 }
 
