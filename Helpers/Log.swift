@@ -61,8 +61,27 @@ class Log {
 
   private static let shared = Log()
 
+  struct Filter {
+    var level: Level?
+    var lowestLevel: Level?
+    var context: String?
+    var message: String?
+  }
+  private var filter: Filter?
+
+  class func filter(level: Level? = nil, lowestLevel: Level? = nil, context: String? = nil, message: String? = nil) {
+    shared.filter = Filter(level: level, lowestLevel: lowestLevel, context: context, message: message)
+  }
+
   class func custom(level: Level, message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
-    shared.custom(id: level.id, symbol: level.symbol, name: level.name, messages: stringify(message), file: file, function: function, line: line, context: context)
+    let msg = stringify(message)
+    if let f = shared.filter {
+      if let l = f.level, level != l { return }
+      if let l = f.lowestLevel, level < l { return }
+      if let m = f.message?.lowercased(), msg.lowercased().contains(m) != true { return }
+      if let c = f.context?.lowercased(), context?.lowercased().contains(c) != true { return }
+    }
+    shared.custom(id: level.id, symbol: level.symbol, name: level.name, messages: msg, file: file, function: function, line: line, context: context)
   }
 
   /// swizzlable
@@ -76,4 +95,8 @@ class Log {
 
 func ==(lhs: Log.Level, rhs: Log.Level) -> Bool {
   return lhs.rawValue == rhs.rawValue
+}
+
+func <(lhs: Log.Level, rhs: Log.Level) -> Bool {
+  return lhs.rawValue < rhs.rawValue
 }
