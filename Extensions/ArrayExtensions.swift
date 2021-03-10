@@ -74,6 +74,10 @@ extension Collection {
     return count == 1
   }
 
+  var firstIfAlone: Element? {
+    return hasOne ? first : nil
+  }
+
   var notEmpty: Bool {
     return !isEmpty
   }
