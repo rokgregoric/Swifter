@@ -28,6 +28,10 @@ extension UIColor {
     }
   }
 
+  static var random: UIColor {
+    return UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
+  }
+
   var hexString: String {
     var r: CGFloat = 0
     var g: CGFloat = 0

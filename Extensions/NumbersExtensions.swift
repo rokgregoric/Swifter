@@ -54,7 +54,7 @@ extension TimeInterval {
 
 extension Int {
   var range: CountableRange<Int> {
-    return (0..<self)
+    return 0..<self
   }
 
   func times(_ block: () -> Void) {
