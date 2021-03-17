@@ -11,9 +11,17 @@ extension Dictionary {
   func map<K, V>(transform: (_ key: Key, _ value: Value) -> (K, V)) -> [K: V] {
     return dic(map { transform($0, $1) })
   }
-  
+
   func flatMap<K, V>(transform: (_ key: Key, _ value: Value) -> (K?, V?)) -> [K: V] {
     return dic(compactMap { let (k, v) = transform($0, $1); return (k == nil || v == nil ? nil : (k!, v!)) })
+  }
+
+  var urlParams: String? {
+    return nilIfEmpty?.map { "\($0.key)=\("\($0.value)".urlEncoded)" }.flatJoined("&")
+  }
+
+  var queryItems: [URLQueryItem] {
+    return map { URLQueryItem(name: "\($0.key)", value: "\($0.value)") }
   }
 }
 
@@ -22,6 +30,10 @@ extension Dictionary where Value: OptionalProtocol {
     var dic = [Key: Value.Wrapped]()
     forEach { dic[$0.key] = $0.value.val }
     return dic
+  }
+
+  var urlParams: String? {
+    return flat.urlParams
   }
 }
 
