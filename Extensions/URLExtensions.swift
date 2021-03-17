@@ -8,8 +8,12 @@
 import Foundation
 
 extension URL {
+  var components: URLComponents? {
+    return URLComponents(url: self, resolvingAgainstBaseURL: true)
+  }
+
   var queryItems: [URLQueryItem] {
-    return URLComponents(url: self, resolvingAgainstBaseURL: true)?.queryItems ?? []
+    return components?.queryItems ?? []
   }
 
   var queryKeys: [String] {
@@ -22,10 +26,10 @@ extension URL {
     return result
   }
 
-  func appending(queryComponents new: [String: String]) -> URL {
-    var comp = URLComponents(url: self, resolvingAgainstBaseURL: true)!
-    comp.queryItems = queryItems + new.map { URLQueryItem(name: $0.key, value: $0.value) }
-    return comp.url!
+  func appending(params: [String: String]) -> URL? {
+    guard var comp = components else { return nil }
+    comp.queryItems = queryItems + params.queryItems
+    return comp.url
   }
 
   var request: URLRequest {
