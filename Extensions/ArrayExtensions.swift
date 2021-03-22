@@ -7,39 +7,29 @@
 
 import Foundation
 
-func rnd(_ max: Int? = nil) -> Int {
-  if let max = max {
-    return Int(arc4random_uniform(UInt32(max)))
-  }
-  return Int(arc4random())
-}
-
 extension Array {
   func object(at index: Int) -> Element? {
-    if index >= 0 && index < self.count {
-      return self[index] as Element
-    }
-    return nil
+    return (0 ..< count).contains(index) ? self[index] : nil
   }
-  
+
   var randomIndex: Int {
-    return rnd(count)
+    return Int.random(in: count.range)
   }
-  
+
   var random: Element? {
     return object(at: randomIndex)
   }
-  
+
   mutating func removeRandom() -> Element? {
     if count == 0 { return nil }
     return remove(at: randomIndex)
   }
-  
+
   mutating func insert(random object: Element) {
-    let index = isEmpty ? 0 : rnd(count+1)
+    let index = isEmpty ? 0 : Int.random(in: (count+1).range)
     insert(object, at: index)
   }
-  
+
   mutating func insertAppend(_ element: Element, at index: Int) {
     if count > index {
       insert(element, at: index)
@@ -47,17 +37,19 @@ extension Array {
       append(element)
     }
   }
-  
-  func limit(to limit: Int) -> [Element] {
-    return Array(self[0..<Swift.min(count, limit)])
+
+  func slice(from s: Int? = nil, to e: Int? = nil) -> [Element] {
+    let s = s.map { clamp($0, min: 0, max: count) } ?? 0
+    let e = e.map { clamp($0, min: 0, max: count) } ?? count
+    return Array(self[s ..< e])
   }
-  
+
   var indexed: [String: Element] {
     var result = [String: Element]()
     enumerated().forEach { result["\($0.0)"] = $0.1 }
     return result
   }
-  
+
   func shuffled() -> [Element] {
     var result = [Element]()
     forEach { result.insert(random: $0) }
