@@ -53,22 +53,27 @@ extension TimeInterval {
 }
 
 extension Int {
+  /// Range - 0 ..< n
   var range: CountableRange<Int> {
     return 0..<self
   }
 
+  /// Repeat n-times - no parameter
   func times(_ block: () -> Void) {
     range.forEach { _ in block() }
   }
 
+  /// Repeat n-times - index as parameter
   func forEach(_ block: (Int) -> Void) {
     range.forEach(block)
   }
 
+  /// Return array with n elements - no parameter
   func maps<T>(_ block: () -> T) -> [T] {
     return range.map { _ in block() }
   }
 
+  /// Return array with n elements - index as parameter
   func map<T>(_ block: (Int) -> T) -> [T] {
     return range.map(block)
   }
