@@ -25,19 +25,19 @@ extension DateFormatter {
     doesRelativeDateFormatting = relative
   }
 
-  public static func iso8601(format: String) -> DateFormatter {
-    let formatter = DateFormatter(format: format, timeZone: .UTC)
+  public static func iso8601(format: String, timeZone: TimeZone? = nil) -> DateFormatter {
+    let formatter = DateFormatter(format: format, timeZone: timeZone)
     formatter.calendar = Calendar(identifier: .iso8601)
     formatter.locale = Locale(identifier: "en_US_POSIX")
     return formatter
   }
 
   public static var iso8601full: DateFormatter {
-    return iso8601(format: DateFormat.dateTimeFull.rawValue)
+    return DateFormat.dateTimeFull.formatter
   }
 
   public static var iso8601: DateFormatter {
-    return iso8601(format: DateFormat.dateTime.rawValue)
+    return DateFormat.dateTime.formatter
   }
 
   func string(if date: Date?) -> String? {

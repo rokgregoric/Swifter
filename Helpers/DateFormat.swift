@@ -8,14 +8,13 @@
 import Foundation
 
 enum DateFormat: String {
+  case timeMili = "HH:mm:ss.SSS"
   case dateOnly = "yyyy-MM-dd"
   case dateTime = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
   case dateTimeFull = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
 
-  fileprivate var formatter: DateFormatter {
-    let formatter = DateFormatter(format: rawValue)
-    formatter.locale = Locale(identifier: "en_US_POSIX")
-    return formatter
+  var formatter: DateFormatter {
+    return DateFormatter(format: rawValue, timeZone: .UTC)
   }
 
   func string(from date: Date) -> String {
@@ -28,5 +27,9 @@ enum DateFormat: String {
 
   static func date(from string: String) -> Date? {
     return dateTime.date(from: string) ?? dateTimeFull.date(from: string) ?? dateOnly.date(from: string)
+  }
+
+  var currentString: String {
+    return string(from: Date())
   }
 }
