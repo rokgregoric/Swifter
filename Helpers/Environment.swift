@@ -61,6 +61,10 @@ struct Environment {
   }()
 
   static let isUnitTest: Bool = {
-      return ProcessInfo.processInfo.environment["UNITTEST"] == "1"
+    return ProcessInfo.processInfo.environment["UNITTEST"] == "1"
+  }()
+
+  static let isDebuggerAttached: Bool = {
+    return getppid() != 1
   }()
 }

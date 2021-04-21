@@ -7,6 +7,7 @@
 
 import Foundation
 import SwifterJSON
+import OSLog
 
 class Log {
   enum Level: Int {
@@ -81,17 +82,24 @@ class Log {
       if let m = f.message?.lowercased(), msg.lowercased().contains(m) != true { return }
       if let c = f.context?.lowercased(), context?.lowercased().contains(c) != true { return }
     }
-    shared.custom(id: level.id, symbol: level.symbol, name: level.name, messages: msg, file: file, function: function, line: line, context: context)
+    shared.custom(type: level.logType, messages: msg, file: file, function: function, line: line, context: context)
   }
 
   /// swizzlable
-  @objc dynamic func custom(id: String, symbol: String, name: String,  messages: String, file: String, function: String, line: Int, context: String?) {
-    let c = context.map { "[\($0.uppercased())]" }
-    print(symbol, [c, messages].flatJoined(" "))
+  @objc dynamic func custom(type: OSLogType, messages: String, file: String, function: String, line: Int, context: String?) {
+    let c = context?.uppercased()
+    let msg = [c.map { "[\($0)]" }, messages].flatJoined(" ")
+    let symbol = type.logLevel.symbol
+    if Environment.isDebuggerAttached {
+      print(symbol, msg)
+    } else {
+      let log = OSLog(subsystem: Environment.identifier, category: c ?? "")
+      os_log("%{public}@ %{public}@", log: log, type: type, symbol, msg)
+    }
   }
 }
 
-// MARK: Equatable
+// MARK: - Equatable
 
 func ==(lhs: Log.Level, rhs: Log.Level) -> Bool {
   return lhs.rawValue == rhs.rawValue
@@ -99,4 +107,30 @@ func ==(lhs: Log.Level, rhs: Log.Level) -> Bool {
 
 func <(lhs: Log.Level, rhs: Log.Level) -> Bool {
   return lhs.rawValue < rhs.rawValue
+}
+
+// MARK: - Log.Level <> OSLogType
+
+extension Log.Level {
+  var logType: OSLogType {
+    switch self {
+      case .verbose: return .default
+      case .debug: return .debug
+      case .info: return .info
+      case .warning: return .fault
+      case .error: return .error
+    }
+  }
+}
+
+extension OSLogType {
+  var logLevel: Log.Level {
+    switch self {
+      case .debug: return .debug
+      case .info: return .info
+      case .fault: return .warning
+      case .error: return .error
+      default: return .verbose
+    }
+  }
 }
