@@ -148,9 +148,15 @@ extension Sequence where Iterator.Element: OptionalProtocol {
   }
 }
 
+extension Sequence where Iterator.Element == String {
+  func joined(_ separator: String) -> String {
+    return joined(separator: separator)
+  }
+}
+
 extension Sequence where Iterator.Element == Optional<String> {
   func flatJoined(_ separator: String) -> String {
-    return flat.joined(separator: separator)
+    return flat.joined(separator)
   }
 
   func nilFlatJoined(_ separator: String) -> String? {

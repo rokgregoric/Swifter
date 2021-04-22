@@ -82,7 +82,7 @@ extension String {
 
   func spacedString(at spacedIncrement: Int) -> String? {
     let splitString = self.splitString(self, length: spacedIncrement)
-    return splitString.joined(separator: " ")
+    return splitString.joined(" ")
   }
 
   var localized: String {

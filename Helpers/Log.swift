@@ -37,7 +37,7 @@ class Log {
   }
 
   private class func stringify(_ messages: [Any?]) -> String {
-    return messages.flat.map { ($0 is [String: Any]) ? "\(JSON($0))" : "\($0)" }.joined(separator: " ")
+    return messages.flat.map { ($0 is [String: Any]) ? "\(JSON($0))" : "\($0)" }.joined(" ")
   }
 
   class func verbose(_ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
