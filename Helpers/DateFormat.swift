@@ -14,7 +14,7 @@ enum DateFormat: String {
   case dateTimeFull = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
 
   var formatter: DateFormatter {
-    return DateFormatter(format: rawValue, timeZone: .UTC)
+    return DateFormatter(format: rawValue, timeZone: self == .timeMili ? nil : .UTC)
   }
 
   func string(from date: Date) -> String {
