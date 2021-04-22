@@ -91,7 +91,7 @@ class Log {
     let msg = [c.map { "[\($0)]" }, messages].flatJoined(" ")
     let symbol = type.logLevel.symbol
     if Environment.isDebuggerAttached {
-      print(symbol, msg)
+      print(DateFormat.timeMili.currentString, symbol, msg)
     } else {
       let log = OSLog(subsystem: Environment.identifier, category: c ?? "")
       os_log("%{public}@ %{public}@", log: log, type: type, symbol, msg)
