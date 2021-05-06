@@ -26,6 +26,8 @@ let isLargeShortPhone = isLargePhone && !isTallPhone // 5.5" - 6+, 6s+, 7+, 8+
 let isNormalTallPhone = isNormalPhone && isTallPhone // 5.8" - X, Xs, 11
 let isLargeTallPhone = isLargePhone && isTallPhone // 6.1" & 6.5" - Xs-max, Xr, 11-max, 11r
 
+let isWidePad = (longerScreenSide / shorterScreenSide > 1.4) && isIpad // 11" -  non 4:3
+
 let isIphoneX = isTallPhone // deprecated
 let isIphoneSE = isSmallPhone // deprecated
 let isNonPlusPhone = isNormalShortPhone // deprecated
