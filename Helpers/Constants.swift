@@ -9,13 +9,16 @@ import UIKit
 
 var mainScreenSize: CGSize { return UIScreen.main.bounds.size }
 
+let shorterScreenSide = min(mainScreenSize.width, mainScreenSize.height)
+let longerScreenSide = max(mainScreenSize.width, mainScreenSize.height)
+
 let isIpad = UIDevice.current.userInterfaceIdiom == .pad
 let isIphone = UIDevice.current.userInterfaceIdiom == .phone
 
-let isSmallPhone = mainScreenSize.width < 350 && isIphone
-let isNormalPhone = mainScreenSize.width > 350 && mainScreenSize.width < 400  && isIphone
-let isLargePhone = mainScreenSize.width > 400 && isIphone
-let isTallPhone = mainScreenSize.height > 800 && isIphone
+let isSmallPhone = shorterScreenSide < 350 && isIphone
+let isNormalPhone = shorterScreenSide > 350 && mainScreenSize.width < 400 && isIphone
+let isLargePhone = shorterScreenSide > 400 && isIphone
+let isTallPhone = longerScreenSide > 800 && isIphone
 
 let isNormalShortPhone = isNormalPhone && !isTallPhone // 4.7" - 6, 6s, 7, 8
 let isLargeShortPhone = isLargePhone && !isTallPhone // 5.5" - 6+, 6s+, 7+, 8+
