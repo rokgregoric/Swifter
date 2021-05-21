@@ -16,6 +16,14 @@ class Run {
     }
   }
 
+  static func mainSync(_ block: @escaping () -> Void) {
+    if Thread.isMainThread {
+      block()
+    } else {
+      on(.main, block)
+    }
+  }
+
   static func main(after: Double = 0, _ block: @escaping () -> Void) {
     on(.main, after: after, block)
   }
