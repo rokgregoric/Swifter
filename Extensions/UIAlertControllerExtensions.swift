@@ -26,12 +26,13 @@ extension UIAlertController {
     UIViewController.rootVC?.present(vc, animated: true)
   }
 
-  func addTextField(text: String? = nil, placeholder: String? = nil, keyboardType: UIKeyboardType = .default, borderStyle: UITextField.BorderStyle = .none) {
-    addTextField {
-      $0.text = text
-      $0.placeholder = placeholder
-      $0.keyboardType = keyboardType
-      if UIDevice.current.systemVersion.safeDouble < 13 { $0.borderStyle = borderStyle }
+  func addTextField(text: String? = nil, placeholder: String? = nil, keyboardType: UIKeyboardType? = nil, autocapitalizationType: UITextAutocapitalizationType? = nil, borderStyle: UITextField.BorderStyle = .none) {
+    addTextField { field in
+      field.text = text
+      field.placeholder = placeholder
+      keyboardType.map { field.keyboardType = $0 }
+      autocapitalizationType.map { field.autocapitalizationType = $0 }
+      if UIDevice.current.systemVersion.safeDouble < 13 { field.borderStyle = borderStyle }
     }
   }
 
