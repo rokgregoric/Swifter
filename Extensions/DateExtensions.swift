@@ -53,4 +53,8 @@ extension Date {
   func iso8601string(timeZone: TimeZone = .UTC) -> String {
     return ISO8601DateFormatter.string(from: self, timeZone: timeZone, formatOptions: .withInternetDateTime)
   }
+
+  var timeIntervalTillNow: TimeInterval {
+    return -timeIntervalSinceNow
+  }
 }
