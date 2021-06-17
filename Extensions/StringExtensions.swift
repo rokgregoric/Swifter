@@ -164,7 +164,7 @@ extension String {
   }
 
   var isValidSSN: Bool {
-    return matches(regExp: "^\\d{3}-\\d{2}-\\d{4}$")
+    return matches(regExp: "^\\d{3}-\\d{2}-\\d{4}$") && !(hasPrefix("000") || hasPrefix("666") || (digits.map { $0 }.unique().count == 1))
   }
 
   var int: Int {
