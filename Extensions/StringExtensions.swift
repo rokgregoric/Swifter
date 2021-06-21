@@ -178,6 +178,10 @@ extension String {
     let str = String(format: "%d.%d", major, minor)
     return Double(str) ?? 0
   }
+
+  var base64DecodedData: Data? {
+    return Data(base64Encoded: self)
+  }
 }
 
 extension Substring {
