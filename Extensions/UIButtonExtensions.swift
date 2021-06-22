@@ -23,6 +23,11 @@ extension UIButton {
     set { setImage(newValue, for: .normal) }
   }
 
+  var backgroundImage: UIImage? {
+    get { return backgroundImage(for: .normal) }
+    set { setBackgroundImage(newValue, for: .normal) }
+  }
+
   var titleColor: UIColor? {
     get { return titleColor(for: .normal) }
     set { setTitleColor(newValue, for: .normal) }
