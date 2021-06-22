@@ -37,7 +37,7 @@ extension UIView {
   }
 
   @IBInspectable var scale: CGFloat {
-    get { return 0 }
+    get { return transform.a }
     set { transform = CGAffineTransform(scaleX: newValue, y: newValue) }
   }
 
