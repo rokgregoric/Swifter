@@ -182,6 +182,14 @@ extension String {
   var base64DecodedData: Data? {
     return Data(base64Encoded: self)
   }
+
+  var djb2hash: Int {
+    return unicodeScalars.map { $0.value }.reduce(5381) { ($0 << 5) &+ $0 &+ Int($1) }
+  }
+
+  var sdbmhash: Int {
+    return unicodeScalars.map { $0.value }.reduce(0) { Int($1) &+ ($0 << 6) &+ ($0 << 16) &- $0 }
+  }
 }
 
 extension Substring {
