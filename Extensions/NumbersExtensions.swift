@@ -81,6 +81,11 @@ extension Int {
   var string: String {
     return "\(self)"
   }
+
+  func modded(mod: Int) -> Self {
+    let i = self % mod
+    return i < 0 ? i + mod : i
+  }
 }
 
 extension Bool {
