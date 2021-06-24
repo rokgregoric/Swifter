@@ -12,9 +12,17 @@ extension CGPoint {
     return CGPoint(x: x + point.x, y: y + point.y)
   }
 
+  func subtract(point: CGPoint) -> CGPoint {
+    return CGPoint(x: x - point.x, y: y - point.y)
+  }
+
   func divide(by: Int) -> CGPoint {
     let denominator = CGFloat(by)
     return CGPoint(x: x / denominator, y: y / denominator)
+  }
+
+  func distance(from point: CGPoint) -> CGFloat {
+    return hypot(point.x - x, point.y - y)
   }
 }
 
