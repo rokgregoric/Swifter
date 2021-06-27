@@ -9,6 +9,8 @@ import UIKit
 
 var mainScreenSize: CGSize { return UIScreen.main.bounds.size }
 
+var isPortrait: Bool { return UIApplication.shared.statusBarOrientation.isPortrait }
+
 let shorterScreenSide = min(mainScreenSize.width, mainScreenSize.height)
 let longerScreenSide = max(mainScreenSize.width, mainScreenSize.height)
 
