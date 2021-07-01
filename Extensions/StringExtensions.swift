@@ -154,6 +154,10 @@ extension String {
     return substring(to: 1).capitalized + substring(from: 1)
   }
 
+  func prepending(_ aString: String) -> String {
+    return aString + self
+  }
+
   func matches(regExp: String) -> Bool {
     let predicate = NSPredicate(format:"SELF MATCHES %@", regExp)
     return predicate.evaluate(with: self)
