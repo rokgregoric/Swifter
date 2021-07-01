@@ -12,9 +12,10 @@ enum DateFormat: String {
   case dateOnly = "yyyy-MM-dd"
   case dateTime = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
   case dateTimeFull = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
+  case timestamp = "yyyyMMddHHmmss"
 
   var formatter: DateFormatter {
-    return DateFormatter(format: rawValue, timeZone: self == .timeMili ? nil : .UTC)
+    return DateFormatter.iso8601(format: rawValue, timeZone: self == .timeMili ? nil : .UTC)
   }
 
   func string(from date: Date) -> String {
