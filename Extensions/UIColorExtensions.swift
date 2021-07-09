@@ -32,7 +32,7 @@ extension UIColor {
     return UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
   }
 
-  var hexString: String {
+  var hex: Int {
     var r: CGFloat = 0
     var g: CGFloat = 0
     var b: CGFloat = 0
@@ -44,7 +44,11 @@ extension UIColor {
     let gi = Int(g*0xff)<<8
     let bi = Int(b*0xff)<<0
 
-    return String(format:"#%06x", ri | gi | bi)
+    return ri | gi | bi
+  }
+
+  var hexString: String {
+    return String(format:"#%06x", hex)
   }
 
   static let colorChangeAmount: CGFloat = 0.25
