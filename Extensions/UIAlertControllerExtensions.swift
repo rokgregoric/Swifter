@@ -12,9 +12,9 @@ extension UIAlertController {
     show(title: "Error", message: error.localizedDescription, completion: completion)
   }
 
-  static func show(title: String? = nil, message: String? = nil, completion: (() -> Void)? = nil) {
+  static func show(title: String? = nil, message: String? = nil, buttonTitle: String = "OK", completion: (() -> Void)? = nil) {
     let vc = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    vc.addAction(UIAlertAction(title: "OK", style: .cancel) { _ in completion?() })
+    vc.addAction(UIAlertAction(title: buttonTitle, style: .cancel) { _ in completion?() })
     UIViewController.rootVC?.present(vc, animated: true)
   }
 
