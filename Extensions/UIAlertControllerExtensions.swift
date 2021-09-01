@@ -56,3 +56,16 @@ extension UIAlertController.Style {
     return UIDevice.current.userInterfaceIdiom == .pad ? .alert : .actionSheet
   }
 }
+
+extension UIAlertAction {
+  convenience init(title: String?, style: Style = .default, color: UIColor? = nil, checked: Bool? = nil, handler: (() -> Void)? = nil) {
+    self.init(title: title, style: style, handler: { _ in handler?() })
+    color.map {
+      setValue($0, forKey: "titleTextColor")
+      setValue($0, forKey: "imageTintColor")
+    }
+    checked.map {
+      setValue($0, forKey: "checked")
+    }
+  }
+}
