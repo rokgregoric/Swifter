@@ -8,18 +8,20 @@
 import UIKit
 
 extension UIAlertController {
-  static func show(error: Error, completion: (() -> Void)? = nil) {
+  static func show(error: Error, tint: UIColor? = nil, completion: (() -> Void)? = nil) {
     show(title: "Error", message: error.localizedDescription, completion: completion)
   }
 
-  static func show(title: String? = nil, message: String? = nil, buttonTitle: String = "OK", completion: (() -> Void)? = nil) {
+  static func show(title: String? = nil, message: String? = nil, buttonTitle: String = "OK", tint: UIColor? = nil, completion: (() -> Void)? = nil) {
     let vc = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    tint.map { vc.view.tintColor = $0 }
     vc.addAction(UIAlertAction(title: buttonTitle, style: .cancel) { _ in completion?() })
     UIViewController.rootVC?.present(vc, animated: true)
   }
 
-  static func show(title: String? = nil, message: String? = nil, acceptTitle: String = "Continue", acceptStyle: UIAlertAction.Style = .default, cancelTitle: String = "Cancel", preferAccept: Bool = false, cancel: (() -> Void)? = nil, accept: (() -> Void)? = nil) {
+  static func show(title: String? = nil, message: String? = nil, acceptTitle: String = "Continue", acceptStyle: UIAlertAction.Style = .default, cancelTitle: String = "Cancel", preferAccept: Bool = false, tint: UIColor? = nil, cancel: (() -> Void)? = nil, accept: (() -> Void)? = nil) {
     let vc = UIAlertController(title: title, message: message, preferredStyle: .alert)
+    tint.map { vc.view.tintColor = $0 }
     vc.addAction(UIAlertAction(title: cancelTitle, style: .cancel) { _ in cancel?() })
     vc.addAction(UIAlertAction(title: acceptTitle, style: acceptStyle) { _ in accept?() })
     if preferAccept { vc.preferredAction = vc.actions.last }
