@@ -19,4 +19,6 @@ extension CGRect {
   func outset(by insets: UIEdgeInsets) -> CGRect {
     return inset(by: UIEdgeInsets(top: -insets.top, left: -insets.left, bottom: -insets.bottom, right: -insets.right))
   }
+
+  var center: CGPoint { CGPoint(x: midX, y: midY) }
 }
