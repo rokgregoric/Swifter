@@ -152,6 +152,10 @@ extension Sequence where Iterator.Element == String {
   func joined(_ separator: String) -> String {
     return joined(separator: separator)
   }
+
+  func nilJoined(_ separator: String) -> String? {
+    return map { $0 }.nilIfEmpty?.joined(separator)
+  }
 }
 
 extension Sequence where Iterator.Element == Optional<String> {
@@ -160,6 +164,6 @@ extension Sequence where Iterator.Element == Optional<String> {
   }
 
   func nilFlatJoined(_ separator: String) -> String? {
-    return map { $0?.nilIfEmpty }.nilIfEmpty?.flatJoined(separator)
+    return flat.nilIfEmpty?.joined(separator)
   }
 }
