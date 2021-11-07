@@ -30,7 +30,11 @@ extension UITableView {
   }
 
   func deselectSelectedRow(animated: Bool) {
-      indexPathForSelectedRow.map { self.deselectRow(at: $0, animated: animated) }
+    indexPathForSelectedRow.map { self.deselectRow(at: $0, animated: animated) }
+  }
+
+  func scrollToTopRow(animated: Bool) {
+    scrollToRow(at: 0.indexPath, at: .top, animated: animated)
   }
 }
 

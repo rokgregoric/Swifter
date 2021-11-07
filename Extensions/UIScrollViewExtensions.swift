@@ -13,7 +13,7 @@ extension UIScrollView {
   }
 
   func scrollToTop(animated: Bool) {
-    return scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: animated)
+    scrollRectToVisible(CGRect(x: 0, y: 0, width: 1, height: 1), animated: animated)
   }
 
   @IBInspectable var topContentInset: CGFloat {
