@@ -10,7 +10,7 @@ import CommonCrypto
 
 extension String {
   var md5Data: Data {
-    let messageData = data(using: .utf8)!
+    let messageData = utf8Data
     var digestData = Data(count: Int(CC_MD5_DIGEST_LENGTH))
 
     _ = digestData.withUnsafeMutableBytes { digestBytes -> UInt8 in

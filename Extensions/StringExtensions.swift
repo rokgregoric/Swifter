@@ -195,6 +195,10 @@ extension String {
     let mapped = unicodeScalars.map { $0.value }
     return mapped.reduce(0) { Int($1) &+ ($0 << 6) &+ ($0 << 16) &- $0 }
   }
+  
+  var utf8Data: Data {
+    data(using: .utf8)!
+  }
 }
 
 extension Substring {
