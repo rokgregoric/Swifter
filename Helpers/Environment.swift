@@ -56,6 +56,13 @@ struct Environment {
     #endif
   }()
 
+  static let isiOSAppOnMac: Bool = {
+    if #available(iOS 14.0, *) {
+      return ProcessInfo.processInfo.isiOSAppOnMac
+    }
+    return false
+  }()
+
   static let isTestFlight: Bool = {
     return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
   }()
