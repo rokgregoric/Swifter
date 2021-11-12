@@ -52,7 +52,7 @@ struct Environment {
     #if arch(i386) || arch(x86_64)
     return true
     #else
-    return false
+    return ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] != nil
     #endif
   }()
 
