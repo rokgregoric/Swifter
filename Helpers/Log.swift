@@ -40,6 +40,11 @@ class Log {
     return messages.flat.map { ($0 is [String: Any]) ? "\(JSON($0))" : "\($0)" }.joined(" ")
   }
 
+  class func dev(level: Level = .verbose, _ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
+    if !Environment.isDebuggerAttached { return }
+    custom(level: level, message: stringify(message), file: file, function: function, line: line, context: context)
+  }
+
   class func verbose(_ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .verbose, message: stringify(message), file: file, function: function, line: line, context: context)
   }
