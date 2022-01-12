@@ -32,13 +32,13 @@ extension UIViewController {
     return rootVC
   }
 
-  static func switchRoot(to vc: UIViewController) {
+  static func switchRoot(to vc: UIViewController, animated: Bool = true) {
     let window = mainWindow
     // always dismiss all child controllers otherwise they are retained by the view hierarchy
     window?.rootViewController?.dismiss(animated: false)
 
     window?.rootViewController = vc
-    window?.fade(UIView.animationDuration)
+    if animated { window?.fade(UIView.animationDuration) }
   }
 
   var isFocussed: Bool {
