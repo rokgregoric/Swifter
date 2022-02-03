@@ -7,6 +7,13 @@
 
 import UIKit
 
+extension UIGestureRecognizer {
+  func cancel() {
+    isEnabled = false
+    isEnabled = true
+  }
+}
+
 extension UIGestureRecognizer.State {
   var name: String {
     switch self {
