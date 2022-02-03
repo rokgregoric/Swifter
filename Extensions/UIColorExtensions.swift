@@ -51,24 +51,24 @@ extension UIColor {
     return String(format:"#%06x", hex)
   }
 
-  static let colorChangeAmount: CGFloat = 0.25
+  static let brightnessAmount: CGFloat = 0.25
 
-  func lighter(_ amount: CGFloat = colorChangeAmount) -> UIColor {
-    return colorWithBrightnessAmount(1 + amount)
+  func lighter(_ amount: CGFloat = brightnessAmount) -> UIColor {
+    return color(brightness: 1 + amount)
   }
 
-  func darker(_ amount: CGFloat = colorChangeAmount) -> UIColor {
-    return colorWithBrightnessAmount(1 - amount)
+  func darker(_ amount: CGFloat = brightnessAmount) -> UIColor {
+    return color(brightness: 1 - amount)
   }
 
-  func colorWithBrightnessAmount(_ amount: CGFloat) -> UIColor {
-    var hue: CGFloat = 0
-    var saturation: CGFloat = 0
-    var brightness: CGFloat = 0
-    var alpha: CGFloat = 0
+  func color(hue: CGFloat = 1, saturation: CGFloat = 1, brightness: CGFloat = 1, alpha: CGFloat = 1) -> UIColor {
+    var h: CGFloat = 0
+    var s: CGFloat = 0
+    var b: CGFloat = 0
+    var a: CGFloat = 0
 
-    if getHue(&hue, saturation: &saturation, brightness: &brightness, alpha: &alpha) {
-      return UIColor(hue: hue, saturation: saturation, brightness: brightness * amount, alpha: alpha)
+    if getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
+      return UIColor(hue: h * hue, saturation: s * saturation, brightness: b * brightness, alpha: a * alpha)
     } else {
       return self
     }
