@@ -32,6 +32,10 @@ extension String {
     return replace("&", with: "&amp;").replace("\"", with: "&quot;").replace("'", with: "&#39;").replace("<", with: "&lt;").replace(">", with: "&gt;")
   }
 
+  var htmlDecoded: String {
+    return replace("&nbsp;", with: " ").replace("&amp;", with: "&").replace("&quot;", with: "\"").replace("&#39;", with: "'").replace("&lt;", with: "<").replace("&gt;", with:">")
+  }
+
   var urlDecoded: String {
     return removingPercentEncoding ?? ""
   }
