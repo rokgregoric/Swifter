@@ -68,12 +68,20 @@ extension String {
     return replace(regexp, with: with, options: .regularExpression)
   }
 
+  func replacei(_ regexp: String, with: String) -> String {
+    return replace(regexp, with: with, options: .caseInsensitive)
+  }
+
   func remove(_ substring: String) -> String {
     return replace(substring, with: "")
   }
 
   func regmove(_ regexp: String) -> String {
     return regplace(regexp, with: "")
+  }
+
+  func removei(_ substring: String) -> String {
+    return replacei(substring, with: "")
   }
 
   func splitString(_ string: String, length: Int) -> [String] {
