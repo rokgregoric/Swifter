@@ -57,4 +57,9 @@ extension NSLayoutConstraint {
     get { return constant }
     set { if isIpad { constant = newValue } }
   }
+
+  @IBInspectable var iPadMiniConstant: CGFloat {
+    get { return constant }
+    set { if isIpadMini { constant = newValue } }
+  }
 }
