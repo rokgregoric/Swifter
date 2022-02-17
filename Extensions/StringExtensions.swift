@@ -166,6 +166,10 @@ extension String {
     return substring(to: 1).capitalized + substring(from: 1)
   }
 
+  var rawCapitalized: String {
+    regplace("([A-Z])", with: " $1").firstCapitalized
+  }
+
   func prepending(_ aString: String) -> String {
     return aString + self
   }
