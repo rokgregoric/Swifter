@@ -28,7 +28,7 @@ extension URL {
 
   func appending(params: [String: Any]) -> URL? {
     guard var comp = components else { return nil }
-    comp.queryItems = queryItems + params.queryItems
+    comp.queryItems = queryItems + params.queryItems.sorted { $0.name < $1.name }
     return comp.url
   }
 
