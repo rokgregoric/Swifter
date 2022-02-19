@@ -170,6 +170,10 @@ extension String {
     regplace("([A-Z])", with: " $1").firstCapitalized
   }
 
+  var snakeCased: String {
+    regplace("([A-Z])", with: "_$1").lowercased()
+  }
+
   func prepending(_ aString: String) -> String {
     return aString + self
   }
