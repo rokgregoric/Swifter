@@ -166,7 +166,7 @@ extension String {
     return substring(to: 1).capitalized + substring(from: 1)
   }
 
-  var rawCapitalized: String {
+  var rawNormalized: String {
     regplace("([A-Z])", with: " $1").firstCapitalized
   }
 
