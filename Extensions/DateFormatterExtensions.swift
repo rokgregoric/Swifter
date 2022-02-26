@@ -33,11 +33,11 @@ extension DateFormatter {
   }
 
   public static var iso8601full: DateFormatter {
-    return DateFormat.dateTimeFull.formatter
+    return DateFormat.dateTimeFull.formatter()
   }
 
   public static var iso8601: DateFormatter {
-    return DateFormat.dateTime.formatter
+    return DateFormat.dateTime.formatter()
   }
 
   func string(if date: Date?) -> String? {
