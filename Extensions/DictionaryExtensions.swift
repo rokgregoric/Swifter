@@ -8,12 +8,12 @@
 import Foundation
 
 extension Dictionary {
-  func map<K, V>(transform: (_ key: Key, _ value: Value) -> (K, V)) -> [K: V] {
-    return dic(map { transform($0, $1) })
+  func map<K, V>(transform: ((key: Key, value: Value)) -> (K, V)) -> [K: V] {
+    return dic(map(transform))
   }
 
-  func flatMap<K, V>(transform: (_ key: Key, _ value: Value) -> (K?, V?)) -> [K: V] {
-    return dic(compactMap { let (k, v) = transform($0, $1); return (k == nil || v == nil ? nil : (k!, v!)) })
+  func flatMap<K, V>(transform: ((key: Key, value: Value)) -> (K?, V?)) -> [K: V] {
+    return dic(compactMap { let (k, v) = transform($0); return (k == nil || v == nil ? nil : (k!, v!)) })
   }
 
   var urlParams: String? {
