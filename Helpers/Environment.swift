@@ -13,7 +13,7 @@ struct Environment {
   }
 
   static var appName: String {
-    return value(for: "CFBundleName") ?? ""
+    return value(for: "CFBundleDisplayName") ?? value(for: "CFBundleName") ?? ""
   }
 
   static var build: String {
