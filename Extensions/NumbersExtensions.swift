@@ -86,16 +86,14 @@ extension Int {
     let i = self % mod
     return i < 0 ? i + mod : i
   }
+
+  var double: Double { Double(self) }
+  var cgfloat: CGFloat { CGFloat(self) }
 }
 
 extension Bool {
-  var int: Int {
-    return self ? 1 : 0
-  }
-
-  var cgfloat: CGFloat {
-    return CGFloat(int)
-  }
+  var int: Int { self ? 1 : 0 }
+  var cgfloat: CGFloat { int.cgfloat }
 }
 
 private func formatter() -> NumberFormatter {
