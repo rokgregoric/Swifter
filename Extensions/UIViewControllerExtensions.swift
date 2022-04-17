@@ -107,28 +107,31 @@ extension UIViewController {
 
 // MARK: - UIPopoverPresentationController
 
-extension UIPopoverPresentationController {
-  enum Position {
-    case min(CGFloat)
-    case mid(CGFloat)
-    case max(CGFloat)
-  }
+enum Position {
+  case min(CGFloat)
+  case mid(CGFloat)
+  case max(CGFloat)
 
+  static func point(x: Position, y: Position, for bounds: CGRect) -> CGPoint {
+    var p = CGPoint.zero
+    switch x {
+      case .min(let o): p.x = bounds.minX + o
+      case .mid(let o): p.x = bounds.midX + o
+      case .max(let o): p.x = bounds.maxX + o
+    }
+    switch y {
+      case .min(let o): p.y = bounds.minY + o
+      case .mid(let o): p.y = bounds.midY + o
+      case .max(let o): p.y = bounds.maxY + o
+    }
+    return p
+  }
+}
+
+extension UIPopoverPresentationController {
   func setup(x: Position, y: Position, color: UIColor? = nil, vc: UIViewController? = nil) {
     if let sourceView = sourceView {
-      let rectX: CGFloat
-      let rectY: CGFloat
-      switch x {
-        case .min(let offset): rectX = sourceView.bounds.minX + offset
-        case .mid(let offset): rectX = sourceView.bounds.midX + offset
-        case .max(let offset): rectX = sourceView.bounds.maxX + offset
-      }
-      switch y {
-        case .min(let offset): rectY = sourceView.bounds.minY + offset
-        case .mid(let offset): rectY = sourceView.bounds.midY + offset
-        case .max(let offset): rectY = sourceView.bounds.maxY + offset
-      }
-      sourceRect = CGRect(x: rectX, y: rectY, width: 0, height: 0)
+      sourceRect = CGRect(origin: Position.point(x: x, y: y, for: sourceView.bounds), size: .zero)
     }
     backgroundColor = color ?? vc?.view.backgroundColor
   }
@@ -138,4 +141,3 @@ extension UIPopoverPresentationController {
     permittedArrowDirections = arrowDirections
   }
 }
-

@@ -29,6 +29,10 @@ extension UIView {
     return window != nil
   }
 
+  func convertBounds(to: UIView?) -> CGRect {
+    convert(bounds, to: to)
+  }
+
   // MARK: - Transform
 
   @IBInspectable var rotation: CGFloat {
