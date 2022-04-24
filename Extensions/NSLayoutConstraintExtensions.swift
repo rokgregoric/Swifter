@@ -62,4 +62,9 @@ extension NSLayoutConstraint {
     get { return constant }
     set { if isIpadMini { constant = newValue } }
   }
+
+  func activate(priority: UILayoutPriority? = nil) {
+    priority.map { self.priority = $0 }
+    isActive = true
+  }
 }
