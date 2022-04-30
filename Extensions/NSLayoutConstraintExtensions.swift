@@ -67,4 +67,8 @@ extension NSLayoutConstraint {
     priority.map { self.priority = $0 }
     isActive = true
   }
+
+  func deactivate() {
+    isActive = false
+  }
 }
