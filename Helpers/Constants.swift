@@ -7,9 +7,23 @@
 
 import UIKit
 
-var mainScreenSize: CGSize { return UIScreen.main.bounds.size }
+var mainScreenSize: CGSize { UIScreen.main.bounds.size }
 
-var isPortrait: Bool { return UIApplication.shared.statusBarOrientation.isPortrait }
+var keyWindow: UIWindow? {
+  if #available(iOS 13.0, *) {
+    return UIApplication.shared.windows.first { $0.isKeyWindow }
+  } else {
+    return UIApplication.shared.keyWindow
+  }
+}
+
+var isPortrait: Bool {
+  if #available(iOS 13.0, *) {
+    return keyWindow?.windowScene?.interfaceOrientation.isPortrait ?? false
+  } else {
+    return UIApplication.shared.statusBarOrientation.isPortrait
+  }
+}
 
 let shorterScreenSide = min(mainScreenSize.width, mainScreenSize.height)
 let longerScreenSide = max(mainScreenSize.width, mainScreenSize.height)
@@ -37,5 +51,10 @@ let isIphoneSE = isSmallPhone // deprecated
 let isNonPlusPhone = isNormalShortPhone // deprecated
 let isPlusPhone = isLargeShortPhone // deprecated
 
-var keyWindowSafeAreaInsets: UIEdgeInsets { return UIApplication.shared.keyWindow?.safeAreaInsets ?? .zero }
-let isSafeAreaInset = keyWindowSafeAreaInsets != .zero
+var keyWindowSafeAreaInsets: UIEdgeInsets { keyWindow?.safeAreaInsets ?? .zero }
+
+var isSafeAreaInset: Bool {
+  var i = keyWindowSafeAreaInsets
+  i.top = 0
+  return i != .zero
+}
