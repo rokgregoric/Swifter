@@ -14,7 +14,11 @@ extension Notification.Name {
   static let appWillEnterForeground = UIApplication.willEnterForegroundNotification
   static let appDidBecomeActive = UIApplication.didBecomeActiveNotification
   static let appWillResignActive = UIApplication.willResignActiveNotification
+  static let appWillTerminate = UIApplication.willTerminateNotification
 
   // Keyboard
   static let keyboardWillChangeFrame = UIResponder.keyboardWillChangeFrameNotification
+
+  // Orientation
+  static let orientationDidChange = UIDevice.orientationDidChangeNotification
 }
