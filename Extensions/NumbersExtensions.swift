@@ -8,21 +8,14 @@
 import UIKit
 import CoreGraphics
 
-func clamp<T: Comparable>(_ value: T, min lo: T, max hi: T) -> T {
-  return min(max(lo, value), hi)
-}
+func clamp<T: Comparable>(_ value: T, min lo: T, max hi: T) -> T { min(max(lo, value), hi) }
 
 let mainScreenScale = UIScreen.main.scale // read UIScreen.mainScreen().scale only once since is expensive and impacts scrolling performance
 
 extension Double {
-  var pixelValue: CGFloat {
-    return CGFloat(self) / mainScreenScale
-  }
-
-  func formatted(to decimals: Int) -> String {
-    return String(format: "%.\(decimals)f", self)
-  }
-
+  var int: Int { Int(self) }
+  var pixelValue: CGFloat { CGFloat(self) / mainScreenScale }
+  func formatted(to decimals: Int) -> String { String(format: "%.\(decimals)f", self) }
 
   func rounded(to decimals: Int) -> Double {
     let divisor = pow(10, decimals).doubleValue
@@ -31,56 +24,35 @@ extension Double {
 }
 
 extension CGFloat {
-  var pixelRounded: CGFloat {
-    return (self * mainScreenScale).rounded() / mainScreenScale
-  }
-
-  func formatted(to decimals: Int) -> String {
-    return String(format: "%.\(decimals)f", self)
-  }
+  var pixelRounded: CGFloat { (self * mainScreenScale).rounded() / mainScreenScale }
+  func formatted(to decimals: Int) -> String { String(format: "%.\(decimals)f", self) }
 }
 
 extension NSNumber {
-  var cgfloat: CGFloat {
-    return CGFloat(truncating: self)
-  }
+  var cgfloat: CGFloat { CGFloat(truncating: self) }
 }
 
 extension TimeInterval {
-  static var since1970: TimeInterval {
-    return Date().timeIntervalSince1970
-  }
+  static var since1970: TimeInterval { Date().timeIntervalSince1970 }
 }
 
 extension Int {
   /// Range - 0 ..< n
-  var range: CountableRange<Int> {
-    return 0..<self
-  }
+  var range: CountableRange<Int> { 0..<self }
 
   /// Repeat n-times - no parameter
-  func times(_ block: () -> Void) {
-    range.forEach { _ in block() }
-  }
+  func times(_ block: () -> Void) { range.forEach { _ in block() } }
 
   /// Repeat n-times - index as parameter
-  func forEach(_ block: (Int) -> Void) {
-    range.forEach(block)
-  }
+  func forEach(_ block: (Int) -> Void) { range.forEach(block) }
 
   /// Return array with n elements - no parameter
-  func maps<T>(_ block: () -> T) -> [T] {
-    return range.map { _ in block() }
-  }
+  func maps<T>(_ block: () -> T) -> [T] { range.map { _ in block() } }
 
   /// Return array with n elements - index as parameter
-  func map<T>(_ block: (Int) -> T) -> [T] {
-    return range.map(block)
-  }
+  func map<T>(_ block: (Int) -> T) -> [T] { range.map(block) }
 
-  var string: String {
-    return "\(self)"
-  }
+  var string: String { "\(self)" }
 
   func modded(mod: Int) -> Self {
     let i = self % mod
@@ -105,11 +77,9 @@ private func formatter() -> NumberFormatter {
 }
 
 extension Decimal {
-  public func stringValue() -> String? {
-    return formatter().string(for: self)
-  }
+  func string() -> String? { formatter().string(for: self) }
 
-  public init?(fromString: String) {
+  init?(fromString: String) {
     let separator = Locale.current.decimalSeparator ?? "."
     if let value = formatter().number(from: fromString.replace(".", with: separator))?.decimalValue {
       self = value
@@ -118,13 +88,8 @@ extension Decimal {
     }
   }
 
-  var decimalNumber: NSDecimalNumber {
-    return self as NSDecimalNumber
-  }
-
-  var doubleValue: Double {
-    return decimalNumber.doubleValue
-  }
+  var decimalNumber: NSDecimalNumber { self as NSDecimalNumber }
+  var doubleValue: Double { decimalNumber.doubleValue }
 }
 
 func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
@@ -143,10 +108,6 @@ func <= <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   }
 }
 
-func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
-  return rhs < lhs
-}
+func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool { rhs < lhs }
 
-func >= <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
-  return rhs <= lhs
-}
+func >= <T: Comparable>(lhs: T?, rhs: T?) -> Bool { rhs <= lhs }
