@@ -94,38 +94,32 @@ extension UIView {
 
   @nonobjc
   var width: CGFloat {
-    get { return frame.width }
-    set { frame.size.width = newValue }
+    get { frame.width }
+    set { frame.height = newValue }
   }
 
   @nonobjc
   var height: CGFloat {
-    get { return frame.height }
-    set { frame.size.height = newValue }
+    get { frame.height }
+    set { frame.height = newValue }
   }
 
-  func set(x: CGFloat, y: CGFloat) {
-    frame.origin = CGPoint(x: x, y: y)
+  @nonobjc
+  var x: CGFloat {
+    get { frame.x }
+    set { frame.x = newValue }
   }
 
-  func set(x: CGFloat) {
-    frame.origin.x = x
+  @nonobjc
+  var y: CGFloat {
+    get { frame.y }
+    set { frame.y = newValue }
   }
 
-  func set(y: CGFloat) {
-    frame.origin.y = y
-  }
-
-  func set(width: CGFloat, height: CGFloat) {
-    frame.size = CGSize(width: width, height: height)
-  }
-
-  func set(width: CGFloat) {
-    frame.size.width = width
-  }
-
-  func set(height: CGFloat) {
-    frame.size.height = height
+  @nonobjc
+  var center: CGPoint {
+    get { frame.center }
+    set { frame.center = newValue }
   }
 
   // MARK: - Fade
@@ -297,5 +291,37 @@ extension UICollectionView: NibRegistrable {
 
   var flowLayout: UICollectionViewFlowLayout? {
     return collectionViewLayout as? UICollectionViewFlowLayout
+  }
+}
+
+extension CGRect {
+  @nonobjc
+  var width: CGFloat {
+    get { size.width }
+    set { size.width = newValue }
+  }
+
+  @nonobjc
+  var height: CGFloat {
+    get { size.height }
+    set { size.height = newValue }
+  }
+
+  @nonobjc
+  var x: CGFloat {
+    get { origin.x }
+    set { origin.x = newValue }
+  }
+
+  @nonobjc
+  var y: CGFloat {
+    get { origin.y }
+    set { origin.y = newValue }
+  }
+
+  @nonobjc
+  var center: CGPoint {
+    get { CGPoint(x: x + width/2, y: y + height/2) }
+    set { origin = CGPoint(x: newValue.x - width/2, y: newValue.y - height/2) }
   }
 }
