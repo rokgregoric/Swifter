@@ -37,7 +37,10 @@ class Log {
   }
 
   private class func stringify(_ messages: [Any?]) -> String {
-    return messages.flat.map { ($0 is [String: Any]) ? "\(JSON($0))" : "\($0)" }.joined(" ")
+    messages.flat.map {
+      ($0 as? [String: Any]).map { JSON($0).description } ??
+      ($0 as? [CustomStringConvertible]).map { $0.isEmpty ? "[]" : JSON($0.map { $0.description }).description } ?? "\($0)"
+    }.joined(" ")
   }
 
   class func dev(level: Level = .verbose, _ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
