@@ -21,7 +21,7 @@ extension Dictionary {
   }
 
   var queryItems: [URLQueryItem] {
-    return map { URLQueryItem(name: "\($0.key)", value: "\($0.value)") }
+    return map { URLQueryItem(name: "\($0.key)", value: "\($0.value)") }.sorted { $0.name < $1.name }
   }
 }
 
