@@ -293,35 +293,3 @@ extension UICollectionView: NibRegistrable {
     return collectionViewLayout as? UICollectionViewFlowLayout
   }
 }
-
-extension CGRect {
-  @nonobjc
-  var width: CGFloat {
-    get { size.width }
-    set { size.width = newValue }
-  }
-
-  @nonobjc
-  var height: CGFloat {
-    get { size.height }
-    set { size.height = newValue }
-  }
-
-  @nonobjc
-  var x: CGFloat {
-    get { origin.x }
-    set { origin.x = newValue }
-  }
-
-  @nonobjc
-  var y: CGFloat {
-    get { origin.y }
-    set { origin.y = newValue }
-  }
-
-  @nonobjc
-  var center: CGPoint {
-    get { CGPoint(x: x + width/2, y: y + height/2) }
-    set { origin = CGPoint(x: newValue.x - width/2, y: newValue.y - height/2) }
-  }
-}
