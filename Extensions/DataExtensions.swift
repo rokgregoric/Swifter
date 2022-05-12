@@ -41,4 +41,11 @@ extension Data {
   var base64ImageString: String {
     return "data:image/png;base64,\(base64EncodedString(options:.lineLength64Characters))"
   }
+
+  func array<T>(of type: T.Type) -> [T] {
+    let v = withUnsafeBytes { $0.load(as: type) }
+    var arr = Array<T>(repeating: v, count: count/MemoryLayout<T>.stride)
+    _ = arr.withUnsafeMutableBytes { copyBytes(to: $0) }
+    return arr
+  }
 }
