@@ -14,27 +14,23 @@ enum DateFormat: String {
   case dateTimeFull = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
   case timestamp = "yyyyMMddHHmmss"
 
+  /// true when the timezone is specified in the format
+  var isUTC: Bool { [.dateTime, .dateTimeFull].contains(self) }
+
   func formatter(timeZone: TimeZone? = nil) -> DateFormatter {
-    return DateFormatter.iso8601(format: rawValue, timeZone: timeZone ?? (self == .timeMili ? nil : .UTC))
+    DateFormatter.iso8601(format: rawValue, timeZone: timeZone ?? (isUTC ? .UTC : nil))
   }
 
-  func string(from date: Date) -> String {
-    return formatter().string(from: date)
-  }
+  func string(from date: Date) -> String { formatter().string(from: date) }
+  func string(from date: Date, timeZone: TimeZone) -> String { formatter(timeZone: timeZone).string(from: date) }
 
-  func date(from string: String) -> Date? {
-    return formatter().date(from: string)
-  }
-
-  func date(from string: String, timeZone: TimeZone) -> Date? {
-    return formatter(timeZone: timeZone).date(from: string)
-  }
+  func date(from string: String) -> Date? { formatter().date(from: string) }
+  func date(from string: String, timeZone: TimeZone) -> Date? { formatter(timeZone: timeZone).date(from: string) }
 
   static func date(from string: String) -> Date? {
-    return dateTime.date(from: string) ?? dateTimeFull.date(from: string) ?? dateOnly.date(from: string)
+    dateTime.date(from: string) ?? dateTimeFull.date(from: string) ?? dateOnly.date(from: string)
   }
 
-  var currentString: String {
-    return string(from: Date())
-  }
+  var currentString: String { string(from: Date()) }
+  func currentString(timeZone: TimeZone) -> String { string(from: Date(), timeZone: timeZone) }
 }
