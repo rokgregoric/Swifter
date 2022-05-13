@@ -17,12 +17,12 @@ class Log {
     case warning = 3
     case error = 4
 
-    var symbol: String {
+    var symbol: String? {
       switch self {
-        case .verbose: return "🟣"
+        case .verbose: return nil
         case .debug: return "🟢"
         case .info: return "🔵"
-        case .warning: return "🟡"
+        case .warning: return "🟠"
         case .error: return "🔴"
       }
     }
@@ -93,13 +93,12 @@ class Log {
   /// swizzlable
   @objc dynamic func custom(type: OSLogType, messages: String, file: String, function: String, line: Int, context: String?) {
     let c = context?.uppercased()
-    let msg = [c.map { "[\($0)]" }, messages].flatJoined(" ")
-    let symbol = type.logLevel.symbol
+    let msg = [c.map { "[\($0)]" }, type.logLevel.symbol, messages].flatJoined(" ")
     if Environment.isDebuggerAttached {
-      print(DateFormat.timeMili.currentString, symbol, msg)
+      print(DateFormat.timeMili.currentString, msg)
     } else {
       let log = OSLog(subsystem: Environment.identifier, category: c ?? "")
-      os_log("%{public}@ %{public}@", log: log, type: type, symbol, msg)
+      os_log("%{public}@ %{public}@", log: log, type: type, msg)
     }
   }
 }
