@@ -48,4 +48,8 @@ extension Data {
     _ = arr.withUnsafeMutableBytes { copyBytes(to: $0) }
     return arr
   }
+
+  var safeString: String? {
+    array(of: CChar.self).withUnsafeBufferPointer { String(cString: $0.baseAddress!) }.components(separatedBy: .controlCharacters).joined()
+  }
 }
