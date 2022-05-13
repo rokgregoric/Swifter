@@ -27,19 +27,16 @@ class Log {
       }
     }
 
-    var name: String {
-      return "\(self)".uppercased()
-    }
+    var name: String { "\(self)".uppercased() }
 
-    var id: String {
-      return "[\(name)]"
-    }
+    var id: String { "[\(name)]" }
   }
 
   private class func stringify(_ messages: [Any?]) -> String {
     messages.flat.map {
-      ($0 as? [String: Any]).map { JSON($0).description } ??
-      ($0 as? [CustomStringConvertible]).map { $0.isEmpty ? "[]" : JSON($0.map { $0.description }).description } ?? "\($0)"
+      ($0 as? [String: Any]).flatMap { JSON($0).rawString() } ??
+      ($0 as? [Any]).flatMap { JSON($0).rawString() } ??
+      ($0 as? [CustomStringConvertible]).flatMap { $0.isEmpty ? "[]" : JSON($0.map { $0.description }).rawString() } ?? "\($0)"
     }.joined(" ")
   }
 
