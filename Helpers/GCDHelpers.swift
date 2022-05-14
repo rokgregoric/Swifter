@@ -46,7 +46,7 @@ class Run {
 }
 
 
-class Task {
+class RunTask {
   fileprivate var block: (() -> Void)?
 
   init(_ after: Double, _ block: @escaping () -> Void) {
