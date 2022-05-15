@@ -27,6 +27,8 @@ class Log {
       }
     }
 
+    var symbolValue: String { symbol ?? "🟣" }
+
     var name: String { "\(self)".uppercased() }
 
     var id: String { "[\(name)]" }
@@ -93,12 +95,13 @@ class Log {
   /// swizzlable
   @objc dynamic func custom(type: OSLogType, messages: String, file: String, function: String, line: Int, context: String?) {
     let c = context?.uppercased()
-    let msg = [c.map { "[\($0)]" }, type.logLevel.symbol, messages].flatJoined(" ")
+    let msg = [c.map { "[\($0)]" }, messages].flatJoined(" ")
+    let symbol = type.logLevel.symbolValue
     if Environment.isDebuggerAttached {
-      print(DateFormat.timeMili.currentString, msg)
+      print(DateFormat.timeMili.currentString, symbol, msg)
     } else {
       let log = OSLog(subsystem: Environment.identifier, category: c ?? "")
-      os_log("%{public}@ %{public}@", log: log, type: type, msg)
+      os_log("%{public}@ %{public}@", log: log, type: type, symbol, msg)
     }
   }
 }
