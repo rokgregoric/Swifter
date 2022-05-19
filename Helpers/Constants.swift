@@ -17,13 +17,15 @@ var keyWindow: UIWindow? {
   }
 }
 
-var isPortrait: Bool {
+var interfaceOrientation: UIInterfaceOrientation {
   if #available(iOS 13.0, *) {
-    return keyWindow?.windowScene?.interfaceOrientation.isPortrait ?? false
+    return keyWindow?.windowScene?.interfaceOrientation ?? .unknown
   } else {
-    return UIApplication.shared.statusBarOrientation.isPortrait
+    return UIApplication.shared.statusBarOrientation
   }
 }
+
+var isPortrait: Bool { interfaceOrientation.isPortrait }
 
 let shorterScreenSide = min(mainScreenSize.width, mainScreenSize.height)
 let longerScreenSide = max(mainScreenSize.width, mainScreenSize.height)
