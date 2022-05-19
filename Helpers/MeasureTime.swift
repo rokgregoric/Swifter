@@ -12,11 +12,11 @@ func measureStart() -> Double {
 }
 
 func measureEnd(_ start: Double) -> String {
-  return (CACurrentMediaTime() - start).formatted(to: 3)
+  return (CACurrentMediaTime() - start).formatted(to: 6)
 }
 
 func measure(_ start: Double, _ text: String) {
-  Log.warning(text, measureEnd(start), context: "measure time")
+  Log.dev(text, measureEnd(start), context: "measure time")
 }
 
 func measure(_ text: String, block: () -> Void) {
