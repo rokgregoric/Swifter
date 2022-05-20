@@ -128,6 +128,19 @@ extension Sequence where Iterator.Element: Hashable {
   }
 }
 
+
+extension Sequence where Element: AdditiveArithmetic {
+  func sum() -> Element { reduce(.zero, +) }
+}
+
+extension Collection where Element: BinaryInteger {
+  func average() -> Element { isEmpty ? .zero : sum() / Element(count) }
+}
+
+extension Collection where Element: FloatingPoint {
+  func average() -> Element { isEmpty ? .zero : sum() / Element(count) }
+}
+
 protocol OptionalProtocol {
   associatedtype Wrapped
   var val: Wrapped? { get }
