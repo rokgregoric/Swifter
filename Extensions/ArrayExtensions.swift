@@ -55,6 +55,8 @@ extension Array {
     forEach { result.insert(random: $0) }
     return result
   }
+
+  var ns: NSArray { self as NSArray }
 }
 
 extension Collection {
