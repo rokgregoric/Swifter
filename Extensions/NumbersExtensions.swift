@@ -15,7 +15,6 @@ let mainScreenScale = UIScreen.main.scale // read UIScreen.mainScreen().scale on
 extension Double {
   var int: Int { Int(self) }
   var pixelValue: CGFloat { CGFloat(self) / mainScreenScale }
-  func formatted(to decimals: Int) -> String { String(format: "%.\(decimals)f", self) }
 
   func rounded(to decimals: Int) -> Double {
     let divisor = pow(10, decimals).doubleValue
@@ -25,7 +24,6 @@ extension Double {
 
 extension CGFloat {
   var pixelRounded: CGFloat { (self * mainScreenScale).rounded() / mainScreenScale }
-  func formatted(to decimals: Int) -> String { String(format: "%.\(decimals)f", self) }
 }
 
 extension NSNumber {
@@ -111,3 +109,7 @@ func <= <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
 func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool { rhs < lhs }
 
 func >= <T: Comparable>(lhs: T?, rhs: T?) -> Bool { rhs <= lhs }
+
+extension FloatingPoint {
+  func formatted(to decimals: Int) -> String { String(format: "%.\(decimals)f", self as! CVarArg) }
+}
