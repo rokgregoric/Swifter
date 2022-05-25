@@ -50,15 +50,10 @@ extension Int {
   /// Return array with n elements - index as parameter
   func map<T>(_ block: (Int) -> T) -> [T] { range.map(block) }
 
-  var string: String { "\(self)" }
-
   func modded(mod: Int) -> Self {
     let i = self % mod
     return i < 0 ? i + mod : i
   }
-
-  var double: Double { Double(self) }
-  var cgfloat: CGFloat { CGFloat(self) }
 }
 
 extension Bool {
@@ -109,6 +104,12 @@ func <= <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
 func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool { rhs < lhs }
 
 func >= <T: Comparable>(lhs: T?, rhs: T?) -> Bool { rhs <= lhs }
+
+extension BinaryInteger {
+  var string: String { "\(self)" }
+  var double: Double { Double(self) }
+  var cgfloat: CGFloat { CGFloat(self) }
+}
 
 extension FloatingPoint {
   func formatted(to decimals: Int) -> String { String(format: "%.\(decimals)f", self as! CVarArg) }
