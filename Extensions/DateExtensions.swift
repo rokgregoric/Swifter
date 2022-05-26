@@ -36,6 +36,10 @@ extension Date {
     return Calendar.current.isDateInTomorrow(self)
   }
 
+  var isWeekend: Bool {
+    return Calendar.current.isDateInWeekend(self)
+  }
+
   var isInLast7days: Bool {
     return Calendar.current.startOfDay(for: Date().adding(days: -7)) < self
   }
