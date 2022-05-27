@@ -8,22 +8,15 @@
 import Foundation
 
 extension Array {
-  func object(at index: Int) -> Element? {
-    return (0 ..< count).contains(index) ? self[index] : nil
-  }
+  func object(at index: Int) -> Element? { (0 ..< count).contains(index) ? self[index] : nil }
 
-  var randomIndex: Int {
-    return Int.random(in: count.range)
-  }
+  func object(mod index: Int) -> Element? { object(at: index % count) }
 
-  var random: Element? {
-    return object(at: randomIndex)
-  }
+  var randomIndex: Int { Int.random(in: count.range) }
 
-  mutating func removeRandom() -> Element? {
-    if count == 0 { return nil }
-    return remove(at: randomIndex)
-  }
+  var random: Element? { object(at: randomIndex) }
+
+  mutating func removeRandom() -> Element? { count == 0 ? nil : remove(at: randomIndex) }
 
   mutating func insert(random object: Element) {
     let index = isEmpty ? 0 : Int.random(in: (count+1).range)
@@ -60,27 +53,17 @@ extension Array {
 }
 
 extension Collection {
-  var nilIfEmpty: Self? {
-    return isEmpty ? nil : self
-  }
+  var nilIfEmpty: Self? { isEmpty ? nil : self }
 
-  var hasOne: Bool {
-    return count == 1
-  }
+  var hasOne: Bool { count == 1 }
 
-  var firstIfAlone: Element? {
-    return hasOne ? first : nil
-  }
+  var firstIfHasOne: Element? { hasOne ? first : nil }
 
-  var notEmpty: Bool {
-    return !isEmpty
-  }
+  var notEmpty: Bool { !isEmpty }
 }
 
 extension Optional where Wrapped: Collection {
-  var nilIfEmpty: Wrapped? {
-    return self?.nilIfEmpty
-  }
+  var nilIfEmpty: Wrapped? { self?.nilIfEmpty }
 }
 
 extension Array where Iterator.Element: Equatable {
@@ -108,25 +91,25 @@ extension Array where Iterator.Element: Equatable {
 
 extension Sequence where Iterator.Element: Equatable {
   public func containsNil(_ element: Iterator.Element?) -> Bool {
-    return element.map(contains) ?? false
+    element.map(contains) ?? false
   }
 
   public func excludes(_ element: Iterator.Element) -> Bool {
-    return !contains(element)
+    !contains(element)
   }
 
   public func excludesNil(_ element: Iterator.Element?) -> Bool {
-    return element.map(excludes) ?? true
+    element.map(excludes) ?? true
   }
 }
 
 extension Sequence where Iterator.Element: Hashable {
   func unique() -> [Iterator.Element] {
-    return Array(Set<Iterator.Element>(self))
+    Array(Set<Iterator.Element>(self))
   }
 
   func uniqueOrdered() -> [Iterator.Element] {
-    return reduce([Iterator.Element]()) { $0.contains($1) ? $0 : $0 + [$1] }
+    reduce([Iterator.Element]()) { $0.contains($1) ? $0 : $0 + [$1] }
   }
 }
 
@@ -149,12 +132,12 @@ protocol OptionalProtocol {
 }
 
 extension Optional: OptionalProtocol {
-  public var val: Wrapped? { return self }
+  public var val: Wrapped? { self }
 }
 
 extension Sequence where Iterator.Element: OptionalProtocol {
   var flat: [Iterator.Element.Wrapped] {
-    return compactMap {
+    compactMap {
       if let str = ($0.val as? String)?.nilIfEmpty {
         return str as? Iterator.Element.Wrapped
       }
@@ -165,20 +148,20 @@ extension Sequence where Iterator.Element: OptionalProtocol {
 
 extension Sequence where Iterator.Element == String {
   func joined(_ separator: String) -> String {
-    return joined(separator: separator)
+    joined(separator: separator)
   }
 
   func nilJoined(_ separator: String) -> String? {
-    return map { $0 }.nilIfEmpty?.joined(separator)
+    map { $0 }.nilIfEmpty?.joined(separator)
   }
 }
 
 extension Sequence where Iterator.Element == Optional<String> {
   func flatJoined(_ separator: String) -> String {
-    return flat.joined(separator)
+    flat.joined(separator)
   }
 
   func nilFlatJoined(_ separator: String) -> String? {
-    return flat.nilIfEmpty?.joined(separator)
+    flat.nilIfEmpty?.joined(separator)
   }
 }
