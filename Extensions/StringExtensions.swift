@@ -8,118 +8,77 @@
 import Foundation
 
 extension String {
-  var url: URL? {
-    return URL(string: self)
-  }
+  var url: URL? { URL(string: self) }
 
-  var fileURL: URL? {
-    return URL(fileURLWithPath: self)
-  }
+  var fileURL: URL? { URL(fileURLWithPath: self) }
 
-  var urlEncoded: String {
-    return escaped(.urlHostAllowed).plusAndEncoded
-  }
+  var urlEncoded: String { escaped(.urlHostAllowed).plusAndEncoded }
 
-  var plusAndEncoded: String {
-    return replace("+", with: "%2B").replace("&", with: "%26")
-  }
+  var plusAndEncoded: String { replace("+", with: "%2B").replace("&", with: "%26") }
 
   var plusAndDecoded: String {
-    return replace("%2B", with: "+").replace("%26", with: "&").replace("(", with: "%28").replace(")", with: "%29")
+    replace("%2B", with: "+").replace("%26", with: "&").replace("(", with: "%28").replace(")", with: "%29")
   }
 
   var htmlEncoded: String {
-    return replace("&", with: "&amp;").replace("\"", with: "&quot;").replace("'", with: "&#39;").replace("<", with: "&lt;").replace(">", with: "&gt;")
+    replace("&", with: "&amp;").replace("\"", with: "&quot;").replace("'", with: "&#39;").replace("<", with: "&lt;").replace(">", with: "&gt;")
   }
 
   var htmlDecoded: String {
-    return replace("&nbsp;", with: " ").replace("&amp;", with: "&").replace("&quot;", with: "\"").replace("&#39;", with: "'").replace("&lt;", with: "<").replace("&gt;", with:">")
+    replace("&nbsp;", with: " ").replace("&amp;", with: "&").replace("&quot;", with: "\"").replace("&#39;", with: "'").replace("&lt;", with: "<").replace("&gt;", with:">")
   }
 
-  var urlDecoded: String {
-    return removingPercentEncoding ?? ""
-  }
+  var urlDecoded: String { removingPercentEncoding ?? "" }
 
-  var trimmed: String {
-    return trimmingCharacters(in: .whitespacesAndNewlines)
-  }
+  var trimmed: String { trimmingCharacters(in: .whitespacesAndNewlines) }
 
-  var digits: String {
-    return components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
-  }
+  var digits: String { removed(.decimalDigits.inverted) }
 
-  var removedSpacesAndNewlines: String {
-    return components(separatedBy: CharacterSet.whitespacesAndNewlines).joined()
-  }
+  var removedSpacesAndNewlines: String { removed(.whitespacesAndNewlines) }
+
+  func removed(_ characterSet: CharacterSet) -> String { components(separatedBy: characterSet).joined() }
 
   func escaped(_ characterSet: CharacterSet) -> String {
-    return addingPercentEncoding(withAllowedCharacters: characterSet) ?? ""
+    addingPercentEncoding(withAllowedCharacters: characterSet) ?? ""
   }
 
-  func replace(_ substring: String, with: String) -> String {
-    return replacingOccurrences(of: substring, with: with)
-  }
+  func replace(_ substring: String, with: String) -> String { replacingOccurrences(of: substring, with: with) }
 
   func replace(_ substring: String, with: String, options: NSString.CompareOptions) -> String {
-    return replacingOccurrences(of: substring, with: with, options: options)
+    replacingOccurrences(of: substring, with: with, options: options)
   }
 
-  func regplace(_ regexp: String, with: String) -> String {
-    return replace(regexp, with: with, options: .regularExpression)
-  }
+  func regplace(_ regexp: String, with: String) -> String { replace(regexp, with: with, options: .regularExpression) }
 
-  func replacei(_ regexp: String, with: String) -> String {
-    return replace(regexp, with: with, options: .caseInsensitive)
-  }
+  func replacei(_ regexp: String, with: String) -> String { replace(regexp, with: with, options: .caseInsensitive) }
 
-  func remove(_ substring: String) -> String {
-    return replace(substring, with: "")
-  }
+  func remove(_ substring: String) -> String { replace(substring, with: "") }
 
-  func regmove(_ regexp: String) -> String {
-    return regplace(regexp, with: "")
-  }
+  func regmove(_ regexp: String) -> String { regplace(regexp, with: "") }
 
-  func removei(_ substring: String) -> String {
-    return replacei(substring, with: "")
-  }
+  func removei(_ substring: String) -> String { replacei(substring, with: "") }
 
   func splitString(_ string: String, length: Int) -> [String] {
-    return stride(from: 0, to: string.count, by: length).reversed().map {
+    stride(from: 0, to: string.count, by: length).reversed().map {
       let endIndex = string.index(string.endIndex, offsetBy: -$0)
       let startIndex = string.index(endIndex, offsetBy: -length, limitedBy: string.startIndex)
       return String(string[startIndex!..<endIndex])
     }
   }
 
-  func spacedString(at spacedIncrement: Int) -> String? {
-    let splitString = self.splitString(self, length: spacedIncrement)
-    return splitString.joined(" ")
-  }
+  func spacedString(at spacedIncrement: Int) -> String? { splitString(self, length: spacedIncrement).joined(" ") }
 
-  var localized: String {
-    return NSLocalizedString(self, comment: "")
-  }
+  var localized: String { NSLocalizedString(self, comment: "") }
 
-  subscript(i: Int) -> String {
-    return self[i ..< i + 1]
-  }
+  subscript(i: Int) -> String { self[i ..< i + 1] }
 
-  func substring(from: Int) -> String {
-    return self[min(from, count) ..< count]
-  }
+  func substring(from: Int) -> String { self[min(from, count) ..< count] }
 
-  func substring(to: Int) -> String {
-    return self[0 ..< clamp(to, min: 0, max: count)]
-  }
+  func substring(to: Int) -> String { self[0 ..< clamp(to, min: 0, max: count)] }
 
-  func substring(from: Int, to: Int) -> String {
-    return substring(from: from).substring(to: to-from)
-  }
+  func substring(from: Int, to: Int) -> String { substring(from: from).substring(to: to-from) }
 
-  mutating func insert(_ char: Character, at: Int) {
-    insert(char, at: String.Index(utf16Offset: at, in: self))
-  }
+  mutating func insert(_ char: Character, at: Int) { insert(char, at: String.Index(utf16Offset: at, in: self)) }
 
   subscript(r: Range<Int>) -> String {
     let range = Range(uncheckedBounds: (lower: clamp(r.lowerBound, min: 0, max: count),
@@ -140,17 +99,11 @@ extension String {
     }
   }
 
-  var ns: NSString {
-    return self as NSString
-  }
+  var ns: NSString { self as NSString }
 
-  var trimmedEmpty: String? {
-    return trimmed.nilIfEmpty
-  }
+  var trimmedEmpty: String? { trimmed.nilIfEmpty }
 
-  var comparable: String? {
-    return trimmedEmpty?.lowercased()
-  }
+  var comparable: String? { trimmedEmpty?.lowercased() }
 
   static func random(length: Int) -> String {
     let letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
@@ -162,38 +115,27 @@ extension String {
     return String(length.maps { letters.randomElement()! })
   }
 
-  var firstCapitalized: String {
-    return substring(to: 1).capitalized + substring(from: 1)
-  }
+  var firstCapitalized: String { substring(to: 1).capitalized + substring(from: 1) }
 
-  var rawNormalized: String {
-    regplace("([A-Z])", with: " $1").firstCapitalized
-  }
+  var rawNormalized: String { regplace("([A-Z])", with: " $1").firstCapitalized }
 
-  var snakeCased: String {
-    regplace("([A-Z])", with: "_$1").lowercased()
-  }
+  var snakeCased: String { regplace("([A-Z])", with: "_$1").lowercased() }
 
-  func prepending(_ aString: String) -> String {
-    return aString + self
-  }
+  func prepending(_ str: String) -> String { str + self }
 
   func matches(regExp: String) -> Bool {
-    let predicate = NSPredicate(format:"SELF MATCHES %@", regExp)
-    return predicate.evaluate(with: self)
+    NSPredicate(format:"SELF MATCHES %@", regExp).evaluate(with: self)
   }
 
   var isValidEmail: Bool {
-    return matches(regExp: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}")
+    matches(regExp: "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,10}")
   }
 
   var isValidSSN: Bool {
-    return matches(regExp: "^\\d{3}-\\d{2}-\\d{4}$") && !(hasPrefix("000") || hasPrefix("666") || (digits.map { $0 }.unique().count == 1))
+    matches(regExp: "^\\d{3}-\\d{2}-\\d{4}$") && !(hasPrefix("000") || hasPrefix("666") || (digits.map { $0 }.unique().count == 1))
   }
 
-  var int: Int {
-    return Int(digits) ?? 0
-  }
+  var int: Int { Int(digits) ?? 0 }
 
   var safeDouble: Double {
     let arr = components(separatedBy: ".")
@@ -203,26 +145,18 @@ extension String {
     return Double(str) ?? 0
   }
 
-  var base64DecodedData: Data? {
-    return Data(base64Encoded: self)
-  }
+  var base64DecodedData: Data? { Data(base64Encoded: self) }
 
-  var djb2hash: Int {
-    return unicodeScalars.map { $0.value }.reduce(5381) { ($0 << 5) &+ $0 &+ Int($1) }
-  }
+  var djb2hash: Int { unicodeScalars.map { $0.value }.reduce(5381) { ($0 << 5) &+ $0 &+ Int($1) } }
 
   var sdbmhash: Int {
     let mapped = unicodeScalars.map { $0.value }
     return mapped.reduce(0) { Int($1) &+ ($0 << 6) &+ ($0 << 16) &- $0 }
   }
   
-  var utf8Data: Data {
-    data(using: .utf8)!
-  }
+  var utf8Data: Data { data(using: .utf8)! }
 }
 
 extension Substring {
-  var string: String {
-    return String(self)
-  }
+  var string: String { String(self) }
 }
