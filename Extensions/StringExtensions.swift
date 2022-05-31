@@ -121,7 +121,7 @@ extension String {
 
   var snakeCased: String { regplace("([A-Z])", with: "_$1").lowercased() }
 
-  func prepending(_ str: String) -> String { str + self }
+  func enclosing(pre: String = "", suf: String = "") -> String { pre + self + suf }
 
   func matches(regExp: String) -> Bool {
     NSPredicate(format:"SELF MATCHES %@", regExp).evaluate(with: self)
