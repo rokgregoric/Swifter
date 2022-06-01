@@ -10,6 +10,8 @@ import SwifterJSON
 import OSLog
 
 class Log {
+  static var shared = Log()
+
   enum Level: Int {
     case verbose = 0
     case debug = 1
@@ -67,8 +69,6 @@ class Log {
     custom(level: .error, message: stringify(message), file: file, function: function, line: line, context: context)
   }
 
-  private static let shared = Log()
-
   struct Filter {
     var level: Level?
     var lowestLevel: Level?
@@ -89,19 +89,19 @@ class Log {
       if let m = f.message?.lowercased(), msg.lowercased().contains(m) != true { return }
       if let c = f.context?.lowercased(), context?.lowercased().contains(c) != true { return }
     }
-    shared.custom(type: level.logType, messages: msg, file: file, function: function, line: line, context: context)
+    shared.custom(level: level, messages: msg, file: file, function: function, line: line, context: context)
   }
 
-  /// swizzlable
-  @objc dynamic func custom(type: OSLogType, messages: String, file: String, function: String, line: Int, context: String?) {
+  /// override endpoint
+  func custom(level: Level, messages: String, file: String, function: String, line: Int, context: String?) {
     let c = context?.uppercased()
     let msg = [c.map { "[\($0)]" }, messages].flatJoined(" ")
-    let symbol = type.logLevel.symbolValue
+    let symbol = level.symbolValue
     if Environment.isDebuggerAttached {
       print(DateFormat.timeMili.currentString, symbol, msg)
     } else {
       let log = OSLog(subsystem: Environment.identifier, category: c ?? "")
-      os_log("%{public}@ %{public}@", log: log, type: type, symbol, msg)
+      os_log("%{public}@ %{public}@", log: log, type: level.logType, symbol, msg)
     }
   }
 }
