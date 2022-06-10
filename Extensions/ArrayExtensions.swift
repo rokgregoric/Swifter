@@ -103,16 +103,17 @@ extension Sequence where Iterator.Element: Equatable {
   }
 }
 
-extension Sequence where Iterator.Element: Hashable {
-  func unique() -> [Iterator.Element] {
-    Array(Set<Iterator.Element>(self))
-  }
-
+extension Sequence where Iterator.Element: Equatable {
   func uniqueOrdered() -> [Iterator.Element] {
     reduce([Iterator.Element]()) { $0.contains($1) ? $0 : $0 + [$1] }
   }
 }
 
+extension Sequence where Iterator.Element: Hashable {
+  func unique() -> [Iterator.Element] {
+    Array(Set<Iterator.Element>(self))
+  }
+}
 
 extension Sequence where Element: AdditiveArithmetic {
   func sum() -> Element { reduce(.zero, +) }
