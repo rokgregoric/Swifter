@@ -91,7 +91,7 @@ extension String {
   typealias RegexMatch = (match: String, range: NSRange)
   func matches(for regex: String) -> [RegexMatch] {
     do {
-      let regex = try NSRegularExpression(pattern: regex)
+      let regex = try NSRegularExpression(pattern: regex, options: [.dotMatchesLineSeparators])
       let results = regex.matches(in: self, range: NSRange(location: 0, length: ns.length))
       return results.map { (match: ns.substring(with: $0.range), range: $0.range) }
     } catch _ {
