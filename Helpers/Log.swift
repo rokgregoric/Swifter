@@ -44,8 +44,10 @@ class Log {
     }.joined(" ")
   }
 
+  var devLogging: Bool { Environment.isDebuggerAttached }
+
   class func dev(level: Level = .verbose, _ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
-    if !Environment.isDebuggerAttached { return }
+    guard shared.devLogging else { return }
     custom(level: level, message: stringify(message), file: file, function: function, line: line, context: context)
   }
 
