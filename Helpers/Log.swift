@@ -38,8 +38,8 @@ class Log {
 
   private class func stringify(_ messages: [Any?]) -> String {
     messages.flat.map {
-      ($0 as? [String: Any]).flatMap { JSON($0).rawString() } ??
       ($0 as? [Any]).flatMap { $0.isEmpty ? "[]" : JSON($0).rawString() } ??
+      ($0 as? [String: Any]).flatMap { $0.isEmpty ? "{}" : JSON($0).rawString() } ??
       ($0 as? [CustomStringConvertible]).flatMap { $0.isEmpty ? "[]" : JSON($0.map { $0.description }).rawString() } ?? "\($0)"
     }.joined(" ")
   }
@@ -72,26 +72,28 @@ class Log {
   }
 
   struct Filter {
-    var level: Level?
-    var lowestLevel: Level?
-    var context: String?
-    var message: String?
+    var levels: [Level]
+    var contexts: [String]
+    var messages: [String]
   }
   private var filter: Filter?
 
-  class func filter(level: Level? = nil, lowestLevel: Level? = nil, context: String? = nil, message: String? = nil) {
-    shared.filter = Filter(level: level, lowestLevel: lowestLevel, context: context, message: message)
+  class func filter(levels: [Level] = [], contexts: [String] = [], messages: [String] = []) {
+    shared.filter = Filter(levels: levels, contexts: contexts.map { $0.lowercased() }, messages: messages.map { $0.lowercased() })
   }
 
   class func custom(level: Level, message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
     let msg = stringify(message)
-    if let f = shared.filter {
-      if let l = f.level, level != l { return }
-      if let l = f.lowestLevel, level < l { return }
-      if let m = f.message?.lowercased(), msg.lowercased().contains(m) != true { return }
-      if let c = f.context?.lowercased(), context?.lowercased().contains(c) != true { return }
+    func logit() {
+      shared.custom(level: level, messages: msg, file: file, function: function, line: line, context: context)
     }
-    shared.custom(level: level, messages: msg, file: file, function: function, line: line, context: context)
+    if let f = shared.filter {
+      if f.levels.contains(level) { return logit() }
+      f.messages.forEach { if msg.lowercased().contains($0) { return logit() } }
+      if let c = context { f.contexts.forEach { if c.lowercased().contains($0) { return logit() } } }
+    } else {
+      logit()
+    }
   }
 
   /// override endpoint
