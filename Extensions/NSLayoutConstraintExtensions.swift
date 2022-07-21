@@ -63,12 +63,16 @@ extension NSLayoutConstraint {
     set { if isIpadMini { constant = newValue } }
   }
 
-  func activate(priority: UILayoutPriority? = nil) {
+  @discardableResult
+  func activate(priority: UILayoutPriority? = nil) -> Self {
     priority.map { self.priority = $0 }
     isActive = true
+    return self
   }
 
-  func deactivate() {
+  @discardableResult
+  func deactivate() -> Self {
     isActive = false
+    return self
   }
 }
