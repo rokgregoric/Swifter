@@ -120,6 +120,7 @@ extension String {
   var rawNormalized: String { regplace("([A-Z])", with: " $1").firstCapitalized }
 
   var snakeCased: String { regplace("([A-Z])", with: "_$1").lowercased() }
+  var dashCased: String { regplace("([A-Z])", with: "-$1").lowercased() }
 
   func enclosing(pre: String = "", suf: String = "") -> String { pre + self + suf }
 
