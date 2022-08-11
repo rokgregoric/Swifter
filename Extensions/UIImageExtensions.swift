@@ -25,4 +25,12 @@ extension UIImage {
       return resize(to: CGSize(width: side * ratio, height: side))
     }
   }
+
+
+  func tinted(with color: UIColor) -> UIImage {
+    UIGraphicsImageRenderer(size: size).image { _ in
+      color.set()
+      withRenderingMode(.alwaysTemplate).draw(in: CGRect(origin: .zero, size: size))
+    }
+  }
 }
