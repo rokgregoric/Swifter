@@ -8,8 +8,9 @@
 import UIKit
 
 extension UIContextualAction {
-  convenience init(style: Style = .normal, title: String?, color: UIColor? = nil, handler: @escaping (@escaping ((Bool) -> Void)) -> Void) {
+  convenience init(style: Style = .normal, title: String?, color: UIColor? = nil, image: UIImage? = nil, handler: @escaping (@escaping ((Bool) -> Void)) -> Void) {
     self.init(style: style, title: title) { _, _, h in handler(h) }
     self.backgroundColor = color
+    self.image = image
   }
 }
