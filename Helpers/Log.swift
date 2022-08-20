@@ -48,27 +48,27 @@ class Log {
 
   class func dev(level: Level = .verbose, _ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
     guard shared.devLogging else { return }
-    custom(level: level, message: stringify(message), file: file, function: function, line: line, context: context)
+    custom(level: level, message: message, file: file, function: function, line: line, context: context)
   }
 
   class func verbose(_ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
-    custom(level: .verbose, message: stringify(message), file: file, function: function, line: line, context: context)
+    custom(level: .verbose, message: message, file: file, function: function, line: line, context: context)
   }
 
   class func debug(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
-    custom(level: .debug, message: stringify(message), file: file, function: function, line: line, context: context)
+    custom(level: .debug, message: message, file: file, function: function, line: line, context: context)
   }
 
   class func info(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
-    custom(level: .info, message: stringify(message), file: file, function: function, line: line, context: context)
+    custom(level: .info, message: message, file: file, function: function, line: line, context: context)
   }
 
   class func warning(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
-    custom(level: .warning, message: stringify(message), file: file, function: function, line: line, context: context)
+    custom(level: .warning, message: message, file: file, function: function, line: line, context: context)
   }
 
   class func error(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
-    custom(level: .error, message: stringify(message), file: file, function: function, line: line, context: context)
+    custom(level: .error, message: message, file: file, function: function, line: line, context: context)
   }
 
   struct Filter {
