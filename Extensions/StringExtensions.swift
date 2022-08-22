@@ -122,6 +122,8 @@ extension String {
   var snakeCased: String { regplace("([A-Z])", with: "_$1").lowercased() }
   var dashCased: String { regplace("([A-Z])", with: "-$1").lowercased() }
 
+  var searchable: String { ns.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil) }
+
   func enclosing(pre: String = "", suf: String = "") -> String { pre + self + suf }
 
   func matches(regExp: String) -> Bool {
