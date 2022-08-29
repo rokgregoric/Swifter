@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  ScreenConstants.swift
 //
 //  Created by Rok Gregorič
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
@@ -47,11 +47,6 @@ let isLargeTallPhone = isLargePhone && isTallPhone // 6.1" & 6.5" - Xs-max, Xr, 
 let isWidePad = (longerScreenSide / shorterScreenSide > 1.4) && isIpad // 11" -  non 4:3
 
 let isIpadMini = isIpad && shorterScreenSide < 750
-
-let isIphoneX = isTallPhone // deprecated
-let isIphoneSE = isSmallPhone // deprecated
-let isNonPlusPhone = isNormalShortPhone // deprecated
-let isPlusPhone = isLargeShortPhone // deprecated
 
 var keyWindowSafeAreaInsets: UIEdgeInsets { keyWindow?.safeAreaInsets ?? .zero }
 
