@@ -1,13 +1,13 @@
 //
-//  UIColorExtensions.swift
+//  ColorExtensions.swift
 //
 //  Created by Rok Gregorič
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
-import UIKit
+import CoreGraphics
 
-extension UIColor {
+extension Color {
   convenience init(red: Int, green: Int, blue: Int) {
     let newRed = CGFloat(red)/255
     let newGreen = CGFloat(green)/255
@@ -28,8 +28,8 @@ extension UIColor {
     }
   }
 
-  static var random: UIColor {
-    return UIColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
+  static var random: Color {
+    return Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
   }
 
   var hex: Int {
@@ -53,25 +53,30 @@ extension UIColor {
 
   static let brightnessAmount: CGFloat = 0.25
 
-  func lighter(_ amount: CGFloat = brightnessAmount) -> UIColor {
+  func lighter(_ amount: CGFloat = brightnessAmount) -> Color {
     return color(brightness: 1 + amount)
   }
 
-  func darker(_ amount: CGFloat = brightnessAmount) -> UIColor {
+  func darker(_ amount: CGFloat = brightnessAmount) -> Color {
     return color(brightness: 1 - amount)
   }
 
-  func color(hue: CGFloat = 1, saturation: CGFloat = 1, brightness: CGFloat = 1, alpha: CGFloat = 1) -> UIColor {
+  func color(hue: CGFloat = 1, saturation: CGFloat = 1, brightness: CGFloat = 1, alpha: CGFloat = 1) -> Color {
     var h: CGFloat = 0
     var s: CGFloat = 0
     var b: CGFloat = 0
     var a: CGFloat = 0
 
+#if os(iOS)
     if getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
-      return UIColor(hue: h * hue, saturation: s * saturation, brightness: b * brightness, alpha: a * alpha)
+      return Color(hue: h * hue, saturation: s * saturation, brightness: b * brightness, alpha: a * alpha)
     } else {
       return self
     }
+#elseif os(OSX)
+    getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+    return Color(hue: h * hue, saturation: s * saturation, brightness: b * brightness, alpha: a * alpha)
+#endif
   }
 
   var isLight: Bool {

@@ -5,14 +5,15 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
-extension NSLayoutConstraint {
+extension LayoutConstraint {
   @IBInspectable var pixelValue: CGFloat {
     get { return constant * mainScreenScale }
     set { constant = Double(newValue).pixelValue }
   }
 
+#if os(iOS)
   @IBInspectable var smallPhoneConstant: CGFloat {
     get { return constant }
     set { if isSmallPhone { constant = newValue } }
@@ -62,9 +63,10 @@ extension NSLayoutConstraint {
     get { return constant }
     set { if isIpadMini { constant = newValue } }
   }
+#endif
 
   @discardableResult
-  func activate(priority: UILayoutPriority? = nil) -> Self {
+  func activate(priority: LayoutPriority? = nil) -> Self {
     priority.map { self.priority = $0 }
     isActive = true
     return self

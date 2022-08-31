@@ -63,6 +63,14 @@ struct Environment {
     return false
   }()
 
+  static let isiOS: Bool = {
+#if os(iOS)
+    return true
+#else
+    return false
+#endif
+  }()
+
   static let isTestFlight: Bool = {
     return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
   }()

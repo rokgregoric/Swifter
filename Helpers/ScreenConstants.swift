@@ -5,8 +5,11 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
+#if os(iOS)
+
 import UIKit
 
+let mainScreenScale = UIScreen.main.scale // read only once since is expensive and impacts scrolling performance
 var mainScreenSize: CGSize { UIScreen.main.bounds.size }
 
 var keyWindow: UIWindow? {
@@ -55,3 +58,16 @@ var isSafeAreaInset: Bool {
   i.top = 0
   return i != .zero
 }
+
+#elseif os(OSX)
+
+import AppKit
+
+let isIpad = false
+let isIphone = false
+
+var keyWindow: NSWindow? { NSApplication.shared.keyWindow ?? NSApplication.shared.mainWindow }
+
+var mainScreenScale: CGFloat { keyWindow?.backingScaleFactor ?? 1 }
+
+#endif

@@ -5,7 +5,7 @@
 //  Copyright © 2021 Rok Gregorič. All rights reserved.
 //
 
-import UIKit
+import CoreGraphics
 
 extension CGRect {
   @nonobjc
@@ -39,14 +39,25 @@ extension CGRect {
   }
 
   func inset(all val: CGFloat) -> CGRect {
-    inset(by: UIEdgeInsets(top: val, left: val, bottom: val, right: val))
+    inset(by: EdgeInsets(top: val, left: val, bottom: val, right: val))
   }
 
   func outset(all val: CGFloat) -> CGRect {
     inset(all: -val)
   }
 
-  func outset(by insets: UIEdgeInsets) -> CGRect {
-    inset(by: UIEdgeInsets(top: -insets.top, left: -insets.left, bottom: -insets.bottom, right: -insets.right))
+  func outset(by insets: EdgeInsets) -> CGRect {
+    inset(by: EdgeInsets(top: -insets.top, left: -insets.left, bottom: -insets.bottom, right: -insets.right))
   }
+
+#if os(OSX)
+  func inset(by insets: EdgeInsets) -> CGRect {
+    var rect = self
+    rect.x += insets.left
+    rect.y += insets.top
+    rect.width -= insets.left + insets.right
+    rect.height -= insets.top + insets.bottom
+    return rect
+  }
+#endif
 }

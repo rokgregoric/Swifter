@@ -5,7 +5,6 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
-import UIKit
 import Foundation
 
 extension Data {
@@ -34,8 +33,8 @@ extension Data {
     self = data
   }
 
-  var image: UIImage? {
-    return UIImage(data: self)
+  var image: Image? {
+    return Image(data: self)
   }
 
   var base64ImageString: String {

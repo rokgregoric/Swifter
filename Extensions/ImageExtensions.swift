@@ -1,14 +1,18 @@
 //
-//  UIImageExtensions.swift
+//  ImageExtensions.swift
 //
 //  Created by Rok Gregorič
 //  Copyright © 2021 Rok Gregorič. All rights reserved.
 //
 
+#if os(iOS)
 import UIKit
+#endif
+import CoreGraphics
 
-extension UIImage {
-  func resize(to size: CGSize) -> UIImage? {
+extension Image {
+#if os(iOS)
+  func resize(to size: CGSize) -> Image? {
     let rect = CGRect(origin: .zero, size: size)
     UIGraphicsBeginImageContextWithOptions(size, false, 1)
     draw(in: rect)
@@ -17,7 +21,7 @@ extension UIImage {
     return img
   }
 
-  func resize(max side: CGFloat) -> UIImage? {
+  func resize(max side: CGFloat) -> Image? {
     let ratio = size.width / size.height
     if ratio > 1 {
       return resize(to: CGSize(width: side, height: side / ratio))
@@ -26,11 +30,11 @@ extension UIImage {
     }
   }
 
-
-  func tinted(with color: UIColor) -> UIImage {
+  func tinted(with color: Color) -> Image {
     UIGraphicsImageRenderer(size: size).image { _ in
       color.set()
       withRenderingMode(.alwaysTemplate).draw(in: CGRect(origin: .zero, size: size))
     }
   }
+#endif
 }

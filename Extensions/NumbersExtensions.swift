@@ -5,12 +5,10 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import CoreGraphics
 
 func clamp<T: Comparable>(_ value: T, min lo: T, max hi: T) -> T { min(max(lo, value), hi) }
-
-let mainScreenScale = UIScreen.main.scale // read UIScreen.mainScreen().scale only once since is expensive and impacts scrolling performance
 
 extension Double {
   var int: Int { Int(self) }
