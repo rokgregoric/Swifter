@@ -117,10 +117,12 @@ extension String {
 
   var firstCapitalized: String { substring(to: 1).capitalized + substring(from: 1) }
 
-  var rawNormalized: String { regplace("([A-Z])", with: " $1").firstCapitalized }
+  var rawNormalized: String { regplace("([A-Z])", with: " $1").capitalized }
+  var rawSnakeCased: String { rawNormalized.snakeCased }
+  var rawDashCased: String { rawNormalized.dashCased }
 
-  var snakeCased: String { regplace("([A-Z])", with: "_$1").lowercased() }
-  var dashCased: String { regplace("([A-Z])", with: "-$1").lowercased() }
+  var snakeCased: String { regplace(" ", with: "_").lowercased() }
+  var dashCased: String { regplace(" ", with: "-").lowercased() }
 
   var searchable: String { ns.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil) }
 
