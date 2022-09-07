@@ -38,7 +38,11 @@ extension Color {
     var b: CGFloat = 0
     var a: CGFloat = 0
 
+#if os(iOS)
     getRed(&r, green: &g, blue: &b, alpha: &a)
+#elseif os(OSX)
+    usingColorSpace(.extendedSRGB)?.getRed(&r, green: &g, blue: &b, alpha: &a)
+#endif
 
     let ri = Int(r*0xff)<<16
     let gi = Int(g*0xff)<<8
