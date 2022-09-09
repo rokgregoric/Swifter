@@ -10,7 +10,7 @@
 import UIKit
 
 let mainScreenScale = UIScreen.main.scale // read only once since is expensive and impacts scrolling performance
-var mainScreenSize: CGSize { UIScreen.main.bounds.size }
+var mainScreenSize: CGSize { isMac ? keyWindow?.frame.size ?? .zero : UIScreen.main.bounds.size }
 
 var keyWindow: UIWindow? {
   if #available(iOS 13.0, *) {
@@ -28,13 +28,20 @@ var interfaceOrientation: UIInterfaceOrientation {
   }
 }
 
-var isPortrait: Bool { interfaceOrientation.isPortrait }
+var isPortrait: Bool { isMac ? false : interfaceOrientation.isPortrait }
 
 let shorterScreenSide = min(mainScreenSize.width, mainScreenSize.height)
 let longerScreenSide = max(mainScreenSize.width, mainScreenSize.height)
 
+let isMac = Environment.isiOSAppOnMac || isCatalyst
 let isIpad = UIDevice.current.userInterfaceIdiom == .pad
 let isIphone = UIDevice.current.userInterfaceIdiom == .phone
+let isCatalyst: Bool = {
+  if #available(iOS 14, *) {
+    return UIDevice.current.userInterfaceIdiom == .mac
+  }
+  return false
+}()
 
 let isSmallPhone = shorterScreenSide < 350 && isIphone
 let isNormalPhone = shorterScreenSide > 350 && mainScreenSize.width < 400 && isIphone
@@ -51,20 +58,24 @@ let isWidePad = (longerScreenSide / shorterScreenSide > 1.4) && isIpad // 11" - 
 
 let isIpadMini = isIpad && shorterScreenSide < 750
 
-var keyWindowSafeAreaInsets: UIEdgeInsets { keyWindow?.safeAreaInsets ?? .zero }
-
-var isSafeAreaInset: Bool {
-  var i = keyWindowSafeAreaInsets
+private var _safeAreaInsets: UIEdgeInsets { keyWindow?.safeAreaInsets ?? .zero }
+private var _noTopSafeAreaInsets: UIEdgeInsets {
+  var i = _safeAreaInsets
   i.top = 0
-  return i != .zero
-}
+  return i
+ }
+
+var keyWindowSafeAreaInsets: UIEdgeInsets { isMac ? _noTopSafeAreaInsets : _safeAreaInsets }
+var isSafeAreaInset: Bool { _noTopSafeAreaInsets != .zero }
 
 #elseif os(OSX)
 
 import AppKit
 
+let isMac = true
 let isIpad = false
 let isIphone = false
+let isCatalyst = false
 
 var keyWindow: NSWindow? { NSApplication.shared.keyWindow ?? NSApplication.shared.mainWindow }
 
