@@ -12,7 +12,8 @@ func clamp<T: Comparable>(_ value: T, min lo: T, max hi: T) -> T { min(max(lo, v
 
 extension Double {
   var int: Int { Int(self) }
-  var pixelValue: CGFloat { CGFloat(self) / mainScreenScale }
+  var cgfloat: CGFloat { CGFloat(self) }
+  var pixelValue: CGFloat { cgfloat / mainScreenScale }
 
   func rounded(to decimals: Int) -> Double {
     let divisor = pow(10, decimals).doubleValue
