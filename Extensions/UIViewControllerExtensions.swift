@@ -130,7 +130,7 @@ enum Position {
 
 extension UIPopoverPresentationController {
   func setup(x: Position, y: Position, color: UIColor? = nil, vc: UIViewController? = nil) {
-    if let sourceView = sourceView {
+    if let sourceView {
       sourceRect = CGRect(origin: Position.point(x: x, y: y, for: sourceView.bounds), size: .zero)
     }
     backgroundColor = color ?? vc?.view.backgroundColor
