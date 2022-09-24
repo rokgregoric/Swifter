@@ -5,9 +5,11 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
-import Foundation
+#if os(iOS)
+import UIKit
+#endif
 
-extension LayoutConstraint {
+extension NSLayoutConstraint {
   @IBInspectable var pixelValue: CGFloat {
     get { return constant * mainScreenScale }
     set { constant = Double(newValue).pixelValue }
