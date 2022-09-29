@@ -12,6 +12,10 @@ import UIKit
 let mainScreenScale = UIScreen.main.scale // read only once since is expensive and impacts scrolling performance
 var mainScreenSize: CGSize { isMac ? keyWindow?.frame.size ?? .zero : UIScreen.main.bounds.size }
 
+#if EXTENSION
+let keyWindow: UIWindow? = nil
+let interfaceOrientation = UIInterfaceOrientation.unknown
+#else
 var keyWindow: UIWindow? {
   if #available(iOS 13.0, *) {
     return UIApplication.shared.windows.first { $0.isKeyWindow }
@@ -27,6 +31,7 @@ var interfaceOrientation: UIInterfaceOrientation {
     return UIApplication.shared.statusBarOrientation
   }
 }
+#endif
 
 var isPortrait: Bool { isMac ? false : interfaceOrientation.isPortrait }
 
