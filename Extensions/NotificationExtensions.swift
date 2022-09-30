@@ -25,3 +25,30 @@ extension Notification {
     NotificationCenter.default.removeObserver(observer)
   }
 }
+
+// MARK: - Keyboard support
+
+import UIKit
+
+extension Notification {
+  var keyboardFrame: CGRect? {
+    (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue
+  }
+
+  var animationDuration: Double? {
+    userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double
+  }
+
+  var animationCurve: UInt? {
+    userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt
+  }
+
+  var animationOptions: UIView.AnimationOptions? {
+    animationCurve.map { .init(rawValue: $0 << 16) }
+  }
+
+  func animate(_ animations: @escaping () -> Void) {
+    guard let animationDuration, let animationOptions else { return animations() }
+    UIView.animate(duration: animationDuration, options: animationOptions, animations)
+  }
+}
