@@ -118,7 +118,7 @@ extension String {
   var firstCapitalized: String { substring(to: 1).capitalized + substring(from: 1) }
   var firstLowercased: String { substring(to: 1).lowercased() + substring(from: 1) }
 
-  var rawNormalized: String { regplace("([A-Z])", with: " $1").capitalized }
+  var rawNormalized: String { regplace("([a-z])([A-Z])", with: "$1 $2").capitalized }
   var rawValued: String { capitalized.regmove(" ").firstLowercased }
   var rawSnakeCased: String { rawNormalized.snakeCased }
   var rawDashCased: String { rawNormalized.dashCased }
