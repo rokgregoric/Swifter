@@ -16,7 +16,11 @@ extension Notification {
     stopObserving(name, observer: observer)
     NotificationCenter.default.addObserver(observer, selector: selector, name: name, object: object)
   }
-  
+
+  static func observe(_ name: Name, object: Any? = nil, queue: OperationQueue? = nil, using: @escaping () -> Void) -> NSObjectProtocol {
+    NotificationCenter.default.addObserver(forName: name, object: object, queue: queue, using: { _ in using() })
+  }
+
   static func stopObserving(_ name: Name, observer: Any, object: Any? = nil) {
     NotificationCenter.default.removeObserver(observer, name: name, object: object)
   }
