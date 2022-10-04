@@ -8,14 +8,10 @@
 import Foundation
 
 extension Data {
-  var utf8string: String? {
-    return String(data: self, encoding: .utf8)
-  }
-  
-  var hexString: String {
-    return map { String(format: "%02.2hhx", $0) }.joined()
-  }
-  
+  var utf8string: String? { String(data: self, encoding: .utf8) }
+
+  var hexString: String { map { String(format: "%02.2hhx", $0) }.joined() }
+
   init?(hexString: String) {
     let len = hexString.count / 2
     var data = Data(capacity: len)
@@ -33,13 +29,9 @@ extension Data {
     self = data
   }
 
-  var image: Image? {
-    return Image(data: self)
-  }
+  var image: Image? { Image(data: self) }
 
-  var base64ImageString: String {
-    return "data:image/png;base64,\(base64EncodedString(options:.lineLength64Characters))"
-  }
+  var base64ImageString: String { "data:image/png;base64,\(base64EncodedString(options:.lineLength64Characters))" }
 
   func array<T>(of type: T.Type) -> [T] {
     let v = withUnsafeBytes { $0.load(as: type) }
@@ -48,7 +40,7 @@ extension Data {
     return arr
   }
 
-  var safeString: String? {
-    array(of: CChar.self).withUnsafeBufferPointer { String(cString: $0.baseAddress!) }.components(separatedBy: .controlCharacters).joined()
-  }
+  var safeString: String? { array(of: CChar.self).withUnsafeBufferPointer { String(cString: $0.baseAddress!) }.components(separatedBy: .controlCharacters).joined() }
+
+  var ns: NSData { self as NSData }
 }
