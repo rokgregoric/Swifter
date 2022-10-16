@@ -32,6 +32,8 @@ extension Notification {
 
 // MARK: - Keyboard support
 
+#if os(iOS)
+
 import UIKit
 
 extension Notification {
@@ -56,3 +58,5 @@ extension Notification {
     UIView.animate(duration: animationDuration, options: animationOptions, animations)
   }
 }
+
+#endif
