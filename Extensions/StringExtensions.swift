@@ -100,6 +100,7 @@ extension String {
   }
 
   var ns: NSString { self as NSString }
+  var cf: CFString { self as CFString }
 
   var trimmedEmpty: String? { trimmed.nilIfEmpty }
 
@@ -166,4 +167,8 @@ extension String {
 
 extension Substring {
   var string: String { String(self) }
+}
+
+extension NSString {
+  var string: String { self as String }
 }
