@@ -22,6 +22,7 @@ extension Double {
 }
 
 extension CGFloat {
+  var int: Int { Int(self) }
   var pixelRounded: CGFloat { (self * mainScreenScale).rounded() / mainScreenScale }
 }
 
