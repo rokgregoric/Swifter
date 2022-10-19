@@ -38,15 +38,9 @@ var isPortrait: Bool { isMac ? false : interfaceOrientation.isPortrait }
 let shorterScreenSide = min(mainScreenSize.width, mainScreenSize.height)
 let longerScreenSide = max(mainScreenSize.width, mainScreenSize.height)
 
-let isMac = Environment.isiOSAppOnMac || isCatalyst
+let isMac = Environment.isiOSAppOnMac || Environment.isMacCatalystApp
 let isIpad = UIDevice.current.userInterfaceIdiom == .pad
 let isIphone = UIDevice.current.userInterfaceIdiom == .phone
-let isCatalyst: Bool = {
-  if #available(iOS 14, *) {
-    return UIDevice.current.userInterfaceIdiom == .mac
-  }
-  return false
-}()
 
 let isSmallPhone = shorterScreenSide < 350 && isIphone
 let isNormalPhone = shorterScreenSide > 350 && mainScreenSize.width < 400 && isIphone
@@ -80,10 +74,10 @@ import AppKit
 let isMac = true
 let isIpad = false
 let isIphone = false
-let isCatalyst = false
 
 var keyWindow: NSWindow? { NSApplication.shared.keyWindow ?? NSApplication.shared.mainWindow }
 
 var mainScreenScale: CGFloat { keyWindow?.backingScaleFactor ?? 1 }
+var mainScreenSize: CGSize { NSScreen.main?.frame.size ?? .zero }
 
 #endif

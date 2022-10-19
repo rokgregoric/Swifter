@@ -49,7 +49,7 @@ struct Environment {
   }()
 
   static let isSimulator: Bool = {
-    #if arch(i386) || arch(x86_64)
+    #if targetEnvironment(simulator)
     return true
     #else
     return ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] != nil
@@ -57,18 +57,25 @@ struct Environment {
   }()
 
   static let isiOSAppOnMac: Bool = {
-    if #available(iOS 14.0, *) {
+    if #available(iOS 14.0, macOS 11.0, *) {
       return ProcessInfo.processInfo.isiOSAppOnMac
     }
     return false
   }()
 
-  static let isiOS: Bool = {
-#if os(iOS)
-    return true
-#else
+  static let isMacCatalystApp: Bool = {
+    if #available(iOS 14.0, macOS 10.15, *) {
+      return ProcessInfo.processInfo.isMacCatalystApp
+    }
     return false
-#endif
+  }()
+
+  static let isiOS: Bool = {
+    #if os(iOS)
+    return true
+    #else
+    return false
+    #endif
   }()
 
   static let isTestFlight: Bool = {
