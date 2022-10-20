@@ -47,11 +47,11 @@ class Run {
 
 
 class RunTask {
-  fileprivate var block: (() -> Void)?
+  private var block: (() -> Void)?
 
-  init(_ after: Double, _ block: @escaping () -> Void) {
+  init(_ after: Double, queue: DispatchQueue = .main, _ block: @escaping () -> Void) {
     self.block = block
-    Run.main(after: after) { [weak self] in
+    Run.on(queue, after: after) { [weak self] in
       self?.run()
     }
   }
@@ -61,7 +61,5 @@ class RunTask {
     block = nil
   }
 
-  var fired: Bool {
-    return block == nil
-  }
+  var fired: Bool { block == nil }
 }
