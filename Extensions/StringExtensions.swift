@@ -163,6 +163,10 @@ extension String {
   }
   
   var utf8Data: Data { data(using: .utf8)! }
+
+  func XorEncoded(with byte: UInt8) -> String? {
+    String(bytes: self.utf8.map{ $0 ^ byte }, encoding: .utf8)
+  }
 }
 
 extension Substring {
