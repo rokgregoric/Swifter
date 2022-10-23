@@ -31,7 +31,14 @@ extension Data {
 
   var image: Image? { Image(data: self) }
 
-  var base64ImageString: String { "data:image/png;base64,\(base64EncodedString(options:.lineLength64Characters))" }
+  enum ContentType: String {
+    case png = "image/png"
+    case jpeg = "image/jpeg"
+    case text = "text/plain"
+  }
+
+  func dataURLstring(type: ContentType) -> String { "data:\(type.rawValue);base64,\(base64EncodedString())" } // options:.lineLength64Characters
+  func dataURL(type: ContentType) -> URL? { dataURLstring(type: type).url }
 
   func array<T>(of type: T.Type) -> [T] {
     let v = withUnsafeBytes { $0.load(as: type) }
