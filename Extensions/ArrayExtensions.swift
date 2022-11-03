@@ -54,6 +54,7 @@ extension Array {
 
 extension Collection {
   var nilIfEmpty: Self? { isEmpty ? nil : self }
+  var nilIfEmptyOrOne: Self? { hasOne ? nil : nilIfEmpty }
 
   var hasOne: Bool { count == 1 }
 
