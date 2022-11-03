@@ -78,15 +78,9 @@ struct Environment {
     #endif
   }()
 
-  static let isTestFlight: Bool = {
-    return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
-  }()
+  static let isTestFlight: Bool = { Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" }()
 
-  static let isUnitTest: Bool = {
-    return ProcessInfo.processInfo.environment["UNITTEST"] == "1"
-  }()
+  static let isUnitTest: Bool = { ProcessInfo.processInfo.environment["UNITTEST"] == "1" }()
 
-  static let isDebuggerAttached: Bool = {
-    return getppid() != 1
-  }()
+  static let isDebuggerAttached: Bool = { getppid() != 1 }()
 }
