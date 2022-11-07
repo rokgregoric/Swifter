@@ -58,7 +58,13 @@ extension Int {
 
 extension Bool {
   var int: Int { self ? 1 : 0 }
+  var not: Bool { !self }
   var cgfloat: CGFloat { int.cgfloat }
+  var debug: String { self == true ? "🟢" : "🔴" }
+}
+
+extension Optional where Wrapped == Bool {
+  var debug: String { val?.debug ?? "🟡" }
 }
 
 private func formatter() -> NumberFormatter {
