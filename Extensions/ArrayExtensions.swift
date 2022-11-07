@@ -128,15 +128,6 @@ extension Collection where Element: FloatingPoint {
   func average() -> Element { isEmpty ? .zero : sum() / Element(count) }
 }
 
-protocol OptionalProtocol {
-  associatedtype Wrapped
-  var val: Wrapped? { get }
-}
-
-extension Optional: OptionalProtocol {
-  public var val: Wrapped? { self }
-}
-
 extension Sequence where Iterator.Element: OptionalProtocol {
   var flat: [Iterator.Element.Wrapped] {
     compactMap {
