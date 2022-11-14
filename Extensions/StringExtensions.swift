@@ -49,14 +49,14 @@ extension String {
   }
 
   func regplace(_ regexp: String, with: String) -> String { replace(regexp, with: with, options: .regularExpression) }
-
+  func regplacei(_ regexp: String, with: String) -> String { replace(regexp, with: with, options: [.regularExpression, .caseInsensitive]) }
   func replacei(_ regexp: String, with: String) -> String { replace(regexp, with: with, options: .caseInsensitive) }
 
   func remove(_ substring: String) -> String { replace(substring, with: "") }
+  func removei(_ substring: String) -> String { replacei(substring, with: "") }
 
   func regmove(_ regexp: String) -> String { regplace(regexp, with: "") }
-
-  func removei(_ substring: String) -> String { replacei(substring, with: "") }
+  func regmovei(_ regexp: String) -> String { regplacei(regexp, with: "") }
 
   func splitString(_ string: String, length: Int) -> [String] {
     stride(from: 0, to: string.count, by: length).reversed().map {
