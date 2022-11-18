@@ -16,7 +16,7 @@ extension Double {
   var pixelValue: CGFloat { cgfloat / mainScreenScale }
 
   func rounded(to decimals: Int) -> Double {
-    let divisor = pow(10, decimals).doubleValue
+    let divisor = pow(10, decimals.double)
     return (self * divisor).rounded()/divisor
   }
 }
@@ -24,6 +24,11 @@ extension Double {
 extension CGFloat {
   var int: Int { Int(self) }
   var pixelRounded: CGFloat { (self * mainScreenScale).rounded() / mainScreenScale }
+
+  func rounded(to decimals: Int) -> CGFloat {
+    let divisor = pow(10, CGFloat(decimals))
+    return (self * divisor).rounded()/divisor
+  }
 }
 
 extension NSNumber {
