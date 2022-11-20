@@ -38,6 +38,19 @@ extension CGRect {
     set { origin = CGPoint(x: newValue.x - width/2, y: newValue.y - height/2) }
   }
 
+  var rounded: CGRect { .init(x: x.rounded(), y: y.rounded(), width: width.rounded(), height: height.rounded()) }
+
+  func rounded(to decimal: Int) -> CGRect {
+    .init(x: x.rounded(to: decimal),
+          y: y.rounded(to: decimal),
+          width: width.rounded(to: decimal),
+          height: height.rounded(to: decimal))
+  }
+
+  var maxWH: CGFloat {
+    [width, height].max()!
+  }
+
   func inset(all val: CGFloat) -> CGRect {
     inset(by: EdgeInsets(top: val, left: val, bottom: val, right: val))
   }
