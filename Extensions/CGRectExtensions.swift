@@ -51,6 +51,10 @@ extension CGRect {
     [width, height].max()!
   }
 
+  var area: CGFloat {
+    width * height
+  }
+
   func inset(all val: CGFloat) -> CGRect {
     inset(by: EdgeInsets(top: val, left: val, bottom: val, right: val))
   }
