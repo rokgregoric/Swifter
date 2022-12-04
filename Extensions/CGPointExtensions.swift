@@ -9,11 +9,11 @@ import CoreGraphics
 
 extension CGPoint {
   func add(point: CGPoint) -> CGPoint {
-    return CGPoint(x: x + point.x, y: y + point.y)
+    CGPoint(x: x + point.x, y: y + point.y)
   }
 
   func subtract(point: CGPoint) -> CGPoint {
-    return CGPoint(x: x - point.x, y: y - point.y)
+    CGPoint(x: x - point.x, y: y - point.y)
   }
 
   func divide(by: Int) -> CGPoint {
@@ -22,7 +22,7 @@ extension CGPoint {
   }
 
   func distance(from point: CGPoint) -> CGFloat {
-    return hypot(point.x - x, point.y - y)
+    hypot(point.x - x, point.y - y)
   }
 }
 

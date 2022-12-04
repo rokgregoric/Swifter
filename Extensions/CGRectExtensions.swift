@@ -67,6 +67,20 @@ extension CGRect {
     inset(by: EdgeInsets(top: -insets.top, left: -insets.left, bottom: -insets.bottom, right: -insets.right))
   }
 
+  init (points: [CGPoint]) {
+    var minX = CGFloat.infinity
+    var minY = CGFloat.infinity
+    var maxX = CGFloat.zero
+    var maxY = CGFloat.zero
+    points.forEach {
+      if $0.x < minX { minX = $0.x }
+      if $0.y < minY { minY = $0.y }
+      if $0.x > maxX { maxX = $0.x }
+      if $0.y > maxY { maxY = $0.y }
+    }
+    self.init(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
+  }
+
 #if os(OSX)
   func inset(by insets: EdgeInsets) -> CGRect {
     var rect = self
