@@ -143,6 +143,8 @@ extension String {
     matches(regExp: "^\\d{3}-\\d{2}-\\d{4}$") && !(hasPrefix("000") || hasPrefix("666") || (digits.map { $0 }.unique().count == 1))
   }
 
+  var domain: String? { regmovei(".*https?://").regmove(".*@").regmove("/.*").lowercased().trimmedEmpty }
+
   var int: Int { Int(digits) ?? 0 }
 
   var safeDouble: Double {

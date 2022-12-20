@@ -31,4 +31,6 @@ extension URL {
   var data: Data? { try? Data(contentsOf: self) }
 
   var ns: NSURL { self as NSURL }
+
+  var domain: String? { absoluteString.domain }
 }
