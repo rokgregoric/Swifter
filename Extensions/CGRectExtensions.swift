@@ -92,3 +92,7 @@ extension CGRect {
   }
 #endif
 }
+
+extension CGSize {
+  var rect: CGRect { CGRect(origin: .zero, size: self) }
+}
