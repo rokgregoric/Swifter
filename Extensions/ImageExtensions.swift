@@ -13,8 +13,8 @@ import CoreGraphics
 extension Image {
 #if os(iOS)
   func resize(to size: CGSize) -> Image? {
-    let rect = CGRect(origin: .zero, size: size)
-    UIGraphicsBeginImageContextWithOptions(size, false, 1)
+    let rect = size.rect
+    UIGraphicsBeginImageContextWithOptions(size, false, 0)
     draw(in: rect)
     let img = UIGraphicsGetImageFromCurrentImageContext()
     UIGraphicsEndImageContext()
@@ -33,7 +33,7 @@ extension Image {
   func tinted(with color: Color) -> Image {
     UIGraphicsImageRenderer(size: size).image { _ in
       color.set()
-      withRenderingMode(.alwaysTemplate).draw(in: CGRect(origin: .zero, size: size))
+      withRenderingMode(.alwaysTemplate).draw(in: size.rect)
     }
   }
 #endif
