@@ -48,8 +48,10 @@ class Run {
 
 class RunTask {
   private var block: (() -> Void)?
+  private let queue: DispatchQueue
 
   init(_ after: Double, queue: DispatchQueue = .main, _ block: @escaping () -> Void) {
+    self.queue = queue
     self.block = block
     Run.on(queue, after: after) { [weak self] in
       self?.run()
@@ -57,8 +59,9 @@ class RunTask {
   }
 
   func run() {
-    block?()
+    guard let b = block else { return }
     block = nil
+    Run.on(queue, b)
   }
 
   var fired: Bool { block == nil }
