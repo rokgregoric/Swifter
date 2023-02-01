@@ -117,6 +117,7 @@ func > <T: Comparable>(lhs: T?, rhs: T?) -> Bool { rhs < lhs }
 func >= <T: Comparable>(lhs: T?, rhs: T?) -> Bool { rhs <= lhs }
 
 extension BinaryInteger {
+  var bool: Bool { self != 0 }
   var string: String { "\(self)" }
   var double: Double { Double(self) }
   var cgfloat: CGFloat { CGFloat(self) }
