@@ -145,6 +145,10 @@ extension String {
 
   var domain: String? { regmovei(".*https?://").regmove(".*@").regmove("/.*").lowercased().trimmedEmpty }
 
+  var subURLs: [URL] {
+    matches(for: "https?://[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*").compactMap { $0.match.url }
+  }
+
   var int: Int { Int(digits) ?? 0 }
 
   var safeDouble: Double {
