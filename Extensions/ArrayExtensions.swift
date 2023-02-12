@@ -76,9 +76,11 @@ extension Array where Iterator.Element: Equatable {
   }
 
   func removing(_ element: Element) -> [Element] {
-    var copy = self
-    copy.remove(element)
-    return copy
+    removing([element])
+  }
+
+  func removing(_ elements: [Element]) -> [Element] {
+    filter(elements.excludes)
   }
 
   mutating func toggle(_ element: Element) {
