@@ -67,4 +67,4 @@ let deviceIdentifier: String = {
   return identifier
 }()
 
-let urlSafeDeviceName = deviceName.removed(.alphanumerics.inverted).lowercased()
+let urlSafeDeviceName = deviceName.regmove("[^a-zA-Z0-9]*").lowercased()
