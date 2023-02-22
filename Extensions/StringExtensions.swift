@@ -149,7 +149,9 @@ extension String {
     matches(for: "https?://[-a-zA-Z0-9()@:%_\\+.~#?&\\/=]*").compactMap { $0.match.url }
   }
 
-  var int: Int { Int(digits) ?? 0 }
+  var intOptional: Int? { Int(digits) }
+
+  var int: Int { intOptional ?? 0 }
 
   var safeDouble: Double {
     let arr = components(separatedBy: ".")
