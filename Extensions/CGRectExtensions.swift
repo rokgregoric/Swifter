@@ -97,3 +97,7 @@ extension CGRect {
 extension CGSize {
   var rect: CGRect { CGRect(origin: .zero, size: self) }
 }
+
+extension Int {
+  var size: CGSize { CGSize(width: self, height: self) }
+}
