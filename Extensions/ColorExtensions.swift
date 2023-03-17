@@ -78,7 +78,7 @@ extension Color {
       return self
     }
 #elseif os(OSX)
-    getHue(&h, saturation: &s, brightness: &b, alpha: &a)
+    usingColorSpace(.sRGB)?.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
     return Color(hue: h * hue, saturation: s * saturation, brightness: b * brightness, alpha: a * alpha)
 #endif
   }
