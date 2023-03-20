@@ -38,7 +38,6 @@ extension CGRect {
     set { origin = CGPoint(x: newValue.x - width/2, y: newValue.y - height/2) }
   }
 
-  var floored: CGRect { .init(x: floor(x), y: floor(y), width: floor(width), height: floor(height)) }
   var rounded: CGRect { .init(x: x.rounded(), y: y.rounded(), width: width.rounded(), height: height.rounded()) }
 
   func rounded(to decimal: Int) -> CGRect {
@@ -92,6 +91,10 @@ extension CGRect {
     return rect
   }
 #endif
+
+  static func ~=(lhs: Self, rhs: Self) -> Bool {
+    abs(lhs.x - rhs.x) < 1 && abs(lhs.y - rhs.y) < 1 && abs(lhs.width - rhs.width) < 1 && abs(lhs.height - rhs.height) < 1
+  }
 }
 
 extension CGSize {
