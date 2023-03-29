@@ -116,6 +116,10 @@ extension Sequence where Iterator.Element: Hashable {
   func unique() -> [Iterator.Element] {
     Array(Set<Iterator.Element>(self))
   }
+
+  func intersects(with array: [Iterator.Element]) -> Bool {
+    !Set(self).isDisjoint(with: Set(array))
+  }
 }
 
 extension Sequence where Element: AdditiveArithmetic {
