@@ -93,12 +93,16 @@ extension CGRect {
 #endif
 
   static func ~=(lhs: Self, rhs: Self) -> Bool {
-    abs(lhs.x - rhs.x) < 1 && abs(lhs.y - rhs.y) < 1 && abs(lhs.width - rhs.width) < 1 && abs(lhs.height - rhs.height) < 1
+    abs(lhs.x - rhs.x) < 1 && abs(lhs.y - rhs.y) < 1 && lhs.size ~= rhs.size
   }
 }
 
 extension CGSize {
   var rect: CGRect { CGRect(origin: .zero, size: self) }
+
+  static func ~=(lhs: Self, rhs: Self) -> Bool {
+    abs(lhs.width - rhs.width) < 1 && abs(lhs.height - rhs.height) < 1
+  }
 }
 
 extension Int {
