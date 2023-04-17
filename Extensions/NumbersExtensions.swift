@@ -29,6 +29,8 @@ extension CGFloat {
     let divisor = pow(10, CGFloat(decimals))
     return (self * divisor).rounded()/divisor
   }
+
+  var radians: CGFloat { self * (.pi / 180) }
 }
 
 extension NSNumber {
