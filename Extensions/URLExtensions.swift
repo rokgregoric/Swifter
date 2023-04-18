@@ -33,4 +33,11 @@ extension URL {
   var ns: NSURL { self as NSURL }
 
   var baseHost: String? { host?.components(separatedBy: ".").suffix(2).joined(".") }
+
+  static func mailto(recipient: String, subject: String? = nil, body: String? = nil) -> URL? {
+    "mailto:\(recipient)".url?.appending(params: [
+      "subject": subject,
+      "body": body,
+    ].flat)
+  }
 }
