@@ -32,5 +32,5 @@ extension URL {
 
   var ns: NSURL { self as NSURL }
 
-  var domain: String? { absoluteString.domain }
+  var baseHost: String? { host?.components(separatedBy: ".").suffix(2).joined(".") }
 }
