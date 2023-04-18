@@ -55,7 +55,7 @@ extension Application {
 
 #endif
 
-let deviceIdentifier: String = {
+let deviceArchitecture: String = {
   var systemInfo = utsname()
   uname(&systemInfo)
   let mirror = Mirror(reflecting: systemInfo.machine)
@@ -65,6 +65,30 @@ let deviceIdentifier: String = {
     return identifier + String(UnicodeScalar(UInt8(value)))
   }
   return identifier
+}()
+
+let deviceIdentifier: String = Environment.isDebuggerAttached ? "" : { // insanelly slow when debugger attached
+  let task = Process()
+  task.executableURL = "/usr/sbin/system_profiler".fileURL
+  task.arguments = ["SPHardwareDataType", "-json"]
+
+  let pipe = Pipe()
+  task.standardOutput = pipe
+
+  do {
+    try task.run()
+    task.waitUntilExit()
+
+    let data = pipe.fileHandleForReading.readDataToEndOfFile()
+    let decoder = JSONDecoder()
+    let hardwareInfo = try decoder.decode([String: [[String: String]]].self, from: data)
+    let deviceType = hardwareInfo["SPHardwareDataType"]?.first?["machine_name"] ?? "Unknown"
+
+    return deviceType
+  } catch {
+    print("Error: \(error)")
+    return "Unknown"
+  }
 }()
 
 let urlSafeDeviceName = deviceName.regmove("[^a-zA-Z0-9]*").lowercased()
