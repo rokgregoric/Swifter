@@ -52,6 +52,10 @@ extension Array {
   var ns: NSArray { self as NSArray }
 }
 
+extension ArraySlice {
+  var array: [Element] { Array(self) }
+}
+
 extension Collection {
   var nilIfEmpty: Self? { isEmpty ? nil : self }
   var nilIfEmptyOrOne: Self? { hasOne ? nil : nilIfEmpty }
