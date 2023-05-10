@@ -50,4 +50,11 @@ extension Data {
   var safeString: String? { array(of: CChar.self).withUnsafeBufferPointer { String(cString: $0.baseAddress!) }.components(separatedBy: .controlCharacters).joined() }
 
   var ns: NSData { self as NSData }
+
+  var fileSize: String {
+    let formatter = ByteCountFormatter()
+    formatter.allowedUnits = [.useAll]
+    formatter.countStyle = .file
+    return formatter.string(fromByteCount: Int64(count))
+  }
 }
