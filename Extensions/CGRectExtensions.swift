@@ -95,6 +95,13 @@ extension CGRect {
   static func ~=(lhs: Self, rhs: Self) -> Bool {
     abs(lhs.x - rhs.x) < 1 && abs(lhs.y - rhs.y) < 1 && lhs.size ~= rhs.size
   }
+
+  func resizeKeepingCenter(newSize: CGSize) -> CGRect {
+    var newRect = CGRect(origin: .zero, size: newSize)
+    newRect.origin.x = origin.x + (width - newSize.width) / 2
+    newRect.origin.y = origin.y + (height - newSize.height) / 2
+    return newRect
+  }
 }
 
 extension CGSize {
