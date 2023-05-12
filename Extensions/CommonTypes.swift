@@ -53,20 +53,6 @@ extension Application {
   func beginBackgroundTask(_: @escaping () -> Void) -> Int { 0 }
 }
 
-#endif
-
-let deviceArchitecture: String = {
-  var systemInfo = utsname()
-  uname(&systemInfo)
-  let mirror = Mirror(reflecting: systemInfo.machine)
-
-  let identifier = mirror.children.reduce("") { identifier, element in
-    guard let value = element.value as? Int8, value != 0 else { return identifier }
-    return identifier + String(UnicodeScalar(UInt8(value)))
-  }
-  return identifier
-}()
-
 let deviceIdentifier: String = Environment.isDebuggerAttached ? "" : { // insanelly slow when debugger attached
   let task = Process()
   task.executableURL = "/usr/sbin/system_profiler".fileURL
@@ -89,6 +75,20 @@ let deviceIdentifier: String = Environment.isDebuggerAttached ? "" : { // insane
     print("Error: \(error)")
     return "Unknown"
   }
+}()
+
+#endif
+
+let deviceArchitecture: String = {
+  var systemInfo = utsname()
+  uname(&systemInfo)
+  let mirror = Mirror(reflecting: systemInfo.machine)
+
+  let identifier = mirror.children.reduce("") { identifier, element in
+    guard let value = element.value as? Int8, value != 0 else { return identifier }
+    return identifier + String(UnicodeScalar(UInt8(value)))
+  }
+  return identifier
 }()
 
 let urlSafeDeviceName = deviceName.regmove("[^a-zA-Z0-9]*").lowercased()
