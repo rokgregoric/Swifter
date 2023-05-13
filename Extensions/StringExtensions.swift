@@ -10,7 +10,7 @@ import Foundation
 extension String {
   var url: URL? { URL(string: self) }
 
-  var fileURL: URL? { URL(fileURLWithPath: self) }
+  var fileURL: URL { URL(fileURLWithPath: self) }
 
   var urlEncoded: String { escaped(.urlHostAllowed).plusAndEncoded }
 
