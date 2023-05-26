@@ -7,6 +7,8 @@
 
 import Foundation
 
+typealias Block = () -> Void
+
 class Run {
   static func on(_ queue: DispatchQueue, after: Double = 0, _ block: @escaping @convention(block) () -> Void) {
     if after == 0 {
@@ -16,7 +18,7 @@ class Run {
     }
   }
 
-  static func mainSync(after: Double = 0, _ block: @escaping () -> Void) {
+  static func mainSync(after: Double = 0, _ block: @escaping Block) {
     if Thread.isMainThread, after == 0 {
       block()
     } else {
@@ -24,19 +26,19 @@ class Run {
     }
   }
 
-  static func main(after: Double = 0, _ block: @escaping () -> Void) {
+  static func main(after: Double = 0, _ block: @escaping Block) {
     on(.main, after: after, block)
   }
 
-  static func background(after: Double = 0, _ block: @escaping () -> Void) {
+  static func background(after: Double = 0, _ block: @escaping Block) {
     on(.global(qos: .background), after: after, block)
   }
 
-  static func concurrent(after: Double = 0, _ block: @escaping () -> Void) {
+  static func concurrent(after: Double = 0, _ block: @escaping Block) {
     on(.global(qos: .userInteractive), after: after, block)
   }
 
-  static func main(min: Double, _ block: @escaping (@escaping () -> Void) -> Void, _ done: @escaping () -> Void) {
+  static func main(min: Double, _ block: @escaping (@escaping Block) -> Void, _ done: @escaping Block) {
     let g = DispatchGroup()
     2.times(g.enter)
     g.notify(queue: .main, execute: done)
@@ -47,10 +49,10 @@ class Run {
 
 
 class RunTask {
-  private var block: (() -> Void)?
+  private var block: Block?
   private let queue: DispatchQueue
 
-  init(_ after: Double, queue: DispatchQueue = .main, _ block: @escaping () -> Void) {
+  init(_ after: Double, queue: DispatchQueue = .main, _ block: @escaping Block) {
     self.queue = queue
     self.block = block
     Run.on(queue, after: after) { [weak self] in
