@@ -17,6 +17,7 @@ extension Notification {
     NotificationCenter.default.addObserver(observer, selector: selector, name: name, object: object)
   }
 
+  @discardableResult
   static func observe(_ name: Name, object: Any? = nil, queue: OperationQueue? = nil, using: @escaping () -> Void) -> NSObjectProtocol {
     NotificationCenter.default.addObserver(forName: name, object: object, queue: queue, using: { _ in using() })
   }
