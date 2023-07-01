@@ -46,6 +46,11 @@ class Log {
 
   var devLogging: Bool { Environment.isDebuggerAttached }
 
+  class func dev(flag: Bool, level: Level = .verbose, _ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
+    guard flag else { return }
+    dev(level: level, message, file: file, function: function, line: line, context: context)
+  }
+
   class func dev(level: Level = .verbose, _ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
     guard shared.devLogging else { return }
     custom(level: level, message: message, file: file, function: function, line: line, context: context)
