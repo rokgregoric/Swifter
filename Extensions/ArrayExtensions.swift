@@ -65,6 +65,8 @@ extension Collection {
   var firstIfHasOne: Element? { hasOne ? first : nil }
 
   var notEmpty: Bool { !isEmpty }
+
+  func has(where predicate: (Self.Element) -> Bool) -> Bool { first(where: predicate).notNil }
 }
 
 extension Optional where Wrapped: Collection {
@@ -107,6 +109,10 @@ extension Sequence where Iterator.Element: Equatable {
 
   public func excludesNil(_ element: Iterator.Element?) -> Bool {
     element.map(excludes) ?? true
+  }
+
+  public func containsAny(_ other: [Iterator.Element]) -> Bool {
+    first(where: (other.contains)).notNil
   }
 }
 
