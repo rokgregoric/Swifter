@@ -114,6 +114,10 @@ extension Sequence where Iterator.Element: Equatable {
   public func containsAny(_ other: [Iterator.Element]) -> Bool {
     first(where: (other.contains)).notNil
   }
+
+  public func contains(_ element: Iterator.Element?) -> Bool {
+    element.map { contains($0) } ?? false
+  }
 }
 
 extension Sequence where Iterator.Element: Equatable {
