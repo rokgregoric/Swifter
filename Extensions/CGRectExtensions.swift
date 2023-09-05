@@ -110,6 +110,8 @@ extension CGSize {
   static func ~=(lhs: Self, rhs: Self) -> Bool {
     abs(lhs.width - rhs.width) < 1 && abs(lhs.height - rhs.height) < 1
   }
+
+  var string: String { "\(width.int)x\(height.int)" }
 }
 
 extension Int {
