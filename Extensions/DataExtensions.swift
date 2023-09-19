@@ -57,4 +57,24 @@ extension Data {
     formatter.countStyle = .file
     return formatter.string(fromByteCount: Int64(count))
   }
+
+  func saveToFile(type: String) -> URL? {
+    saveTemp(filename: "\(String.longerID()).\(type)")
+  }
+
+  func saveTemp(filename: String) -> URL? {
+    let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+    return save(to: url) ? url : nil
+  }
+
+  @discardableResult
+  func save(to url: URL) -> Bool {
+    do {
+      try write(to: url)
+      return true
+    } catch {
+      Log.error("Error saving image:", error)
+      return false
+    }
+  }
 }
