@@ -8,14 +8,14 @@
 import AppKit
 
 extension NSAlert {
-  static func show(title: String, message: String, accept: String = "Ok", on window: NSWindow? = nil, completion: @escaping () -> Void) {
+  static func show(title: String, message: String, accept: String = "Ok", on window: NSWindow? = nil, completion: (() -> Void)? = nil) {
     let a = NSAlert()
     a.messageText = title
     a.informativeText = message
     a.addButton(withTitle: accept)
     a.alertStyle = .warning
     a.present(on: window) { _ in
-      completion()
+      completion?()
     }
   }
 
