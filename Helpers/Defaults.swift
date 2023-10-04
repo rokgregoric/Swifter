@@ -52,9 +52,15 @@ class Defaults {
   }
 
   class func clear() {
-    defaults.dictionaryRepresentation().forEach {
-      defaults.removeObject(forKey: $0.0)
+    defaults.clear()
+  }
+}
+
+extension UserDefaults {
+  func clear() {
+    dictionaryRepresentation().forEach {
+      removeObject(forKey: $0.0)
     }
-    defaults.synchronize()
+    synchronize()
   }
 }
