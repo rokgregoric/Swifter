@@ -47,9 +47,8 @@ extension CGRect {
           height: height.rounded(to: decimal))
   }
 
-  var maxWH: CGFloat {
-    [width, height].max()!
-  }
+  var minWH: CGFloat { size.minWH }
+  var maxWH: CGFloat { size.maxWH }
 
   var area: CGFloat {
     width * height
@@ -112,6 +111,9 @@ extension CGSize {
   }
 
   var string: String { "\(width.int)x\(height.int)" }
+
+  var minWH: CGFloat { [width, height].min()! }
+  var maxWH: CGFloat { [width, height].max()! }
 }
 
 extension Int {
