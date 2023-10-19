@@ -7,37 +7,73 @@
 
 import AppKit
 
+private let dismissIdentifier = NSUserInterfaceItemIdentifier(rawValue: "dismissIdentifier")
+private var dismisses = [NSWindow: Block]()
+
 extension NSAlert {
-  static func show(title: String, message: String, accept: String = "Ok", on window: NSWindow? = nil, completion: (() -> Void)? = nil) {
-    let a = NSAlert()
-    a.messageText = title
-    a.informativeText = message
-    a.addButton(withTitle: accept)
-    a.alertStyle = .warning
-    a.present(on: window) { _ in
-      completion?()
+  static func registerESC() {
+    NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
+      if $0.keyCode == 53 {  // 53 is the Escape key
+        for window in NSApplication.shared.windows {
+          if window.identifier == dismissIdentifier {
+            window.orderOut(nil)
+            dismisses[window]?()
+            dismisses[window] = nil
+          }
+        }
+      }
+      return $0
     }
   }
 
-  static func ask(title: String, message: String, accept: String = "Yes", decline: String = "No", on window: NSWindow? = nil, destructive: Bool = false, completion: @escaping (Bool) -> Void) {
+  static func dismissible(dismiss: Block? = nil) -> NSAlert {
     let a = NSAlert()
+    a.window.identifier = dismissIdentifier
+    dismisses[a.window] = dismiss
+    return a
+  }
+
+  private func cancelDismiss() {
+    dismisses[window] = nil
+  }
+
+  static func show(title: String, message: String, accept: String = "Ok", on window: NSWindow? = nil, completion: Block? = nil, dismiss: Block? = nil) {
+    let a = NSAlert.dismissible(dismiss: dismiss)
+    a.messageText = title
+    a.informativeText = message
+    a.addButton(withTitle: accept)
+    a.present(on: window) { _ in
+      completion?()
+      a.cancelDismiss()
+    }
+  }
+
+  static func ask(title: String, message: String, accept: String = "Yes", decline: String = "No", on window: NSWindow? = nil, destructive: Bool = false, completion: @escaping Block1<Bool>, dismiss: Block? = nil) {
+    let a = NSAlert.dismissible(dismiss: dismiss)
     a.messageText = title
     a.informativeText = message
     if destructive {
-      a.addButton(withTitle: decline).keyEquivalent = ""
-      a.addButton(withTitle: accept).hasDestructiveAction = true
+      a.addButton(title: decline)
+      a.addButton(title: accept).hasDestructiveAction = true
     } else {
       a.addButton(withTitle: accept)
-      a.addButton(withTitle: decline)
+      a.addButton(title: decline)
     }
-    a.alertStyle = .warning
     a.present(on: window) {
       if destructive {
         completion($0 == .alertSecondButtonReturn)
       } else {
         completion($0 == .alertFirstButtonReturn)
       }
+      a.cancelDismiss()
     }
+  }
+
+  @discardableResult
+  func addButton(title: String) -> NSButton {
+    let b = addButton(withTitle: title)
+    b.keyEquivalent = title.first.map { "\($0.lowercased())" } ?? ""
+    return b
   }
 
   func present(on window: NSWindow? = nil, completion: @escaping (NSApplication.ModalResponse) -> Void) {
