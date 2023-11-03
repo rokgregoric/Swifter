@@ -53,29 +53,19 @@ extension Application {
   func beginBackgroundTask(_: @escaping () -> Void) -> Int { 0 }
 }
 
-let deviceIdentifier: String = Environment.isDebuggerAttached ? "" : { // insanelly slow when debugger attached
-  let task = Process()
-  task.executableURL = "/usr/sbin/system_profiler".fileURL
-  task.arguments = ["SPHardwareDataType", "-json"]
-
-  let pipe = Pipe()
-  task.standardOutput = pipe
-
+let hardwareInfo: [String: String]? = {
+  guard let data = "system_profiler SPHardwareDataType -json".runData() else { return nil }
   do {
-    try task.run()
-    task.waitUntilExit()
-
-    let data = pipe.fileHandleForReading.readDataToEndOfFile()
     let decoder = JSONDecoder()
     let hardwareInfo = try decoder.decode([String: [[String: String]]].self, from: data)
-    let deviceType = hardwareInfo["SPHardwareDataType"]?.first?["machine_name"] ?? "Unknown"
-
-    return deviceType
+    return hardwareInfo["SPHardwareDataType"]?.first
   } catch {
     print("Error: \(error)")
-    return "Unknown"
+    return nil
   }
 }()
+
+let deviceIdentifier = hardwareInfo?["machine_model"]
 
 #endif
 

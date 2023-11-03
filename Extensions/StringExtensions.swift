@@ -184,3 +184,22 @@ extension Substring {
 extension NSString {
   var string: String { self as String }
 }
+
+// MARK: - Command line
+
+extension String {
+  func run() -> String? {
+    runData()?.utf8string
+  }
+
+  func runData() -> Data? {
+    let pipe = Pipe()
+    let process = Process()
+    process.executableURL = "/bin/sh".fileURL
+    process.arguments = ["-c", self]
+    process.standardOutput = pipe
+    process.qualityOfService = .userInteractive
+    try? process.run()
+    return pipe.fileHandleForReading.readDataToEndOfFile()
+  }
+}
