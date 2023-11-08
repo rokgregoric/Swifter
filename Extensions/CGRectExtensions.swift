@@ -119,3 +119,8 @@ extension CGSize {
 extension Int {
   var size: CGSize { CGSize(width: self, height: self) }
 }
+
+extension NSEdgeInsets {
+  var vertical: CGFloat { top + bottom }
+  var horizontal: CGFloat { left + right }
+}
