@@ -48,7 +48,8 @@ extension NSAlert {
     }
   }
 
-  static func ask(title: String, message: String, accept: String = "Yes", decline: String = "No", on window: NSWindow? = nil, destructive: Bool = false, completion: @escaping Block1<Bool>, dismiss: Block? = nil) {
+  @discardableResult
+  static func ask(title: String, message: String, accept: String = "Yes", decline: String = "No", destructive: Bool = false, suppression: Bool = false, on window: NSWindow? = nil, completion: @escaping Block1<Bool>, dismiss: Block? = nil) -> NSAlert {
     let a = NSAlert.dismissible(dismiss: dismiss)
     a.messageText = title
     a.informativeText = message
@@ -59,6 +60,7 @@ extension NSAlert {
       a.addButton(withTitle: accept)
       a.addButton(title: decline)
     }
+    a.showsSuppressionButton = suppression
     a.present(on: window) {
       if destructive {
         completion($0 == .alertSecondButtonReturn)
@@ -67,6 +69,7 @@ extension NSAlert {
       }
       a.cancelDismiss()
     }
+    return a
   }
 
   @discardableResult
