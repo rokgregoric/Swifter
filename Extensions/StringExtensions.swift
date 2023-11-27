@@ -200,6 +200,9 @@ extension String {
     process.standardOutput = pipe
     process.qualityOfService = .userInteractive
     try? process.run()
-    return pipe.fileHandleForReading.readDataToEndOfFile()
+    let data = pipe.fileHandleForReading.readDataToEndOfFile()
+    pipe.fileHandleForReading.closeFile()
+    process.terminate()
+    return data
   }
 }
