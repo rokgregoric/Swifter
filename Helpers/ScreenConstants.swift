@@ -38,7 +38,7 @@ var isPortrait: Bool { isMac ? false : interfaceOrientation.isPortrait }
 let shorterScreenSide = min(mainScreenSize.width, mainScreenSize.height)
 let longerScreenSide = max(mainScreenSize.width, mainScreenSize.height)
 
-let isMac = Environment.isiOSAppOnMac || Environment.isMacCatalystApp
+let isMac = AppEnvironment.isiOSAppOnMac || AppEnvironment.isMacCatalystApp
 let isIpad = UIDevice.current.userInterfaceIdiom == .pad
 let isIphone = UIDevice.current.userInterfaceIdiom == .phone
 

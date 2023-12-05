@@ -7,7 +7,7 @@
 
 import CoreGraphics
 
-extension Color {
+extension XColor {
   convenience init(red: Int, green: Int, blue: Int) {
     let newRed = CGFloat(red)/255
     let newGreen = CGFloat(green)/255
@@ -28,8 +28,8 @@ extension Color {
     }
   }
 
-  static var random: Color {
-    return Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
+  static var random: XColor {
+    return XColor(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
   }
 
   var hex: Int {
@@ -57,15 +57,15 @@ extension Color {
 
   static let brightnessAmount: CGFloat = 0.25
 
-  func lighter(_ amount: CGFloat = brightnessAmount) -> Color {
+  func lighter(_ amount: CGFloat = brightnessAmount) -> XColor {
     return color(brightness: 1 + amount)
   }
 
-  func darker(_ amount: CGFloat = brightnessAmount) -> Color {
+  func darker(_ amount: CGFloat = brightnessAmount) -> XColor {
     return color(brightness: 1 - amount)
   }
 
-  func color(hue: CGFloat = 1, saturation: CGFloat = 1, brightness: CGFloat = 1, alpha: CGFloat = 1) -> Color {
+  func color(hue: CGFloat = 1, saturation: CGFloat = 1, brightness: CGFloat = 1, alpha: CGFloat = 1) -> XColor {
     var h: CGFloat = 0
     var s: CGFloat = 0
     var b: CGFloat = 0
@@ -73,13 +73,13 @@ extension Color {
 
 #if os(iOS)
     if getHue(&h, saturation: &s, brightness: &b, alpha: &a) {
-      return Color(hue: h * hue, saturation: s * saturation, brightness: b * brightness, alpha: a * alpha)
+      return XColor(hue: h * hue, saturation: s * saturation, brightness: b * brightness, alpha: a * alpha)
     } else {
       return self
     }
 #elseif os(OSX)
     usingColorSpace(.sRGB)?.getHue(&h, saturation: &s, brightness: &b, alpha: &a)
-    return Color(hue: h * hue, saturation: s * saturation, brightness: b * brightness, alpha: a * alpha)
+    return XColor(hue: h * hue, saturation: s * saturation, brightness: b * brightness, alpha: a * alpha)
 #endif
   }
 

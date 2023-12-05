@@ -187,6 +187,8 @@ extension NSString {
 
 // MARK: - Command line
 
+#if os(OSX)
+
 extension String {
   func run() -> String? {
     runData()?.utf8string
@@ -206,3 +208,5 @@ extension String {
     return data
   }
 }
+
+#endif

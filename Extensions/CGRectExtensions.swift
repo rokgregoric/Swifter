@@ -55,15 +55,15 @@ extension CGRect {
   }
 
   func inset(all val: CGFloat) -> CGRect {
-    inset(by: EdgeInsets(top: val, left: val, bottom: val, right: val))
+    inset(by: XEdgeInsets(top: val, left: val, bottom: val, right: val))
   }
 
   func outset(all val: CGFloat) -> CGRect {
     inset(all: -val)
   }
 
-  func outset(by insets: EdgeInsets) -> CGRect {
-    inset(by: EdgeInsets(top: -insets.top, left: -insets.left, bottom: -insets.bottom, right: -insets.right))
+  func outset(by insets: XEdgeInsets) -> CGRect {
+    inset(by: XEdgeInsets(top: -insets.top, left: -insets.left, bottom: -insets.bottom, right: -insets.right))
   }
 
   init (points: [CGPoint]) {
@@ -81,7 +81,7 @@ extension CGRect {
   }
 
 #if os(OSX)
-  func inset(by insets: EdgeInsets) -> CGRect {
+  func inset(by insets: XEdgeInsets) -> CGRect {
     var rect = self
     rect.x += insets.left
     rect.y += insets.top
@@ -120,7 +120,7 @@ extension Int {
   var size: CGSize { CGSize(width: self, height: self) }
 }
 
-extension NSEdgeInsets {
+extension XEdgeInsets {
   var vertical: CGFloat { top + bottom }
   var horizontal: CGFloat { left + right }
 }

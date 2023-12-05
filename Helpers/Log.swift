@@ -44,7 +44,7 @@ class Log {
     }.joined(" ")
   }
 
-  var devLogging: Bool { Environment.isDebuggerAttached }
+  var devLogging: Bool { AppEnvironment.isDebuggerAttached }
 
   class func dev(flag: Bool, level: Level = .verbose, _ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
     guard flag else { return }
@@ -106,10 +106,10 @@ class Log {
     let c = context?.uppercased()
     let msg = [c.map { "[\($0)]" }, messages].flatJoined(" ")
     let symbol = level.symbolValue
-    if Environment.isDebuggerAttached {
+    if AppEnvironment.isDebuggerAttached {
       print(DateFormat.timeMili.currentString, symbol, msg)
     } else {
-      let log = OSLog(subsystem: Environment.identifier, category: c ?? "")
+      let log = OSLog(subsystem: AppEnvironment.identifier, category: c ?? "")
       os_log("%{public}@ %{public}@", log: log, type: level.logType, symbol, msg)
     }
   }

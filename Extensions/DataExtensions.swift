@@ -29,7 +29,7 @@ extension Data {
     self = data
   }
 
-  var image: Image? { Image(data: self) }
+  var image: XImage? { XImage(data: self) }
 
   enum ContentType: String {
     case png = "image/png"

@@ -8,9 +8,9 @@
 import Foundation
 
 extension Notification.Name {
-  static let appDidBecomeActive = Application.didBecomeActiveNotification
-  static let appWillResignActive = Application.willResignActiveNotification
-  static let appWillTerminate = Application.willTerminateNotification
+  static let appDidBecomeActive = XApplication.didBecomeActiveNotification
+  static let appWillResignActive = XApplication.willResignActiveNotification
+  static let appWillTerminate = XApplication.willTerminateNotification
 }
 
 #if os(iOS)

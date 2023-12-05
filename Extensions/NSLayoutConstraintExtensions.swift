@@ -68,7 +68,7 @@ extension NSLayoutConstraint {
 #endif
 
   @discardableResult
-  func activate(priority: LayoutPriority? = nil) -> Self {
+  func activate(priority: XLayoutPriority? = nil) -> Self {
     priority.map { self.priority = $0 }
     isActive = true
     return self

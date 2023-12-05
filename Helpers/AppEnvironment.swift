@@ -1,5 +1,5 @@
 //
-//  Environment.swift
+//  AppEnvironment.swift
 //
 //  Created by Rok Gregorič
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Environment {
+struct AppEnvironment {
   static func value<T>(for key: String) -> T? {
     return Bundle.main.infoDictionary?[key] as? T
   }
