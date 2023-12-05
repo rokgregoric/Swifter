@@ -161,6 +161,14 @@ extension String {
     return Double(str) ?? 0
   }
 
+  var version: Int {
+    let arr = components(separatedBy: ".")
+    let major = arr.object(at: 0).flatMap(Int.init) ?? 0
+    let minor = arr.object(at: 1).flatMap(Int.init) ?? 0
+    let bugfix = arr.object(at: 2).flatMap(Int.init) ?? 0
+    return major * 1_000_000 + minor * 1_000 + bugfix
+  }
+
   var base64DecodedData: Data? { Data(base64Encoded: self) }
 
   var djb2hash: Int { unicodeScalars.map { $0.value }.reduce(5381) { ($0 << 5) &+ $0 &+ Int($1) } }
@@ -183,6 +191,13 @@ extension Substring {
 
 extension NSString {
   var string: String { self as String }
+}
+
+extension String {
+  private static func ID(length: Int) -> String { String.random(length: length) }
+  static func shortID() -> String { String.ID(length: 5) }
+  static func longID() -> String { String.ID(length: 28) }
+  static func longerID() -> String { String.ID(length: 64) }
 }
 
 // MARK: - Command line
