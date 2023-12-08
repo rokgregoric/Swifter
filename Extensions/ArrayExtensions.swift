@@ -16,7 +16,9 @@ extension Array {
 
   var random: Element? { object(at: randomIndex) }
 
-  mutating func removeRandom() -> Element? { count == 0 ? nil : remove(at: randomIndex) }
+  mutating func removeRandom() -> Element? { isEmpty ? nil : remove(at: randomIndex) }
+  mutating func removeFirstIf() -> Element? { isEmpty ? nil : remove(at: 0) }
+  mutating func removeLastIf() -> Element? { isEmpty ? nil : remove(at: count-1) }
 
   mutating func insert(random object: Element) {
     let index = isEmpty ? 0 : Int.random(in: (count+1).range)
