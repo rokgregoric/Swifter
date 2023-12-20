@@ -33,15 +33,15 @@ extension DateFormatter {
   }
 
   public static var iso8601full: DateFormatter {
-    return DateFormat.dateTimeFull.formatter()
+    DateFormat.dateTimeFull.formatter()
   }
 
   public static var iso8601: DateFormatter {
-    return DateFormat.dateTime.formatter()
+    DateFormat.dateTime.formatter()
   }
 
   func string(if date: Date?) -> String? {
-    return date.map(string(from:))
+    date.map(string(from:))
   }
 }
 
@@ -49,6 +49,6 @@ extension DateFormatter {
 
 extension TimeZone {
   static var UTC: TimeZone {
-    return TimeZone(secondsFromGMT: 0)!
+    TimeZone(secondsFromGMT: 0)!
   }
 }

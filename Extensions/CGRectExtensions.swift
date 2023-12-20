@@ -35,7 +35,7 @@ extension CGRect {
   @nonobjc
   var center: CGPoint {
     get { CGPoint(x: midX, y: midY) }
-    set { origin = CGPoint(x: newValue.x - width/2, y: newValue.y - height/2) }
+    set { origin = CGPoint(x: newValue.x - width / 2, y: newValue.y - height / 2) }
   }
 
   var rounded: CGRect { .init(x: x.rounded(), y: y.rounded(), width: width.rounded(), height: height.rounded()) }
@@ -66,7 +66,7 @@ extension CGRect {
     inset(by: XEdgeInsets(top: -insets.top, left: -insets.left, bottom: -insets.bottom, right: -insets.right))
   }
 
-  init (points: [CGPoint]) {
+  init(points: [CGPoint]) {
     var minX = CGFloat.infinity
     var minY = CGFloat.infinity
     var maxX = CGFloat.zero
@@ -80,18 +80,18 @@ extension CGRect {
     self.init(x: minX, y: minY, width: maxX - minX, height: maxY - minY)
   }
 
-#if os(OSX)
-  func inset(by insets: XEdgeInsets) -> CGRect {
-    var rect = self
-    rect.x += insets.left
-    rect.y += insets.top
-    rect.width -= insets.left + insets.right
-    rect.height -= insets.top + insets.bottom
-    return rect
-  }
-#endif
+  #if os(OSX)
+    func inset(by insets: XEdgeInsets) -> CGRect {
+      var rect = self
+      rect.x += insets.left
+      rect.y += insets.top
+      rect.width -= insets.left + insets.right
+      rect.height -= insets.top + insets.bottom
+      return rect
+    }
+  #endif
 
-  static func ~=(lhs: Self, rhs: Self) -> Bool {
+  static func ~= (lhs: Self, rhs: Self) -> Bool {
     abs(lhs.x - rhs.x) < 1 && abs(lhs.y - rhs.y) < 1 && lhs.size ~= rhs.size
   }
 
@@ -106,7 +106,7 @@ extension CGRect {
 extension CGSize {
   var rect: CGRect { CGRect(origin: .zero, size: self) }
 
-  static func ~=(lhs: Self, rhs: Self) -> Bool {
+  static func ~= (lhs: Self, rhs: Self) -> Bool {
     abs(lhs.width - rhs.width) < 1 && abs(lhs.height - rhs.height) < 1
   }
 

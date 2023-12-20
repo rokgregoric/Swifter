@@ -9,27 +9,27 @@ import UIKit
 
 extension UIButton {
   var title: String? {
-    get { return title(for: .normal) }
+    get { title(for: .normal) }
     set { setTitle(newValue, for: .normal) }
   }
 
   var attributedTitle: NSAttributedString? {
-    get { return attributedTitle(for: .normal) }
+    get { attributedTitle(for: .normal) }
     set { setAttributedTitle(newValue, for: .normal) }
   }
 
   var image: UIImage? {
-    get { return image(for: .normal) }
+    get { image(for: .normal) }
     set { setImage(newValue, for: .normal) }
   }
 
   var backgroundImage: UIImage? {
-    get { return backgroundImage(for: .normal) }
+    get { backgroundImage(for: .normal) }
     set { setBackgroundImage(newValue, for: .normal) }
   }
 
   var titleColor: UIColor? {
-    get { return titleColor(for: .normal) }
+    get { titleColor(for: .normal) }
     set { setTitleColor(newValue, for: .normal) }
   }
 }

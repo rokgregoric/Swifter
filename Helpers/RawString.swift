@@ -17,19 +17,18 @@ struct RawString {
 
 // MARK: Equatable
 
-func ==(lhs: RawString, rhs: RawString) -> Bool {
-  return lhs.rawValue == rhs.rawValue
+func == (lhs: RawString, rhs: RawString) -> Bool {
+  lhs.rawValue == rhs.rawValue
 }
 
-
-//extension Notification.Name {
+// extension Notification.Name {
 //  static let loggedIn = Notification.Name("loggedIn")
-//}
+// }
 //
-//extension UIStoryboard.Name {
+// extension UIStoryboard.Name {
 //  static let main = UIStoryboard.Name("Main")
-//}
+// }
 //
-//extension Defaults.Key {
+// extension Defaults.Key {
 //  static let loggedIn = Defaults.Key("loggedIn")
-//}
+// }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-fileprivate var componentsFormatter: DateComponentsFormatter = {
+private var componentsFormatter: DateComponentsFormatter = {
   let formatter = DateComponentsFormatter()
   formatter.unitsStyle = .full
   formatter.maximumUnitCount = 1
@@ -18,7 +18,7 @@ fileprivate var componentsFormatter: DateComponentsFormatter = {
 extension Date {
   func adding(days: Int) -> Date { adding(days: Double(days)) }
 
-  func adding(days: Double) -> Date { addingTimeInterval(3600*24*days) }
+  func adding(days: Double) -> Date { addingTimeInterval(3600 * 24 * days) }
 
   var isToday: Bool { Calendar.current.isDateInToday(self) }
 

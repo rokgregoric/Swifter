@@ -1,5 +1,5 @@
 //
-//  StringExtension.swift
+//  StringExtensions.swift
 //
 //  Created by Rok Gregorič
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
@@ -25,7 +25,7 @@ extension String {
   }
 
   var htmlDecoded: String {
-    replace("&nbsp;", with: " ").replace("&amp;", with: "&").replace("&quot;", with: "\"").replace("&#39;", with: "'").replace("&lt;", with: "<").replace("&gt;", with:">")
+    replace("&nbsp;", with: " ").replace("&amp;", with: "&").replace("&quot;", with: "\"").replace("&#39;", with: "'").replace("&lt;", with: "<").replace("&gt;", with: ">")
   }
 
   var urlDecoded: String { removingPercentEncoding ?? "" }
@@ -62,7 +62,7 @@ extension String {
     stride(from: 0, to: string.count, by: length).reversed().map {
       let endIndex = string.index(string.endIndex, offsetBy: -$0)
       let startIndex = string.index(endIndex, offsetBy: -length, limitedBy: string.startIndex)
-      return String(string[startIndex!..<endIndex])
+      return String(string[startIndex! ..< endIndex])
     }
   }
 
@@ -76,7 +76,7 @@ extension String {
 
   func substring(to: Int) -> String { self[0 ..< clamp(to, min: 0, max: count)] }
 
-  func substring(from: Int, to: Int) -> String { substring(from: from).substring(to: to-from) }
+  func substring(from: Int, to: Int) -> String { substring(from: from).substring(to: to - from) }
 
   mutating func insert(_ char: Character, at: Int) { insert(char, at: String.Index(utf16Offset: at, in: self)) }
 
@@ -132,7 +132,7 @@ extension String {
   func enclosing(pre: String = "", suf: String = "") -> String { pre + self + suf }
 
   func matches(regExp: String) -> Bool {
-    NSPredicate(format:"SELF MATCHES %@", regExp).evaluate(with: self)
+    NSPredicate(format: "SELF MATCHES %@", regExp).evaluate(with: self)
   }
 
   var isValidEmail: Bool {
@@ -166,7 +166,7 @@ extension String {
     let major = arr.object(at: 0).flatMap(Int.init) ?? 0
     let minor = arr.object(at: 1).flatMap(Int.init) ?? 0
     let bugfix = arr.object(at: 2).flatMap(Int.init) ?? 0
-    return major * 1_000_000 + minor * 1_000 + bugfix
+    return major * 1_000_000 + minor * 1000 + bugfix
   }
 
   var base64DecodedData: Data? { Data(base64Encoded: self) }
@@ -177,11 +177,11 @@ extension String {
     let mapped = unicodeScalars.map { $0.value }
     return mapped.reduce(0) { Int($1) &+ ($0 << 6) &+ ($0 << 16) &- $0 }
   }
-  
+
   var utf8Data: Data { data(using: .utf8)! }
 
   func XorEncoded(with byte: UInt8) -> String? {
-    String(bytes: self.utf8.map{ $0 ^ byte }, encoding: .utf8)
+    String(bytes: utf8.map { $0 ^ byte }, encoding: .utf8)
   }
 }
 
@@ -204,24 +204,24 @@ extension String {
 
 #if os(OSX)
 
-extension String {
-  func run() -> String? {
-    runData()?.utf8string
-  }
+  extension String {
+    func run() -> String? {
+      runData()?.utf8string
+    }
 
-  func runData() -> Data? {
-    let pipe = Pipe()
-    let process = Process()
-    process.executableURL = "/bin/sh".fileURL
-    process.arguments = ["-c", self]
-    process.standardOutput = pipe
-    process.qualityOfService = .userInteractive
-    try? process.run()
-    let data = pipe.fileHandleForReading.readDataToEndOfFile()
-    pipe.fileHandleForReading.closeFile()
-    process.terminate()
-    return data
+    func runData() -> Data? {
+      let pipe = Pipe()
+      let process = Process()
+      process.executableURL = "/bin/sh".fileURL
+      process.arguments = ["-c", self]
+      process.standardOutput = pipe
+      process.qualityOfService = .userInteractive
+      try? process.run()
+      let data = pipe.fileHandleForReading.readDataToEndOfFile()
+      pipe.fileHandleForReading.closeFile()
+      process.terminate()
+      return data
+    }
   }
-}
 
 #endif

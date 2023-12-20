@@ -18,10 +18,10 @@ extension Array {
 
   mutating func removeRandom() -> Element? { isEmpty ? nil : remove(at: randomIndex) }
   mutating func removeFirstIf() -> Element? { isEmpty ? nil : remove(at: 0) }
-  mutating func removeLastIf() -> Element? { isEmpty ? nil : remove(at: count-1) }
+  mutating func removeLastIf() -> Element? { isEmpty ? nil : remove(at: count - 1) }
 
   mutating func insert(random object: Element) {
-    let index = isEmpty ? 0 : Int.random(in: (count+1).range)
+    let index = isEmpty ? 0 : Int.random(in: (count + 1).range)
     insert(object, at: index)
   }
 
@@ -79,7 +79,7 @@ extension Array where Iterator.Element: Equatable {
   @discardableResult
   mutating func remove(_ element: Element) -> Int? {
     let idx = firstIndex(of: element)
-    _ = idx.map { remove(at: $0 ) }
+    _ = idx.map { remove(at: $0) }
     return idx
   }
 
@@ -92,7 +92,7 @@ extension Array where Iterator.Element: Equatable {
   }
 
   mutating func toggle(_ element: Element) {
-    if self.contains(element) {
+    if contains(element) {
       remove(element)
     } else {
       append(element)
@@ -100,24 +100,24 @@ extension Array where Iterator.Element: Equatable {
   }
 }
 
-extension Sequence where Iterator.Element: Equatable {
-  public func containsNil(_ element: Iterator.Element?) -> Bool {
+public extension Sequence where Iterator.Element: Equatable {
+  func containsNil(_ element: Iterator.Element?) -> Bool {
     element.map(contains) ?? false
   }
 
-  public func excludes(_ element: Iterator.Element) -> Bool {
+  func excludes(_ element: Iterator.Element) -> Bool {
     !contains(element)
   }
 
-  public func excludesNil(_ element: Iterator.Element?) -> Bool {
+  func excludesNil(_ element: Iterator.Element?) -> Bool {
     element.map(excludes) ?? true
   }
 
-  public func containsAny(_ other: [Iterator.Element]) -> Bool {
-    first(where: (other.contains)).notNil
+  func containsAny(_ other: [Iterator.Element]) -> Bool {
+    first(where: other.contains).notNil
   }
 
-  public func contains(_ element: Iterator.Element?) -> Bool {
+  func contains(_ element: Iterator.Element?) -> Bool {
     element.map { contains($0) } ?? false
   }
 }
@@ -171,7 +171,7 @@ extension Sequence where Iterator.Element == String {
   }
 }
 
-extension Sequence where Iterator.Element == Optional<String> {
+extension Sequence where Iterator.Element == String? {
   func flatJoined(_ separator: String) -> String {
     flat.joined(separator)
   }

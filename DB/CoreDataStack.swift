@@ -11,7 +11,7 @@ class CoreDataStack {
   static var name = "db"
   static var persistentContainer = NSPersistentContainer(name: name)
 
-  static var context: NSManagedObjectContext { return persistentContainer.viewContext }
+  static var context: NSManagedObjectContext { persistentContainer.viewContext }
 
   static var inMemoryContext: NSManagedObjectContext {
     let psc = NSPersistentStoreCoordinator(managedObjectModel: persistentContainer.managedObjectModel)

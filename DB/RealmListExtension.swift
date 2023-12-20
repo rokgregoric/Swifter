@@ -9,17 +9,17 @@ import RealmSwift
 
 extension List {
   var array: [Element] {
-    return Array(self)
+    Array(self)
   }
 
   func object(at index: Int) -> Element? {
-    if index >= 0 && index < self.count {
+    if index >= 0, index < count {
       return self[index] as Element
     }
     return nil
   }
 
   func remove(_ element: Element) {
-    _ = index(of: element).map { remove(at: $0 ) }
+    _ = index(of: element).map { remove(at: $0) }
   }
 }

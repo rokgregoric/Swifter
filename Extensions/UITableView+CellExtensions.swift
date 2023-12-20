@@ -40,10 +40,10 @@ extension UITableView {
 
 extension Int {
   var indexPath: IndexPath {
-    return indexPath(0)
+    indexPath(0)
   }
 
   func indexPath(_ section: Int) -> IndexPath {
-    return IndexPath(row: self, section: section)
+    IndexPath(row: self, section: section)
   }
 }

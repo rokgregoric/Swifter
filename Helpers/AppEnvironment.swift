@@ -9,50 +9,50 @@ import Foundation
 
 struct AppEnvironment {
   static func value<T>(for key: String) -> T? {
-    return Bundle.main.infoDictionary?[key] as? T
+    Bundle.main.infoDictionary?[key] as? T
   }
 
   static var appName: String {
-    return value(for: "CFBundleDisplayName") ?? value(for: "CFBundleName") ?? ""
+    value(for: "CFBundleDisplayName") ?? value(for: "CFBundleName") ?? ""
   }
 
   static var build: String {
-    return value(for: "CFBundleVersion") ?? ""
+    value(for: "CFBundleVersion") ?? ""
   }
 
   static var version: String {
-    return value(for: "CFBundleShortVersionString") ?? ""
+    value(for: "CFBundleShortVersionString") ?? ""
   }
 
   static var identifier: String {
-    return value(for: "CFBundleIdentifier") ?? ""
+    value(for: "CFBundleIdentifier") ?? ""
   }
 
   static var verBuild: String {
-    return "v\(version) (\(build))"
+    "v\(version) (\(build))"
   }
 
   static let isProduction: Bool = {
     #if PRODUCTION
-    return true
+      return true
     #else
-    return false
+      return false
     #endif
   }()
 
   static let isDevelopment: Bool = {
     #if DEBUG
-    return true
+      return true
     #else
-    return false
+      return false
     #endif
   }()
 
   static let isSimulator: Bool = {
     #if targetEnvironment(simulator)
-    return true
+      return true
     #else
-    return ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] != nil
+      return ProcessInfo.processInfo.environment["SIMULATOR_MODEL_IDENTIFIER"] != nil
     #endif
   }()
 
@@ -72,15 +72,15 @@ struct AppEnvironment {
 
   static let isiOS: Bool = {
     #if os(iOS)
-    return true
+      return true
     #else
-    return false
+      return false
     #endif
   }()
 
-  static let isTestFlight: Bool = { Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt" }()
+  static let isTestFlight: Bool = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
 
-  static let isUnitTest: Bool = { ProcessInfo.processInfo.environment["UNITTEST"] == "1" }()
+  static let isUnitTest: Bool = ProcessInfo.processInfo.environment["UNITTEST"] == "1"
 
-  static let isDebuggerAttached: Bool = { getppid() != 1 }()
+  static let isDebuggerAttached: Bool = getppid() != 1
 }

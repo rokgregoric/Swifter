@@ -9,7 +9,7 @@ import UIKit
 
 extension UIScrollView {
   var isTouchDriven: Bool {
-    return isTracking || isDragging || isDecelerating
+    isTracking || isDragging || isDecelerating
   }
 
   func scrollToTop(animated: Bool) {
@@ -17,22 +17,22 @@ extension UIScrollView {
   }
 
   @IBInspectable var topContentInset: CGFloat {
-    get { return contentInset.top }
+    get { contentInset.top }
     set { contentInset.top = newValue }
   }
 
   @IBInspectable var bottomContentInset: CGFloat {
-    get { return contentInset.bottom }
+    get { contentInset.bottom }
     set { contentInset.bottom = newValue }
   }
 
   @IBInspectable var leftContentInset: CGFloat {
-    get { return contentInset.left }
+    get { contentInset.left }
     set { contentInset.left = newValue }
   }
 
   @IBInspectable var rightContentInset: CGFloat {
-    get { return contentInset.right }
+    get { contentInset.right }
     set { contentInset.right = newValue }
   }
 }

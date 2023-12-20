@@ -16,9 +16,9 @@ extension Data {
     let len = hexString.count / 2
     var data = Data(capacity: len)
     var i = hexString.startIndex
-    for _ in 0..<len {
+    for _ in 0 ..< len {
       let j = hexString.index(i, offsetBy: 2)
-      let bytes = hexString[i..<j]
+      let bytes = hexString[i ..< j]
       if var num = UInt8(bytes, radix: 16) {
         data.append(&num, count: 1)
       } else {
@@ -42,7 +42,7 @@ extension Data {
 
   func array<T>(of type: T.Type) -> [T] {
     let v = withUnsafeBytes { $0.load(as: type) }
-    var arr = Array<T>(repeating: v, count: count/MemoryLayout<T>.stride)
+    var arr = [T](repeating: v, count: count / MemoryLayout<T>.stride)
     _ = arr.withUnsafeMutableBytes { copyBytes(to: $0) }
     return arr
   }

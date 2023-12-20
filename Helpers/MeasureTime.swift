@@ -8,11 +8,11 @@
 import QuartzCore
 
 func measureStart() -> Double {
-  return CACurrentMediaTime()
+  CACurrentMediaTime()
 }
 
 func measureEnd(_ start: Double) -> String {
-  return (CACurrentMediaTime() - start).formatted(to: 6)
+  (CACurrentMediaTime() - start).formatted(to: 6)
 }
 
 func measure(_ start: Double, _ text: String) {

@@ -9,11 +9,11 @@ import UIKit
 
 extension UIViewController {
   class func instantiate(_ name: UIStoryboard.Name, identifier: String? = nil) -> Self {
-    return instantiate(string: name.rawValue, identifier: identifier ?? self.identifier)
+    instantiate(string: name.rawValue, identifier: identifier ?? self.identifier)
   }
 
   class func instantiate(string: String, identifier: String? = nil) -> Self {
-    return castToSelf(UIStoryboard.instantiate(string: string, identifier: identifier ?? self.identifier))
+    castToSelf(UIStoryboard.instantiate(string: string, identifier: identifier ?? self.identifier))
   }
 
   func segue(to controller: UIViewController.Type, with sender: Any? = nil) {
@@ -21,7 +21,7 @@ extension UIViewController {
   }
 
   static var mainWindow: UIWindow? {
-    return UIApplication.shared.delegate?.window ?? nil
+    UIApplication.shared.delegate?.window ?? nil
   }
 
   static var rootVC: UIViewController? {
@@ -42,7 +42,7 @@ extension UIViewController {
   }
 
   var isFocussed: Bool {
-    return view.isVisible && presentedViewController == nil
+    view.isVisible && presentedViewController == nil
   }
 }
 
@@ -58,7 +58,7 @@ extension UIViewController {
   }
 
   func remove(child: UIViewController?) {
-    guard let child = child else { return }
+    guard let child else { return }
     child.beginAppearanceTransition(false, animated: false)
     child.willMove(toParent: nil)
     child.removeFromParent()
@@ -75,17 +75,17 @@ extension UIViewController {
 
 extension UIViewController {
   var navBar: UINavigationBar? {
-    return navigationController?.navigationBar
+    navigationController?.navigationBar
   }
 
   // workaround to enable interactivePopGestureRecognizer
-  open override func awakeFromNib() {
+  override open func awakeFromNib() {
     super.awakeFromNib()
     navigationController?.setInteractivePopGestureRecognizer(enabled: true)
   }
 
-  fileprivate var nc: UINavigationController? {
-    return (self as? UINavigationController) ?? navigationController
+  private var nc: UINavigationController? {
+    (self as? UINavigationController) ?? navigationController
   }
 
   func push(_ vc: UIViewController, animated: Bool) {
@@ -115,14 +115,14 @@ enum Position {
   static func point(x: Position, y: Position, for bounds: CGRect) -> CGPoint {
     var p = CGPoint.zero
     switch x {
-      case .min(let o): p.x = bounds.minX + o
-      case .mid(let o): p.x = bounds.midX + o
-      case .max(let o): p.x = bounds.maxX + o
+    case let .min(o): p.x = bounds.minX + o
+    case let .mid(o): p.x = bounds.midX + o
+    case let .max(o): p.x = bounds.maxX + o
     }
     switch y {
-      case .min(let o): p.y = bounds.minY + o
-      case .mid(let o): p.y = bounds.midY + o
-      case .max(let o): p.y = bounds.maxY + o
+    case let .min(o): p.y = bounds.minY + o
+    case let .mid(o): p.y = bounds.midY + o
+    case let .max(o): p.y = bounds.maxY + o
     }
     return p
   }

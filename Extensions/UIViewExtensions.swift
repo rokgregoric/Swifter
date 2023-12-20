@@ -8,25 +8,24 @@
 import UIKit
 
 extension UIView {
-
   static let fadeDuration = 0.2
   static let animationDuration = 0.4
   static let animationOptionsCurveEaseOut = UIView.AnimationOptions(rawValue: 7 << 16)
 
   class func nib(name: String? = nil, bundle: Bundle? = nil) -> UINib {
-    return UINib(nibName: name ?? identifier, bundle: bundle)
+    UINib(nibName: name ?? identifier, bundle: bundle)
   }
 
   class func loadFromNib() -> Self {
-    return castToSelf(loadFromNibNamed()!)
+    castToSelf(loadFromNibNamed()!)
   }
 
   class func loadFromNibNamed(_ name: String? = nil, bundle: Bundle? = nil) -> UIView? {
-    return nib(name: name, bundle: bundle).instantiate(withOwner: nil, options: nil).first as? UIView
+    nib(name: name, bundle: bundle).instantiate(withOwner: nil, options: nil).first as? UIView
   }
 
   var isVisible: Bool {
-    return window != nil
+    window != nil
   }
 
   func convertBounds(to: UIView?) -> CGRect {
@@ -36,57 +35,57 @@ extension UIView {
   // MARK: - Transform
 
   @IBInspectable var rotation: CGFloat {
-    get { return 0 }
+    get { 0 }
     set { transform = CGAffineTransform(rotationAngle: newValue * 2 * .pi) }
   }
 
   @IBInspectable var scale: CGFloat {
-    get { return transform.a }
+    get { transform.a }
     set { transform = CGAffineTransform(scaleX: newValue, y: newValue) }
   }
 
   @IBInspectable var smallPhoneScale: CGFloat {
-    get { return 0 }
+    get { 0 }
     set { if isSmallPhone { scale = newValue } }
   }
 
   @IBInspectable var normalPhoneScale: CGFloat {
-    get { return 0 }
+    get { 0 }
     set { if isNormalPhone { scale = newValue } }
   }
 
   @IBInspectable var largePhoneScale: CGFloat {
-    get { return 0 }
+    get { 0 }
     set { if isLargePhone { scale = newValue } }
   }
 
   @IBInspectable var tallPhoneScale: CGFloat {
-    get { return 0 }
+    get { 0 }
     set { if isTallPhone { scale = newValue } }
   }
 
   @IBInspectable var normalTallPhoneScale: CGFloat {
-    get { return 0 }
+    get { 0 }
     set { if isNormalTallPhone { scale = newValue } }
   }
 
   @IBInspectable var normalShortPhoneScale: CGFloat {
-    get { return 0 }
+    get { 0 }
     set { if isNormalShortPhone { scale = newValue } }
   }
 
   @IBInspectable var largeTallPhoneScale: CGFloat {
-    get { return 0 }
+    get { 0 }
     set { if isLargeTallPhone { scale = newValue } }
   }
 
   @IBInspectable var largeShortPhoneScale: CGFloat {
-    get { return 0 }
+    get { 0 }
     set { if isLargeShortPhone { scale = newValue } }
   }
 
   @IBInspectable var iPadScale: CGFloat {
-    get { return 0 }
+    get { 0 }
     set { if isIpad { scale = newValue } }
   }
 
@@ -138,7 +137,7 @@ extension UIView {
     gradient.cornerRadius = cornerRadius
     gradient.frame = bounds
     gradient.colors = [fromColor.cgColor, toColor.cgColor]
-    self.layer.insertSublayer(gradient, at: 0)
+    layer.insertSublayer(gradient, at: 0)
   }
 
   func snapshot() -> UIImage? {
@@ -166,13 +165,13 @@ extension UIView {
 
   func round(corners: UIRectCorner, radius: CGFloat? = nil) {
     let maskLayer = CAShapeLayer()
-    let path = UIBezierPath(roundedRect: self.bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius!, height: radius!)).cgPath
+    let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius!, height: radius!)).cgPath
     maskLayer.path = path
     maskLayer.shadowColor = UIColor.black.cgColor
     maskLayer.shadowPath = path
     maskLayer.shadowOffset = CGSize(width: -2, height: -2)
     maskLayer.shadowRadius = radius!
-    self.layer.mask = maskLayer
+    layer.mask = maskLayer
   }
 
   // MARK: - Shadow & Border layer
@@ -193,27 +192,27 @@ extension UIView {
   }
 
   @IBInspectable var shadowColor: UIColor? {
-    get { return layer.shadowColor.map(UIColor.init) }
+    get { layer.shadowColor.map(UIColor.init) }
     set { layer.shadowColor = newValue?.cgColor }
   }
 
   @IBInspectable var borderColor: UIColor? {
-    get { return layer.borderColor.map(UIColor.init) }
+    get { layer.borderColor.map(UIColor.init) }
     set { layer.borderColor = newValue?.cgColor }
   }
 
   @IBInspectable var borderWidth: CGFloat {
-    get { return layer.borderWidth }
+    get { layer.borderWidth }
     set { layer.borderWidth = newValue }
   }
 
   @IBInspectable var pixelBorderWidth: CGFloat {
-    get { return borderWidth * mainScreenScale }
+    get { borderWidth * mainScreenScale }
     set { borderWidth = Double(newValue).pixelValue }
   }
 
   @IBInspectable var cornerRadius: CGFloat {
-    get { return layer.cornerRadius }
+    get { layer.cornerRadius }
     set { layer.cornerRadius = newValue }
   }
 
@@ -290,6 +289,6 @@ extension UICollectionView: NibRegistrable {
   }
 
   var flowLayout: UICollectionViewFlowLayout? {
-    return collectionViewLayout as? UICollectionViewFlowLayout
+    collectionViewLayout as? UICollectionViewFlowLayout
   }
 }

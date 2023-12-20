@@ -13,7 +13,7 @@ private var dismisses = [NSWindow: Block]()
 extension NSAlert {
   static func registerESC() {
     NSEvent.addLocalMonitorForEvents(matching: .keyDown) {
-      if $0.keyCode == 53 {  // 53 is the Escape key
+      if $0.keyCode == 53 { // 53 is the Escape key
         for window in NSApplication.shared.windows {
           if window.identifier == dismissIdentifier {
             window.orderOut(nil)

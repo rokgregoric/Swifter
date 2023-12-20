@@ -17,10 +17,10 @@ class KVObserver: NSObject {
     self.keyPath = keyPath
     self.block = block
     super.init()
-    object.addObserver(self, forKeyPath: keyPath, options: .new, context: nil);
+    object.addObserver(self, forKeyPath: keyPath, options: .new, context: nil)
   }
 
-  override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+  override func observeValue(forKeyPath keyPath: String?, of _: Any?, change _: [NSKeyValueChangeKey: Any]?, context _: UnsafeMutableRawPointer?) {
     if keyPath == self.keyPath {
       block()
     }

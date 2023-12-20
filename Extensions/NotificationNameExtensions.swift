@@ -15,19 +15,18 @@ extension Notification.Name {
 
 #if os(iOS)
 
-import UIKit
+  import UIKit
 
-extension Notification.Name {
+  extension Notification.Name {
+    // Application
+    static let appDidEnterBackground = UIApplication.didEnterBackgroundNotification
+    static let appWillEnterForeground = UIApplication.willEnterForegroundNotification
 
-  // Application
-  static let appDidEnterBackground = UIApplication.didEnterBackgroundNotification
-  static let appWillEnterForeground = UIApplication.willEnterForegroundNotification
+    // Keyboard
+    static let keyboardWillChangeFrame = UIResponder.keyboardWillChangeFrameNotification
 
-  // Keyboard
-  static let keyboardWillChangeFrame = UIResponder.keyboardWillChangeFrameNotification
-
-  // Orientation
-  static let orientationDidChange = UIDevice.orientationDidChangeNotification
-}
+    // Orientation
+    static let orientationDidChange = UIDevice.orientationDidChangeNotification
+  }
 
 #endif

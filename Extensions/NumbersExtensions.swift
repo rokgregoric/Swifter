@@ -1,12 +1,12 @@
 //
-//  NumbersExtension.swift
+//  NumbersExtensions.swift
 //
 //  Created by Rok Gregorič
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
-import Foundation
 import CoreGraphics
+import Foundation
 
 func clamp<T: Comparable>(_ value: T, min lo: T, max hi: T) -> T { min(max(lo, value), hi) }
 
@@ -17,7 +17,7 @@ extension Double {
 
   func rounded(to decimals: Int) -> Double {
     let divisor = pow(10, decimals.double)
-    return (self * divisor).rounded()/divisor
+    return (self * divisor).rounded() / divisor
   }
 }
 
@@ -27,7 +27,7 @@ extension CGFloat {
 
   func rounded(to decimals: Int) -> CGFloat {
     let divisor = pow(10, CGFloat(decimals))
-    return (self * divisor).rounded()/divisor
+    return (self * divisor).rounded() / divisor
   }
 
   var radians: CGFloat { self * (.pi / 180) }
@@ -43,7 +43,7 @@ extension TimeInterval {
 
 extension Int {
   /// Range - 0 ..< n
-  var range: CountableRange<Int> { 0..<self }
+  var range: CountableRange<Int> { 0 ..< self }
 
   /// Repeat n-times - no parameter
   func times(_ block: () -> Void) { range.forEach { _ in block() } }
@@ -70,7 +70,7 @@ extension Bool {
   var debug: String { self == true ? "🟢" : "🔴" }
 }
 
-extension Optional where Wrapped == Bool {
+extension Bool? {
   var debug: String { val?.debug ?? "🟡" }
 }
 
@@ -100,17 +100,17 @@ extension Decimal {
 
 func < <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
-    case let (l?, r?): return l < r
-    case (nil, _?): return true
-    default: return false
+  case let (l?, r?): return l < r
+  case (nil, _?): return true
+  default: return false
   }
 }
 
 func <= <T: Comparable>(lhs: T?, rhs: T?) -> Bool {
   switch (lhs, rhs) {
-    case let (l?, r?): return l <= r
-    case (nil, _?): return true
-    default: return false
+  case let (l?, r?): return l <= r
+  case (nil, _?): return true
+  default: return false
   }
 }
 

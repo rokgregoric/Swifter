@@ -13,7 +13,7 @@ extension Dictionary {
   }
 
   func flatMap<K, V>(transform: ((key: Key, value: Value)) -> (K?, V?)) -> [K: V] {
-    dic(compactMap { let (k, v) = transform($0); return (k == nil || v == nil ? nil : (k!, v!)) })
+    dic(compactMap { let (k, v) = transform($0); return k == nil || v == nil ? nil : (k!, v!) })
   }
 
   var urlParams: String? {
@@ -49,7 +49,7 @@ func + <K, V>(left: [K: V], right: [K: V]) -> [K: V] {
   return sum
 }
 
-func += <K, V> (left: inout [K: V], right: [K: V]) {
+func += <K, V>(left: inout [K: V], right: [K: V]) {
   right.forEach { left[$0.key] = $0.value }
 }
 

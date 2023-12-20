@@ -13,7 +13,7 @@ extension UIAlertController {
     tint.map { view.tintColor = $0 }
   }
 
-  static func show(error: Error, tint: UIColor? = nil, completion: (() -> Void)? = nil) {
+  static func show(error: Error, tint _: UIColor? = nil, completion: (() -> Void)? = nil) {
     show(title: "Error", message: error.localizedDescription, completion: completion)
   }
 
@@ -52,13 +52,13 @@ extension UIAlertController {
   }
 
   func text(at index: Int) -> String? {
-    return textFields?.object(at: index)?.text
+    textFields?.object(at: index)?.text
   }
 }
 
 extension UIAlertController.Style {
   static var auto: UIAlertController.Style {
-    return UIDevice.current.userInterfaceIdiom == .pad ? .alert : .actionSheet
+    UIDevice.current.userInterfaceIdiom == .pad ? .alert : .actionSheet
   }
 }
 

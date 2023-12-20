@@ -5,16 +5,15 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
-import Foundation
 import CoreData
+import Foundation
 import SwifterJSON
 
 extension NSManagedObjectContext {
-
   // MARK: - Creation
 
   @discardableResult
-  func array<T: BaseObject>(from jsons: JSON?, _ type: T.Type? = nil) -> [T]? {
+  func array<T: BaseObject>(from jsons: JSON?, _: T.Type? = nil) -> [T]? {
     guard let arr = jsons?.array else { return nil }
     var array = [T]()
     for json in arr {
@@ -26,7 +25,7 @@ extension NSManagedObjectContext {
   }
 
   @discardableResult
-  func array<T: BaseObject>(from json: JSON?, _ type: T.Type? = nil, cleanup: (T) -> Bool) -> [T]? {
+  func array<T: BaseObject>(from json: JSON?, _: T.Type? = nil, cleanup: (T) -> Bool) -> [T]? {
     let old = all(T.self).filter(cleanup)
     guard let new = array(from: json, T.self) else { return nil }
     old.filter { !new.contains($0) }.forEach { $0.delete() } // delete obsolete objects
@@ -35,22 +34,24 @@ extension NSManagedObjectContext {
 
   @discardableResult
   func object<T: BaseObject>(from json: JSON?, _ type: T.Type? = nil, id: String? = nil) -> T? {
-    return T.object(from: json, type, id: id, in: self)
+    T.object(from: json, type, id: id, in: self)
   }
 
   // MARK: - Fetching
 
   func findOrAdd<T: BaseObject>(_ id: String) -> T {
-    return find(id, T.self) ?? add(id)
+    find(id, T.self) ?? add(id)
   }
-  func findOrAdd<T: BaseObject>(_ id: String, _ type: T.Type) -> T { return findOrAdd(id) }
+
+  func findOrAdd<T: BaseObject>(_ id: String, _: T.Type) -> T { findOrAdd(id) }
 
   func add<T: BaseObject>(_ id: String) -> T {
     let object = T(context: self)
     object.id = id
     return object
   }
-  func add<T: BaseObject>(_ id: String, _ type: T.Type) -> T { return add(id) }
+
+  func add<T: BaseObject>(_ id: String, _: T.Type) -> T { add(id) }
 
   func deleteAll() {
     CoreDataStack.persistentContainer.managedObjectModel.entities.forEach { $0.name.map(all)?.forEach(delete) }
@@ -59,32 +60,36 @@ extension NSManagedObjectContext {
   // MARK: - Fetching
 
   func all(_ type: String) -> [NSManagedObject] {
-    return try! fetch(NSFetchRequest<NSManagedObject>(entityName: type))
+    try! fetch(NSFetchRequest<NSManagedObject>(entityName: type))
   }
 
   func all<T: BaseObject>() -> [T] {
-    return try! fetch(FetchRequest(type: T.self))
+    try! fetch(FetchRequest(type: T.self))
   }
-  func all<T: BaseObject>(_ type: T.Type) -> [T] { return all() }
+
+  func all<T: BaseObject>(_: T.Type) -> [T] { all() }
 
   func first<T: BaseObject>() -> T? {
     let fr = FetchRequest(type: T.self)
     fr.fetchLimit = 1
     return try! fetch(fr).first
   }
-  func first<T: BaseObject>(_ type: T.Type) -> T? { return first() }
+
+  func first<T: BaseObject>(_: T.Type) -> T? { first() }
 
   func find<T: BaseObject>(_ id: String) -> T? {
-    return find(NSPredicate(format: "id = %@", id), limit: 1).first
+    find(NSPredicate(format: "id = %@", id), limit: 1).first
   }
-  func find<T: BaseObject>(_ id: String, _ type: T.Type) -> T? { return find(id) }
+
+  func find<T: BaseObject>(_ id: String, _: T.Type) -> T? { find(id) }
 
   func find<T: BaseObject>(_ ids: [String]) -> [T] {
-    return find(NSPredicate(format: "id IN %@", ids))
+    find(NSPredicate(format: "id IN %@", ids))
   }
-  func find<T: BaseObject>(_ ids: [String], _ type: T.Type) -> [T] { return find(ids) }
 
-  func find<T: BaseObject>(_ predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, limit: Int? = nil, _ type: T.Type? = nil) -> [T] {
+  func find<T: BaseObject>(_ ids: [String], _: T.Type) -> [T] { find(ids) }
+
+  func find<T: BaseObject>(_ predicate: NSPredicate? = nil, sortDescriptors: [NSSortDescriptor]? = nil, limit: Int? = nil, _: T.Type? = nil) -> [T] {
     let fr = FetchRequest(type: T.self)
     fr.predicate = predicate
     fr.sortDescriptors = sortDescriptors
@@ -92,22 +97,23 @@ extension NSManagedObjectContext {
     return try! fetch(fr)
   }
 
-  func find<T: BaseObject>(_ predicates: [NSPredicate], sortDescriptors: [NSSortDescriptor]? = nil, limit: Int? = nil, _ type: T.Type? = nil) -> [T] {
-    return find(NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
+  func find<T: BaseObject>(_ predicates: [NSPredicate], sortDescriptors: [NSSortDescriptor]? = nil, limit: Int? = nil, _: T.Type? = nil) -> [T] {
+    find(NSCompoundPredicate(andPredicateWithSubpredicates: predicates), sortDescriptors: sortDescriptors, limit: limit)
   }
 
   func sorted<T: BaseObject>() -> [T] {
-    return find(sortDescriptors: T.sortDesc)
+    find(sortDescriptors: T.sortDesc)
   }
-  func sorted<T: BaseObject>(_ type: T.Type) -> [T] { return sorted() }
+
+  func sorted<T: BaseObject>(_: T.Type) -> [T] { sorted() }
 
   // MARK: - Counts
 
-  func count<T: BaseObject>(_ type: T.Type) -> Int {
-    return try! count(for: FetchRequest(type: T.self))
+  func count<T: BaseObject>(_: T.Type) -> Int {
+    try! count(for: FetchRequest(type: T.self))
   }
 
-  func count<T: BaseObject>(_ predicate: NSPredicate?, _ type: T.Type) -> Int {
+  func count<T: BaseObject>(_ predicate: NSPredicate?, _: T.Type) -> Int {
     let fr = FetchRequest(type: T.self)
     fr.predicate = predicate
     return try! count(for: fr)

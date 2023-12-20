@@ -26,7 +26,7 @@ extension CGPoint {
   }
 }
 
-extension Collection where Element == CGPoint {
+extension Collection<CGPoint> {
   func average() -> CGPoint {
     if isEmpty { return .zero }
     return reduce(CGPoint.zero) { $0.add(point: $1) }.divide(by: count)

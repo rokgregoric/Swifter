@@ -9,7 +9,7 @@ import UIKit
 
 extension UITextField {
   @IBInspectable var assistantItemHidden: Bool {
-    get { return false }
+    get { false }
     set {
       guard newValue else { return }
       inputAssistantItem.leadingBarButtonGroups = []
@@ -18,7 +18,7 @@ extension UITextField {
   }
 
   @IBInspectable var leftImage: UIImage? {
-    get { return nil }
+    get { nil }
     set {
       let iv = UIImageView(image: newValue)
       iv.contentMode = .center
@@ -30,7 +30,7 @@ extension UITextField {
 
 extension UITextView {
   @IBInspectable var assistantItemHidden: Bool {
-    get { return false }
+    get { false }
     set {
       guard newValue else { return }
       inputAssistantItem.leadingBarButtonGroups = []
