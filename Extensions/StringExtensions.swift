@@ -12,6 +12,16 @@ extension String {
 
   var fileURL: URL { URL(fileURLWithPath: self) }
 
+  var mailtoURL: URL? { "mailto:\(self)".url }
+
+  var safeURL: URL {
+    if AppEnvironment.isSimulator || AppEnvironment.isDebuggerAttached {
+      if let url { return url }
+      fatalError("Invalid URL: \(self)")
+    }
+    return url ?? .empty
+  }
+
   var urlEncoded: String { escaped(.urlHostAllowed).plusAndEncoded }
 
   var plusAndEncoded: String { replace("+", with: "%2B").replace("&", with: "%26") }

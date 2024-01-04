@@ -35,9 +35,11 @@ extension URL {
   var baseHost: String? { host?.components(separatedBy: ".").suffix(2).joined(".") }
 
   static func mailto(recipient: String, subject: String? = nil, body: String? = nil) -> URL? {
-    "mailto:\(recipient)".url?.appending(params: [
+    recipient.mailtoURL?.appending(params: [
       "subject": subject,
       "body": body,
     ].flat)
   }
+
+  static var empty: URL { "https://".url! }
 }
