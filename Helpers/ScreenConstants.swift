@@ -81,3 +81,12 @@
   var mainScreenSize: CGSize { NSScreen.main?.frame.size ?? .zero }
 
 #endif
+
+
+extension Double {
+  var pixelValue: CGFloat { cgfloat / mainScreenScale }
+}
+
+extension CGFloat {
+  var pixelRounded: CGFloat { (self * mainScreenScale).rounded() / mainScreenScale }
+}
