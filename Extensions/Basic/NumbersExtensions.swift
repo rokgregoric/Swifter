@@ -18,6 +18,8 @@ extension Double {
     let divisor = pow(10, decimals.double)
     return (self * divisor).rounded() / divisor
   }
+
+  var ns: NSNumber { self as NSNumber }
 }
 
 extension CGFloat {

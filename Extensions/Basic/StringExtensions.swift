@@ -163,6 +163,8 @@ extension String {
 
   var int: Int { intOptional ?? 0 }
 
+  var double: Double? { Double(self) }
+
   var safeDouble: Double {
     let arr = components(separatedBy: ".")
     let major = arr.object(at: 0).flatMap(Int.init) ?? 0
