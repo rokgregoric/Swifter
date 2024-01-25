@@ -18,7 +18,7 @@
   #else
     var keyWindow: UIWindow? {
       if #available(iOS 13.0, *) {
-        return UIApplication.shared.windows.first { $0.isKeyWindow }
+        return (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.keyWindow
       } else {
         return UIApplication.shared.keyWindow
       }
