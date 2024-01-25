@@ -12,25 +12,15 @@ struct AppEnvironment {
     Bundle.main.infoDictionary?[key] as? T
   }
 
-  static var appName: String {
-    value(for: "CFBundleDisplayName") ?? value(for: "CFBundleName") ?? ""
-  }
+  static let appName = value(for: "CFBundleDisplayName") ?? value(for: "CFBundleName") ?? ""
 
-  static var build: String {
-    value(for: "CFBundleVersion") ?? ""
-  }
+  static var build = value(for: "CFBundleVersion") ?? ""
 
-  static var version: String {
-    value(for: "CFBundleShortVersionString") ?? ""
-  }
+  static var version = value(for: "CFBundleShortVersionString") ?? ""
 
-  static var identifier: String {
-    value(for: "CFBundleIdentifier") ?? ""
-  }
+  static var identifier = value(for: "CFBundleIdentifier") ?? ""
 
-  static var verBuild: String {
-    "v\(version) (\(build))"
-  }
+  static var verBuild = "v\(version) (\(build))"
 
   static let isProduction: Bool = {
     #if PRODUCTION
