@@ -82,12 +82,14 @@ private func formatter() -> NumberFormatter {
   return formatter
 }
 
+let decimalSeparator = Locale.current.decimalSeparator ?? "."
+let groupingSeparator = Locale.current.groupingSeparator ?? ","
+
 extension Decimal {
   func string() -> String? { formatter().string(for: self) }
 
   init?(fromString: String) {
-    let separator = Locale.current.decimalSeparator ?? "."
-    if let value = formatter().number(from: fromString.replace(".", with: separator))?.decimalValue {
+    if let value = formatter().number(from: fromString.replace(".", with: decimalSeparator))?.decimalValue {
       self = value
     } else {
       return nil
