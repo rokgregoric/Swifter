@@ -84,6 +84,7 @@ private func formatter() -> NumberFormatter {
 
 let decimalSeparator = Locale.current.decimalSeparator ?? "."
 let groupingSeparator = Locale.current.groupingSeparator ?? ","
+let currencySymbol = Locale.current.currencySymbol ?? "$"
 
 extension Decimal {
   func string() -> String? { formatter().string(for: self) }
