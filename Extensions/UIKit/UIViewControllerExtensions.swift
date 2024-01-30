@@ -20,12 +20,8 @@ extension UIViewController {
     performSegue(withIdentifier: controller.identifier, sender: sender)
   }
 
-  static var mainWindow: UIWindow? {
-    UIApplication.shared.delegate?.window ?? nil
-  }
-
   static var rootVC: UIViewController? {
-    var rootVC = mainWindow?.rootViewController
+    var rootVC = keyWindow?.rootViewController
     if let nc = rootVC as? UINavigationController { rootVC = nc.visibleViewController }
     if let tbc = rootVC as? UITabBarController { rootVC = tbc.selectedViewController }
     while let pvc = rootVC?.presentedViewController { rootVC = pvc }
@@ -33,7 +29,7 @@ extension UIViewController {
   }
 
   static func switchRoot(to vc: UIViewController, animated: Bool = true) {
-    let window = mainWindow
+    let window = keyWindow
     // always dismiss all child controllers otherwise they are retained by the view hierarchy
     window?.rootViewController?.dismiss(animated: false)
 
