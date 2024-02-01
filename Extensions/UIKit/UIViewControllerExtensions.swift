@@ -53,17 +53,16 @@ extension UIViewController {
     child.endAppearanceTransition()
   }
 
-  func remove(child: UIViewController?) {
-    guard let child else { return }
-    child.beginAppearanceTransition(false, animated: false)
-    child.willMove(toParent: nil)
-    child.removeFromParent()
-
-    if child.viewIfLoaded?.superview != nil {
-      child.viewIfLoaded?.removeFromSuperview()
+  func removeFromParentAndMore() {
+    beginAppearanceTransition(false, animated: false)
+    willMove(toParent: nil)
+    removeFromParent()
+    
+    if viewIfLoaded?.superview != nil {
+      viewIfLoaded?.removeFromSuperview()
     }
-
-    child.endAppearanceTransition()
+    
+    endAppearanceTransition()
   }
 }
 
