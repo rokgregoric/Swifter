@@ -30,7 +30,7 @@ struct AppEnvironment {
     #endif
   }()
 
-  static let isDevelopment: Bool = {
+  static let isDebug: Bool = {
     #if DEBUG
       return true
     #else
