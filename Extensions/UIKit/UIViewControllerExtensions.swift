@@ -57,11 +57,11 @@ extension UIViewController {
     beginAppearanceTransition(false, animated: false)
     willMove(toParent: nil)
     removeFromParent()
-    
+
     if viewIfLoaded?.superview != nil {
       viewIfLoaded?.removeFromSuperview()
     }
-    
+
     endAppearanceTransition()
   }
 }
@@ -110,14 +110,14 @@ enum Position {
   static func point(x: Position, y: Position, for bounds: CGRect) -> CGPoint {
     var p = CGPoint.zero
     switch x {
-    case let .min(o): p.x = bounds.minX + o
-    case let .mid(o): p.x = bounds.midX + o
-    case let .max(o): p.x = bounds.maxX + o
+      case let .min(o): p.x = bounds.minX + o
+      case let .mid(o): p.x = bounds.midX + o
+      case let .max(o): p.x = bounds.maxX + o
     }
     switch y {
-    case let .min(o): p.y = bounds.minY + o
-    case let .mid(o): p.y = bounds.midY + o
-    case let .max(o): p.y = bounds.maxY + o
+      case let .min(o): p.y = bounds.minY + o
+      case let .mid(o): p.y = bounds.midY + o
+      case let .max(o): p.y = bounds.maxY + o
     }
     return p
   }

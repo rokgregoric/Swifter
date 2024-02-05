@@ -7,40 +7,40 @@
 
 #if os(iOS)
 
-import UIKit
+  import UIKit
 
-extension XApplication {
-  var isActive: Bool { applicationState == .active }
-  var isSleeping: Bool { applicationState == .background }
-  static let backgroundTaskInvalid = UIBackgroundTaskIdentifier.invalid
-}
+  extension XApplication {
+    var isActive: Bool { applicationState == .active }
+    var isSleeping: Bool { applicationState == .background }
+    static let backgroundTaskInvalid = UIBackgroundTaskIdentifier.invalid
+  }
 
 #elseif os(OSX)
 
-import AppKit
+  import AppKit
 
-var sleepNotificationTriggered = false
+  var sleepNotificationTriggered = false
 
-extension XApplication {
-  var isSleeping: Bool { sleepNotificationTriggered } // listen to NSWorkspace.willSleepNotification / .didWakeNotification
-  func endBackgroundTask(_ id: Int) {}
-  static let backgroundTaskInvalid = 0
-  func beginBackgroundTask(_: @escaping () -> Void) -> Int { 0 }
-}
-
-let hardwareInfo: [String: String]? = {
-  guard let data = "system_profiler SPHardwareDataType -json".runData() else { return nil }
-  do {
-    let decoder = JSONDecoder()
-    let hardwareInfo = try decoder.decode([String: [[String: String]]].self, from: data)
-    return hardwareInfo["SPHardwareDataType"]?.first
-  } catch {
-    print("Error: \(error)")
-    return nil
+  extension XApplication {
+    var isSleeping: Bool { sleepNotificationTriggered } // listen to NSWorkspace.willSleepNotification / .didWakeNotification
+    func endBackgroundTask(_: Int) {}
+    static let backgroundTaskInvalid = 0
+    func beginBackgroundTask(_: @escaping () -> Void) -> Int { 0 }
   }
-}()
 
-let deviceIdentifier = hardwareInfo?["machine_model"]
+  let hardwareInfo: [String: String]? = {
+    guard let data = "system_profiler SPHardwareDataType -json".runData() else { return nil }
+    do {
+      let decoder = JSONDecoder()
+      let hardwareInfo = try decoder.decode([String: [[String: String]]].self, from: data)
+      return hardwareInfo["SPHardwareDataType"]?.first
+    } catch {
+      print("Error: \(error)")
+      return nil
+    }
+  }()
+
+  let deviceIdentifier = hardwareInfo?["machine_model"]
 
 #endif
 

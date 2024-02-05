@@ -21,11 +21,11 @@ class Log {
 
     var symbol: String? {
       switch self {
-      case .verbose: return nil
-      case .debug: return "🟢"
-      case .info: return "🔵"
-      case .warning: return "🟠"
-      case .error: return "🔴"
+        case .verbose: return nil
+        case .debug: return "🟢"
+        case .info: return "🔵"
+        case .warning: return "🟠"
+        case .error: return "🔴"
       }
     }
 
@@ -131,11 +131,11 @@ func < (lhs: Log.Level, rhs: Log.Level) -> Bool {
 extension Log.Level {
   var logType: OSLogType {
     switch self {
-    case .verbose: return .default
-    case .debug: return .debug
-    case .info: return .info
-    case .warning: return .fault
-    case .error: return .error
+      case .verbose: return .default
+      case .debug: return .debug
+      case .info: return .info
+      case .warning: return .fault
+      case .error: return .error
     }
   }
 }
@@ -143,11 +143,11 @@ extension Log.Level {
 extension OSLogType {
   var logLevel: Log.Level {
     switch self {
-    case .debug: return .debug
-    case .info: return .info
-    case .fault: return .warning
-    case .error: return .error
-    default: return .verbose
+      case .debug: return .debug
+      case .info: return .info
+      case .fault: return .warning
+      case .error: return .error
+      default: return .verbose
     }
   }
 }

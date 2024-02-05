@@ -82,7 +82,6 @@
 
 #endif
 
-
 extension Double {
   var pixelValue: CGFloat { cgfloat / mainScreenScale }
 }
