@@ -7,7 +7,6 @@
 
 import Foundation
 import OSLog
-import SwifterJSON
 
 class Log {
   static var shared = Log()
@@ -36,11 +35,15 @@ class Log {
     var id: String { "[\(name)]" }
   }
 
+  private class func encode<T: Encodable>(_ value: T) -> String? {
+    value.JSONstring
+  }
+
   private class func stringify(_ messages: [Any?]) -> String {
     messages.flat.map {
-      ($0 as? [Any]).flatMap { $0.isEmpty ? "[]" : JSON($0).rawString() } ??
-        ($0 as? [String: Any]).flatMap { $0.isEmpty ? "{}" : JSON($0).rawString() } ??
-        ($0 as? [CustomStringConvertible]).flatMap { $0.isEmpty ? "[]" : JSON($0.map { $0.description }).rawString() } ?? "\($0)"
+      ($0 as? Encodable).flatMap {
+        $0 is [Encodable] || $0 is [AnyHashable: Encodable] ? encode($0) : nil
+      } ?? "\($0)"
     }.joined(" ")
   }
 
