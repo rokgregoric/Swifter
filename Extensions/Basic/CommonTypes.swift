@@ -21,6 +21,7 @@
   var uniqueDeviceID: String? { UIDevice.current.identifierForVendor?.uuidString }
   var systemVersion: String { "\(UIDevice.current.systemName) \(UIDevice.current.systemVersion)" }
   var deviceName: String { UIDevice.current.name }
+  var deviceModel: String { UIDevice.current.model }
 
 #elseif os(OSX)
 
