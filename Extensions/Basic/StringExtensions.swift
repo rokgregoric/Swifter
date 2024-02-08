@@ -139,6 +139,8 @@ extension String {
 
   var searchable: String { ns.folding(options: [.caseInsensitive, .diacriticInsensitive], locale: nil) }
 
+  func prepending(_ pre: String = "") -> String { pre + self }
+
   func enclosing(pre: String = "", suf: String = "") -> String { pre + self + suf }
 
   func matches(regExp: String) -> Bool {

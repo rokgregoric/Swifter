@@ -8,8 +8,9 @@
 import Foundation
 
 typealias Block = () -> Void
-typealias Block1<T> = (T) -> Void
-typealias Block2<T, I> = (T, I) -> Void
+typealias Block1<I> = (I) -> Void
+typealias Block2<I, J> = (I, J) -> Void
+typealias Block3<I, J, K> = (I, J, K) -> Void
 
 class Run {
   static func on(_ queue: DispatchQueue, after: Double = 0, _ block: @escaping @convention(block) () -> Void) {

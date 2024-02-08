@@ -12,6 +12,12 @@ extension Data {
 
   var hexString: String { map { String(format: "%02.2hhx", $0) }.joined() }
 
+  var JSONobject: Any? {
+    try? JSONSerialization.jsonObject(with: self, options: .allowFragments)
+  }
+
+  var JSONdictionary: [String: Any]? { JSONobject as? [String: Any] }
+
   init?(hexString: String) {
     let len = hexString.count / 2
     var data = Data(capacity: len)
