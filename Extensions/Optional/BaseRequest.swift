@@ -86,7 +86,9 @@ extension BaseRequest {
     }).resume()
   }
 
-  func request<T: Decodable>(_ type: T.Type, completion: @escaping Block2<T?, Int?>) {
+  // MARK - request decoded
+
+  func request<T: Decodable>(_ type: T.Type, completion: @escaping Block3<T?, Int?, Error?>) {
     request { data, status, err in
       var t: T?
       do {
@@ -94,13 +96,19 @@ extension BaseRequest {
       } catch let err {
         Log.error(err, context: "decode")
       }
-      Run.main { completion(t, status) }
+      Run.main { completion(t, status, err) }
     }
+  }
+
+  func request<T: Decodable>(_ type: T.Type, completion: @escaping Block2<T?, Int?>) {
+    request(type) { t, status, _ in completion(t, status) }
   }
 
   func request<T: Decodable>(_ type: T.Type, completion: @escaping Block1<T?>) {
     request(type) { t, _ in completion(t) }
   }
+
+  // MARK - request
 
   func request(completion: Block? = nil) {
     request { _, _, _ in completion.map { Run.main($0) } }
