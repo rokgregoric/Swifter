@@ -42,6 +42,13 @@
 
   let deviceIdentifier = hardwareInfo?["machine_model"]
 
+  let deviceModel: String = {
+    var size: size_t = 0
+    sysctlbyname("hw.model", nil, &size, nil, 0)
+    var machine = [CChar](repeating: 0, count: Int(size))
+    sysctlbyname("hw.model", &machine, &size, nil, 0)
+    return String(cString: machine)
+  }()
 #endif
 
 let deviceArchitecture: String = {
@@ -54,14 +61,6 @@ let deviceArchitecture: String = {
     return identifier + String(UnicodeScalar(UInt8(value)))
   }
   return identifier
-}()
-
-let deviceModel: String = {
-  var size: size_t = 0
-  sysctlbyname("hw.model", nil, &size, nil, 0)
-  var machine = [CChar](repeating: 0, count: Int(size))
-  sysctlbyname("hw.model", &machine, &size, nil, 0)
-  return String(cString: machine)
 }()
 
 let urlSafeDeviceName = deviceName.regmove("[^a-zA-Z0-9]*").lowercased()
