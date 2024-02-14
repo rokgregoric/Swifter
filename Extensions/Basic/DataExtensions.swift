@@ -18,6 +18,14 @@ extension Data {
 
   var JSONdictionary: [String: Any]? { JSONobject as? [String: Any] }
 
+  func tryDecode<T: Decodable>(_ type: T.Type? = nil) throws -> T {
+    try JSONDecoder().decode(T.self, from: self)
+  }
+
+  func decoded<T: Decodable>(_ type: T.Type? = nil) -> T? {
+    try? tryDecode(type)
+  }
+
   init?(hexString: String) {
     let len = hexString.count / 2
     var data = Data(capacity: len)

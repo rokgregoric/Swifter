@@ -92,7 +92,7 @@ extension BaseRequest {
     request { data, status, err in
       var t: T?
       do {
-        t = try data.flatMap { try JSONDecoder().decode(T.self, from: $0) }
+        t = try data?.tryDecode(type)
       } catch let err {
         Log.error(err, context: "decode")
       }

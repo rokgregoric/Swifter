@@ -192,7 +192,8 @@ extension String {
     return mapped.reduce(0) { Int($1) &+ ($0 << 6) &+ ($0 << 16) &- $0 }
   }
 
-  var utf8Data: Data { data(using: .utf8)! }
+  var utf8OptionalData: Data? { data(using: .utf8) }
+  var utf8Data: Data { utf8OptionalData! }
 
   func XorEncoded(with byte: UInt8) -> String? {
     String(bytes: utf8.map { $0 ^ byte }, encoding: .utf8)

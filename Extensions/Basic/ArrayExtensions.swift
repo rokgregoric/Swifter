@@ -16,8 +16,11 @@ extension Array {
 
   var random: Element? { object(at: randomIndex) }
 
+  @discardableResult
   mutating func removeRandom() -> Element? { isEmpty ? nil : remove(at: randomIndex) }
+  @discardableResult
   mutating func removeFirstIf() -> Element? { isEmpty ? nil : remove(at: 0) }
+  @discardableResult
   mutating func removeLastIf() -> Element? { isEmpty ? nil : remove(at: count - 1) }
 
   mutating func insert(random object: Element) {
@@ -178,5 +181,16 @@ extension Sequence where Iterator.Element == String? {
 
   func nilFlatJoined(_ separator: String) -> String? {
     flat.nilIfEmpty?.joined(separator)
+  }
+}
+
+extension Array: RawRepresentable where Element: Codable {
+  public init?(rawValue: String) {
+    guard let array = rawValue.utf8OptionalData?.decoded([Element].self) else { return nil }
+    self = array
+  }
+
+  public var rawValue: String {
+    JSONstring ?? ""
   }
 }
