@@ -18,3 +18,15 @@ extension Optional: OptionalProtocol {
   public var isNil: Bool { self == nil }
   public var notNil: Bool { self != nil }
 }
+
+func isTrue(_ value: Bool?) -> Bool {
+  value == true
+}
+
+func isFalse(_ value: Bool?) -> Bool {
+  value == false
+}
+
+func isNil(_ value: Bool?) -> Bool {
+  value == nil
+}
