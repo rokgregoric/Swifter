@@ -130,5 +130,5 @@ extension BinaryInteger {
 
 extension FloatingPoint {
   func formatted(to decimals: Int) -> String { String(format: "%.\(decimals)f", self as! CVarArg) }
-  var safe: Self { isNaN ? 0 : self }
+  var safe: Self { isInfinite || isNaN ? 0 : self }
 }
