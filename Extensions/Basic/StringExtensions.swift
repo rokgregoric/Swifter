@@ -209,10 +209,10 @@ extension NSString {
 }
 
 extension String {
-  private static func ID(length: Int) -> String { String.random(length: length) }
-  static func shortID() -> String { String.ID(length: 5) }
-  static func longID() -> String { String.ID(length: 28) }
-  static func longerID() -> String { String.ID(length: 64) }
+  static var shortID: String { String.random(length: 5) }
+  static var longID: String { String.random(length: 28) }
+  static var longerID: String { String.random(length: 64) }
+  static var uuid: String { UUID().uuidString.lowercased() }
 }
 
 // MARK: - Command line

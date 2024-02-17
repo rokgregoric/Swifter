@@ -73,7 +73,7 @@ extension Data {
   }
 
   func saveToFile(type: String) -> URL? {
-    saveTemp(filename: "\(String.longerID()).\(type)")
+    saveTemp(filename: "\(String.longerID).\(type)")
   }
 
   func saveTemp(filename: String) -> URL? {
