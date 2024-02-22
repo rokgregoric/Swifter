@@ -165,7 +165,9 @@ extension String {
 
   var int: Int { intOptional ?? 0 }
 
-  var double: Double? { Double(self) }
+  var double: Double? {
+    Double(remove(groupingSeparator).replace(decimalSeparator, with: "."))
+  }
 
   var safeDouble: Double {
     let arr = components(separatedBy: ".")
