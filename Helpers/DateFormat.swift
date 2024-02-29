@@ -27,8 +27,8 @@ enum DateFormat: String {
   func date(from string: String) -> Date? { formatter().date(from: string) }
   func date(from string: String, timeZone: TimeZone) -> Date? { formatter(timeZone: timeZone).date(from: string) }
 
-  static func date(from string: String) -> Date? {
-    dateTime.date(from: string) ?? dateTimeFull.date(from: string) ?? dateOnly.date(from: string)
+  static func date(from string: String?) -> Date? {
+    string.flatMap { dateTime.date(from: $0) ?? dateTimeFull.date(from: $0) ?? dateOnly.date(from: $0) }
   }
 
   var currentString: String { string(from: Date()) }
