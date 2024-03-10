@@ -76,9 +76,40 @@ extension Data {
     saveTemp(filename: "\(String.longerID).\(type)")
   }
 
+  enum Directory {
+    case temp
+    case document
+    case cache
+
+    var url: URL {
+      switch self {
+        case .temp: return FileManager.default.temporaryDirectory
+        case .document: return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        case .cache: return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
+      }
+    }
+  }
+
+  @discardableResult
   func saveTemp(filename: String) -> URL? {
-    let url = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+    save(directory: .temp, filename: filename)
+  }
+
+  @discardableResult
+  func save(directory: Directory, filename: String) -> URL? {
+    let url = directory.url.appendingPathComponent(filename)
+    Log.debug(#function, url.absoluteString, context: "data")
     return save(to: url) ? url : nil
+  }
+
+  init?(directory: Directory, filename: String) {
+    do {
+      let url = directory.url.appendingPathComponent(filename)
+      Log.debug(#function, url.absoluteString, context: "data")
+      try self.init(contentsOf: url)
+    } catch {
+      return nil
+    }
   }
 
   @discardableResult
