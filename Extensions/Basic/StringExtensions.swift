@@ -169,6 +169,8 @@ extension String {
     Double(remove(groupingSeparator).replace(decimalSeparator, with: "."))
   }
 
+  var usDouble: Double? { Double(remove(",")) }
+
   var safeDouble: Double {
     let arr = components(separatedBy: ".")
     let major = arr.object(at: 0).flatMap(Int.init) ?? 0
