@@ -12,10 +12,9 @@ enum Method: String {
   var name: String { rawValue.uppercased() }
 }
 
-let kAuthKey = "Authorization"
-
 protocol BaseRequest {
   var method: Method { get }
+  var authKey: String { get }
   var header: [String: String]? { get }
   var scheme: String { get }
   var basePath: String { get }
@@ -29,6 +28,7 @@ protocol BaseRequest {
 
 extension BaseRequest {
   var method: Method { .get }
+  var authKey: String { "Authorization" }
   var header: [String: String]? { nil }
   var scheme: String { "https" }
   var params: [String: Any]? { nil }
@@ -56,7 +56,7 @@ extension BaseRequest {
 
   private func shortAuth(_ headers: [String: String]?) -> [String: String]? {
     guard var h = headers else { return nil }
-    h[kAuthKey] = h[kAuthKey]?.substring(to: 20).appending("...")
+    h[authKey] = h[authKey]?.substring(to: 20).appending("...")
     return h
   }
 
@@ -71,8 +71,7 @@ extension BaseRequest {
       request.httpBody = body
     }
     let s = measureStart()
-    (session?.dataTask(with: request) ??
-    URLSession.shared.dataTask(with: request) { data, res, err in
+    (session ?? URLSession.shared).dataTask(with: request) { data, res, err in
       let time = "\ntime: \(measureEnd(s))s"
       let statusCode = (res as? HTTPURLResponse)?.statusCode
       let code = statusCode ?? -1
@@ -83,7 +82,7 @@ extension BaseRequest {
       let ne = err == nil && 200..<300 ~= code
       if shouldLog { Log.custom(level: ne ? .verbose : .error, message: method, url, headers, params, status, time, response, err, context: "api") }
       completion(data, statusCode, err)
-    }).resume()
+    }.resume()
   }
 
   // MARK - request decoded
@@ -92,7 +91,7 @@ extension BaseRequest {
     request { data, status, err in
       var t: T?
       do {
-        t = try data?.tryDecode(type)
+        t = try data?.tryDecode()
       } catch let err {
         Log.error(err, context: "decode")
       }
