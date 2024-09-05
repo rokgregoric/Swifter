@@ -102,28 +102,28 @@ extension UIViewController {
 
 // MARK: - UIPopoverPresentationController
 
-enum Position {
-  case min(CGFloat)
-  case mid(CGFloat)
-  case max(CGFloat)
-
-  static func point(x: Position, y: Position, for bounds: CGRect) -> CGPoint {
-    var p = CGPoint.zero
-    switch x {
-      case let .min(o): p.x = bounds.minX + o
-      case let .mid(o): p.x = bounds.midX + o
-      case let .max(o): p.x = bounds.maxX + o
-    }
-    switch y {
-      case let .min(o): p.y = bounds.minY + o
-      case let .mid(o): p.y = bounds.midY + o
-      case let .max(o): p.y = bounds.maxY + o
-    }
-    return p
-  }
-}
-
 extension UIPopoverPresentationController {
+  enum Position {
+    case min(CGFloat)
+    case mid(CGFloat)
+    case max(CGFloat)
+
+    static func point(x: Position, y: Position, for bounds: CGRect) -> CGPoint {
+      var p = CGPoint.zero
+      switch x {
+        case let .min(o): p.x = bounds.minX + o
+        case let .mid(o): p.x = bounds.midX + o
+        case let .max(o): p.x = bounds.maxX + o
+      }
+      switch y {
+        case let .min(o): p.y = bounds.minY + o
+        case let .mid(o): p.y = bounds.midY + o
+        case let .max(o): p.y = bounds.maxY + o
+      }
+      return p
+    }
+  }
+
   func setup(x: Position, y: Position, color: UIColor? = nil, vc: UIViewController? = nil) {
     if let sourceView {
       sourceRect = CGRect(origin: Position.point(x: x, y: y, for: sourceView.bounds), size: .zero)
