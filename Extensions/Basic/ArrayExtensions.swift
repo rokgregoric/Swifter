@@ -184,7 +184,7 @@ extension Sequence where Iterator.Element == String? {
   }
 }
 
-extension Array: RawRepresentable where Element: Codable {
+extension Array: @retroactive RawRepresentable where Element: Codable {
   public init?(rawValue: String) {
     guard let array = rawValue.utf8OptionalData?.decoded([Element].self) else { return nil }
     self = array
