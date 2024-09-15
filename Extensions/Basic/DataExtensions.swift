@@ -88,6 +88,19 @@ extension Data {
         case .cache: return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
       }
     }
+
+    @discardableResult
+    func delete(filename: String) -> Bool {
+      let url = url.appendingPathComponent(filename)
+      Log.debug(#function, url.absoluteString, context: "data")
+      do {
+        try FileManager.default.removeItem(at: url)
+        return true
+      } catch {
+        Log.error("Error deleting:", error)
+        return false
+      }
+    }
   }
 
   @discardableResult
@@ -118,7 +131,7 @@ extension Data {
       try write(to: url)
       return true
     } catch {
-      Log.error("Error saving image:", error)
+      Log.error("Error saving data:", error)
       return false
     }
   }
