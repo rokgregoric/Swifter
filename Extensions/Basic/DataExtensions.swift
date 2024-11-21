@@ -92,12 +92,12 @@ extension Data {
     @discardableResult
     func delete(filename: String) -> Bool {
       let url = url.appendingPathComponent(filename)
-      Log.debug(#function, url.absoluteString, context: "data")
+      Log.dev(level: .debug, #function, url.absoluteString, context: "data")
       do {
         try FileManager.default.removeItem(at: url)
         return true
       } catch {
-        Log.error("Error deleting:", error)
+        Log.dev(level: .error, "Error deleting:", error)
         return false
       }
     }
@@ -111,14 +111,14 @@ extension Data {
   @discardableResult
   func save(directory: Directory, filename: String) -> URL? {
     let url = directory.url.appendingPathComponent(filename)
-    Log.debug(#function, url.absoluteString, context: "data")
+    Log.dev(level: .debug, #function, url.absoluteString, context: "data")
     return save(to: url) ? url : nil
   }
 
   init?(directory: Directory, filename: String) {
     do {
       let url = directory.url.appendingPathComponent(filename)
-      Log.debug(#function, url.absoluteString, context: "data")
+      Log.dev(level: .debug, #function, url.absoluteString, context: "data")
       try self.init(contentsOf: url)
     } catch {
       return nil
@@ -131,7 +131,7 @@ extension Data {
       try write(to: url)
       return true
     } catch {
-      Log.error("Error saving data:", error)
+      Log.dev(level: .error, "Error saving data:", error)
       return false
     }
   }
