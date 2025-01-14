@@ -5,6 +5,7 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
+import SwiftUI
 import CoreGraphics
 
 extension XColor {
@@ -87,5 +88,23 @@ extension XColor {
     let components = cgColor.components ?? [0, 0, 0]
     let brightness = ((components[0] * 299) + (components[1] * 587) + (components[2] * 114)) / 500
     return brightness >= 1
+  }
+
+  var uiColor: Color {
+    Color(self)
+  }
+}
+
+extension Color {
+  var uiColor: UIColor {
+    UIColor(self)
+  }
+
+  func lighter(_ amount: CGFloat = XColor.brightnessAmount) -> Color {
+    uiColor.lighter(amount).uiColor
+  }
+
+  func darker(_ amount: CGFloat = XColor.brightnessAmount) -> Color {
+    uiColor.darker(amount).uiColor
   }
 }
