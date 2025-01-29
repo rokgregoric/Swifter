@@ -132,3 +132,7 @@ extension FloatingPoint {
   func formatted(to decimals: Int) -> String { String(format: "%.\(decimals)f", self as! CVarArg) }
   var safe: Self { isInfinite || isNaN ? 0 : self }
 }
+
+extension Numeric where Self: Comparable {
+  var plural: String { self == 1 ? "" : "s" }
+}
