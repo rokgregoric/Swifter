@@ -40,7 +40,9 @@ extension Dictionary where Value: OptionalProtocol {
 }
 
 func dic<K, V>(_ tupples: [(K, V)]) -> [K: V] {
-  Dictionary(uniqueKeysWithValues: tupples)
+  var dic = [K: V]()
+  tupples.forEach { dic[$0.0] = $0.1 }
+  return dic
 }
 
 func + <K, V>(left: [K: V], right: [K: V]) -> [K: V] {
