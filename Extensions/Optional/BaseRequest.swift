@@ -80,7 +80,9 @@ extension BaseRequest {
       let params = request.httpBody?.utf8string?.prepending("\nrequest: ")
       let response = data.flatMap { prettyJSONstring($0) ?? $0.utf8string?.nilIfEmpty }?.prepending("\nresponse: ")
       let ne = err == nil && 200..<300 ~= code
-      if shouldLog { Log.custom(level: ne ? .verbose : .error, message: method, url, headers, params, status, time, response, err, context: "api") }
+      if shouldLog || AppEnvironment.isProduction || !ne {
+        Log.custom(level: ne ? .verbose : .error, message: method, url, headers, params, status, time, response, err, context: "api")
+      }
       completion(data, statusCode, err)
     }.resume()
   }
