@@ -103,6 +103,24 @@ extension Array where Iterator.Element: Equatable {
   }
 }
 
+extension Set where Iterator.Element: Equatable {
+  func removing(_ element: Element) -> Set<Element> {
+    removing([element])
+  }
+
+  func removing(_ elements: [Element]) -> Set<Element> {
+    filter(elements.excludes)
+  }
+
+  mutating func toggle(_ element: Element) {
+    if contains(element) {
+      remove(element)
+    } else {
+      insert(element)
+    }
+  }
+}
+
 public extension Sequence where Iterator.Element: Equatable {
   func containsNil(_ element: Iterator.Element?) -> Bool {
     element.map(contains) ?? false
