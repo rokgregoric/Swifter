@@ -78,6 +78,15 @@ extension Optional where Wrapped: Collection {
   var nilIfEmpty: Wrapped? { self?.nilIfEmpty }
 }
 
+extension Array {
+  func chunked(into size: Int) -> [[Element]] {
+    stride(from: 0, to: count, by: Swift.max(size, 1)).map { startIndex in
+      let endIndex = Swift.min(startIndex + size, count)
+      return Array(self[startIndex..<endIndex])
+    }
+  }
+}
+
 extension Array where Iterator.Element: Equatable {
   @discardableResult
   mutating func remove(_ element: Element) -> Int? {
