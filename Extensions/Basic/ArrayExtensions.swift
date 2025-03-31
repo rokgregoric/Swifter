@@ -95,6 +95,14 @@ extension Array where Iterator.Element: Equatable {
     return idx
   }
 
+  /// replace the matching element with a replacement or the element itself
+  @discardableResult
+  mutating func replace(_ element: Element, with replacement: Element? = nil) -> Int? {
+    let idx = firstIndex(of: element)
+    _ = idx.map { self[$0] = replacement ?? element }
+    return idx
+  }
+
   func removing(_ element: Element) -> [Element] {
     removing([element])
   }
