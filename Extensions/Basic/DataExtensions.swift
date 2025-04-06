@@ -111,14 +111,14 @@ extension Data {
   @discardableResult
   func save(directory: Directory, filename: String) -> URL? {
     let url = directory.url.appendingPathComponent(filename)
-    Log.dev(level: .debug, #function, url.absoluteString, context: "data")
+    Log.dev(flag: AppEnvironment.isProduction, level: .debug, #function, url.absoluteString, context: "data")
     return save(to: url) ? url : nil
   }
 
   init?(directory: Directory, filename: String) {
     do {
       let url = directory.url.appendingPathComponent(filename)
-      Log.dev(level: .debug, #function, url.absoluteString, context: "data")
+      Log.dev(flag: AppEnvironment.isProduction, level: .debug, #function, url.absoluteString, context: "data")
       try self.init(contentsOf: url)
     } catch {
       return nil
