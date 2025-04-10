@@ -21,6 +21,7 @@ protocol BaseRequest {
   var path: String? { get }
   var params: [String: Any]? { get }
   var shouldLog: Bool { get }
+  var maxContentLength: Int? { get }
   var session: URLSession? { get }
 }
 
@@ -33,6 +34,7 @@ extension BaseRequest {
   var scheme: String { "https" }
   var params: [String: Any]? { nil }
   var shouldLog: Bool { true }
+  var maxContentLength: Int? { nil }
   var session: URLSession? { nil }
 }
 
@@ -77,8 +79,12 @@ extension BaseRequest {
       let code = statusCode ?? -1
       let status = "\nstatus: \(code)"
       let headers = shortAuth(request.allHTTPHeaderFields).flatMap(JSONString)?.prepending("\nheaders: ")
-      let params = request.httpBody?.utf8string?.prepending("\nrequest: ")
-      let response = data.flatMap { prettyJSONstring($0) ?? $0.utf8string?.nilIfEmpty }?.prepending("\nresponse: ")
+      var params = request.httpBody?.utf8string?.prepending("\nrequest: ")
+      var response = data.flatMap { prettyJSONstring($0) ?? $0.utf8string?.nilIfEmpty }?.prepending("\nresponse: ")
+      if let maxContentLength {
+        params = params?.substring(to: maxContentLength)
+        response = response?.substring(to: maxContentLength)
+      }
       let ne = err == nil && 200..<300 ~= code
       if shouldLog || AppEnvironment.isProduction || !ne {
         Log.custom(level: ne ? .verbose : .error, message: method, url, headers, params, status, time, response, err, context: "api")
