@@ -90,11 +90,13 @@ extension Data {
     }
 
     @discardableResult
-    func delete(filename: String) -> Bool {
+    func delete(filename: String, logFullPath: Bool = false) -> Bool {
       let url = url.appendingPathComponent(filename)
-      Log.dev(level: .debug, #function, url.absoluteString, context: "data")
+      Log.dev(flag: AppEnvironment.isProduction, level: .debug, "delete", logFullPath ? url.absoluteString : filename, context: "data")
       do {
-        try FileManager.default.removeItem(at: url)
+        if FileManager.default.fileExists(atPath: url.path) {
+          try FileManager.default.removeItem(at: url)
+        }
         return true
       } catch {
         Log.dev(level: .error, "Error deleting:", error)
@@ -109,16 +111,16 @@ extension Data {
   }
 
   @discardableResult
-  func save(directory: Directory, filename: String) -> URL? {
+  func save(directory: Directory, filename: String, logFullPath: Bool = false) -> URL? {
     let url = directory.url.appendingPathComponent(filename)
-    Log.dev(flag: AppEnvironment.isProduction, level: .debug, #function, url.absoluteString, context: "data")
+    Log.dev(flag: AppEnvironment.isProduction, level: .debug, "save", logFullPath ? url.absoluteString : filename, context: "data")
     return save(to: url) ? url : nil
   }
 
-  init?(directory: Directory, filename: String) {
+  init?(directory: Directory, filename: String, logFullPath: Bool = false) {
     do {
       let url = directory.url.appendingPathComponent(filename)
-      Log.dev(flag: AppEnvironment.isProduction, level: .debug, #function, url.absoluteString, context: "data")
+      Log.dev(flag: AppEnvironment.isProduction, level: .debug, "init", logFullPath ? url.absoluteString : filename, context: "data")
       try self.init(contentsOf: url)
     } catch {
       return nil
