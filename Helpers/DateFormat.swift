@@ -9,6 +9,7 @@ import Foundation
 
 enum DateFormat: String {
   case timeMili = "HH:mm:ss.SSS"
+  case monthOnly = "yyyy-MM"
   case dateOnly = "yyyy-MM-dd"
   case dateTime = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
   case dateTimeFull = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
