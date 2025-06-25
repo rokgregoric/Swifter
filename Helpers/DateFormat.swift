@@ -14,6 +14,7 @@ enum DateFormat: String {
   case dateTime = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
   case dateTimeFull = "yyyy-MM-dd'T'HH:mm:ss.SSSZZZZZ"
   case timestamp = "yyyyMMddHHmmss"
+  case rfc2822 = "EEE, dd MMM yyyy HH:mm:ss zzz"
 
   /// true when the timezone is specified in the format
   var isUTC: Bool { [.dateTime, .dateTimeFull].contains(self) }
