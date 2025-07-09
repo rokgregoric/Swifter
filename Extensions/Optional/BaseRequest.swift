@@ -97,13 +97,15 @@ extension BaseRequest {
 
   func request<T: Decodable>(_ type: T.Type, completion: @escaping Block3<T?, Int?, Error?>) {
     request { data, status, err in
-      var t: T?
-      do {
-        t = try data?.tryDecode()
-      } catch let err {
-        Log.error(err, context: "decode")
+      Run.concurrent {
+        var t: T?
+        do {
+          t = try data?.tryDecode()
+        } catch let err {
+          Log.error(err, context: "decode")
+        }
+        Run.main { completion(t, status, err) }
       }
-      Run.main { completion(t, status, err) }
     }
   }
 
