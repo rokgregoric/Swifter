@@ -43,7 +43,8 @@
   let isIphone = UIDevice.current.userInterfaceIdiom == .phone
 
   let isSmallPhone = shorterScreenSide < 350 && isIphone
-  let isNormalPhone = shorterScreenSide > 350 && mainScreenSize.width < 400 && isIphone
+  let isMiniPhone = shorterScreenSide > 350 && shorterScreenSide < 390 && isIphone
+  let isNormalPhone = shorterScreenSide > 350 && shorterScreenSide < 400 && isIphone
   let isLargePhone = shorterScreenSide > 400 && isIphone
   let isTallPhone = longerScreenSide > 800 && isIphone
 
