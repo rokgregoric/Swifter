@@ -5,23 +5,23 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
-import CommonCrypto
+import CryptoKit
 import Foundation
 
 extension String {
   var md5Data: Data {
-    let messageData = utf8Data
-    var digestData = Data(count: Int(CC_MD5_DIGEST_LENGTH))
+    Data(Insecure.MD5.hash(data: utf8Data))
+  }
 
-    _ = digestData.withUnsafeMutableBytes { digestBytes -> UInt8 in
-      messageData.withUnsafeBytes { messageBytes -> UInt8 in
-        if let messageBytesBaseAddress = messageBytes.baseAddress, let digestBytesBlindMemory = digestBytes.bindMemory(to: UInt8.self).baseAddress {
-          let messageLength = CC_LONG(messageData.count)
-          CC_MD5(messageBytesBaseAddress, messageLength, digestBytesBlindMemory)
-        }
-        return 0
-      }
-    }
-    return digestData
+  var sha1Data: Data {
+    Data(Insecure.SHA1.hash(data: utf8Data))
+  }
+
+  var md5: String {
+    md5Data.map { String(format: "%02hhx", $0) }.joined()
+  }
+
+  var sha1: String {
+    sha1Data.map { String(format: "%02hhx", $0) }.joined()
   }
 }
