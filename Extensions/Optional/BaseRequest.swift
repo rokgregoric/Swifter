@@ -123,3 +123,23 @@ extension BaseRequest {
     request { _, _, _ in completion.map { Run.main($0) } }
   }
 }
+
+// MARK: - Decoding
+
+extension BaseRequest {
+  func parse<T: Decodable>(_ type: T.Type, from data: Data?, completion: @escaping Block1<T?>) {
+    var t: T?
+    do {
+      t = try data?.tryDecode()
+    } catch let err {
+      Log.error(err, context: "decode")
+    }
+    Run.main { completion(t) }
+  }
+
+  func req<T: Decodable>(_ type: T.Type, completion: @escaping Block1<T?>) {
+    request { data, status, err in
+      parse(type, from: data, completion: completion)
+    }
+  }
+}
