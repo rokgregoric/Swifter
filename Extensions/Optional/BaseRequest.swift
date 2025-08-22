@@ -119,6 +119,10 @@ extension BaseRequest {
 
   // MARK - request
 
+  func request(completion: @escaping Block1<Data?>) {
+    request { data, _, _ in Run.main { completion(data) } }
+  }
+
   func request(completion: Block? = nil) {
     request { _, _, _ in completion.map { Run.main($0) } }
   }
