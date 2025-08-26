@@ -95,16 +95,20 @@ extension BaseRequest {
 
   // MARK - request decoded
 
+  func parse<T: Decodable>(_ type: T.Type, from data: Data?, status: Int?, error: Error?, completion: @escaping Block3<T?, Int?, Error?>) {
+    var t: T?
+    do {
+      t = try data?.tryDecode()
+    } catch let err {
+      Log.error(err, context: "decode")
+    }
+    Run.main { completion(t, status, error) }
+  }
+
   func request<T: Decodable>(_ type: T.Type, completion: @escaping Block3<T?, Int?, Error?>) {
     request { data, status, err in
       Run.concurrent {
-        var t: T?
-        do {
-          t = try data?.tryDecode()
-        } catch let err {
-          Log.error(err, context: "decode")
-        }
-        Run.main { completion(t, status, err) }
+        parse(type, from: data, status: status, error: err, completion: completion)
       }
     }
   }
@@ -125,25 +129,5 @@ extension BaseRequest {
 
   func request(completion: Block? = nil) {
     request { _, _, _ in completion.map { Run.main($0) } }
-  }
-}
-
-// MARK: - Decoding
-
-extension BaseRequest {
-  func parse<T: Decodable>(_ type: T.Type, from data: Data?, completion: @escaping Block1<T?>) {
-    var t: T?
-    do {
-      t = try data?.tryDecode()
-    } catch let err {
-      Log.error(err, context: "decode")
-    }
-    Run.main { completion(t) }
-  }
-
-  func req<T: Decodable>(_ type: T.Type, completion: @escaping Block1<T?>) {
-    request { data, status, err in
-      parse(type, from: data, completion: completion)
-    }
   }
 }
