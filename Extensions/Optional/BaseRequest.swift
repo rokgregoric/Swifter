@@ -20,7 +20,7 @@ protocol BaseRequest {
   var basePath: String { get }
   var path: String? { get }
   var params: [String: Any]? { get }
-  var shouldLog: Bool { get }
+  var shouldLogResponse: Bool { get }
   var maxContentLength: Int? { get }
   var session: URLSession? { get }
 }
@@ -33,7 +33,7 @@ extension BaseRequest {
   var header: [String: String]? { nil }
   var scheme: String { "https" }
   var params: [String: Any]? { nil }
-  var shouldLog: Bool { true }
+  var shouldLogResponse: Bool { true }
   var maxContentLength: Int? { nil }
   var session: URLSession? { nil }
 }
@@ -74,22 +74,23 @@ extension BaseRequest {
     }
     let s = measureStart()
     (session ?? URLSession.shared).dataTask(with: request) { data, res, err in
-      let time = "\ntime: \(measureEnd(s))s"
-      let statusCode = (res as? HTTPURLResponse)?.statusCode
-      let code = statusCode ?? -1
-      let status = "\nstatus: \(code)"
-      let headers = shortAuth(request.allHTTPHeaderFields).flatMap(JSONString)?.prepending("\nheaders: ")
-      var params = request.httpBody?.utf8string?.prepending("\nrequest: ")
-      var response = data.flatMap { prettyJSONstring($0) ?? $0.utf8string?.nilIfEmpty }?.prepending("\nresponse: ")
-      if let maxContentLength {
-        params = params?.substring(to: maxContentLength)
-        response = response?.substring(to: maxContentLength)
+      Run.concurrent {
+        let time = "\ntime: \(measureEnd(s))s"
+        let statusCode = (res as? HTTPURLResponse)?.statusCode
+        let code = statusCode ?? -1
+        let status = "\nstatus: \(code)"
+        let headers = shortAuth(request.allHTTPHeaderFields).flatMap(JSONString)?.prepending("\nheaders: ")
+        let success = err == nil && 200..<300 ~= code
+        var params = request.httpBody?.utf8string?.prepending("\nrequest: ")
+        let shouldLogResponse = shouldLogResponse || AppEnvironment.isProduction || !success
+        var response = data.flatMap { shouldLogResponse ? (prettyJSONstring($0) ?? $0.utf8string?.nilIfEmpty) : $0.utf8string?.lengthOfBytes(using: .utf8).string.appending(" bytes") }?.prepending("\nresponse: ")
+        if let maxContentLength {
+          params = params?.substring(to: maxContentLength)
+          response = response?.substring(to: maxContentLength)
+        }
+        Log.custom(level: success ? .verbose : .error, message: method, url, headers, params, status, time, response, err, context: "api")
+        Run.main { completion(data, statusCode, err) }
       }
-      let ne = err == nil && 200..<300 ~= code
-      if shouldLog || AppEnvironment.isProduction || !ne {
-        Log.custom(level: ne ? .verbose : .error, message: method, url, headers, params, status, time, response, err, context: "api")
-      }
-      completion(data, statusCode, err)
     }.resume()
   }
 
