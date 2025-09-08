@@ -79,7 +79,8 @@ extension BaseRequest {
         let statusCode = (res as? HTTPURLResponse)?.statusCode
         let code = statusCode ?? -1
         let status = "\nstatus: \(code)"
-        let headers = shortAuth(request.allHTTPHeaderFields).flatMap(JSONString)?.prepending("\nheaders: ")
+        let allHeaders = request.allHTTPHeaderFields.nilIfEmpty
+        let headers = shortAuth(allHeaders).flatMap(JSONString)?.prepending("\nheaders: ")
         let success = err == nil && 200..<300 ~= code
         var params = request.httpBody?.utf8string?.prepending("\nrequest: ")
         let shouldLogResponse = shouldLogResponse || AppEnvironment.isProduction || !success
