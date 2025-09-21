@@ -219,6 +219,10 @@ extension String {
   static var uuid: String { UUID().uuidString.lowercased() }
 }
 
+extension String: @retroactive Identifiable {
+  public var id: String { self }
+}
+
 // MARK: - Command line
 
 #if os(OSX)
