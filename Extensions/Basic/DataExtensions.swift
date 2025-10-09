@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit
 
 extension Data {
   var utf8string: String? { String(data: self, encoding: .utf8) }

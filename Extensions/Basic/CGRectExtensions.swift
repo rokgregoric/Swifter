@@ -6,6 +6,7 @@
 //
 
 import CoreGraphics
+import UIKit
 
 extension CGRect {
   @nonobjc
