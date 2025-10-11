@@ -20,6 +20,7 @@ protocol BaseRequest {
   var basePath: String { get }
   var path: String? { get }
   var params: [String: Any]? { get }
+  var body: Data? { get }
   var shouldLogResponse: Bool { get }
   var maxContentLength: Int? { get }
   var session: URLSession? { get }
@@ -69,7 +70,10 @@ extension BaseRequest {
     request.httpMethod = method
     header?.forEach { request.setValue($0.value, forHTTPHeaderField: $0.key) }
     if let body {
-      request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+      // Only set Content-Type if not already set by header
+      if request.value(forHTTPHeaderField: "Content-Type") == nil {
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+      }
       request.httpBody = body
     }
     let s = measureStart()
