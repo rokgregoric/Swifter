@@ -47,7 +47,7 @@ class Log {
     }.joined(" ")
   }
 
-  var devLogging: Bool { AppEnvironment.isDebuggerAttached }
+  var devLogging: Bool { AppEnvironment.isRunningFromXcode }
 
   class func dev(flag: Bool, level: Level = .verbose, _ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
     guard flag else { return }
@@ -110,7 +110,7 @@ class Log {
     let c = context?.uppercased()
     let msg = [c.map { "[\($0)]" }, messages].flatJoined(" ")
     let symbol = level.symbolValue
-    if AppEnvironment.isDebuggerAttached {
+    if AppEnvironment.isRunningFromXcode {
       print(DateFormat.timeMili.currentString, symbol, msg)
     } else {
       let log = OSLog(subsystem: AppEnvironment.identifier, category: c ?? "")

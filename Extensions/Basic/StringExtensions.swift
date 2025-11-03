@@ -15,7 +15,7 @@ extension String {
   var mailtoURL: URL? { "mailto:\(self)".url }
 
   var safeURL: URL {
-    if AppEnvironment.isSimulator || AppEnvironment.isDebuggerAttached {
+    if AppEnvironment.isRunningFromXcode {
       if let url { return url }
       fatalError("Invalid URL: \(self)")
     }

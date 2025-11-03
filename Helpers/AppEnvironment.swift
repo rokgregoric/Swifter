@@ -74,5 +74,7 @@ struct AppEnvironment {
 
   static let isRunningInPreview: Bool = ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
 
+  static let isRunningFromXcode: Bool = ProcessInfo.processInfo.environment["IDE_DISABLED_OS_ACTIVITY_DT_MODE"] == "1"
+
   static let isDebuggerAttached: Bool = getppid() != 1
 }
