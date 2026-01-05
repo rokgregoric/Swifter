@@ -8,7 +8,7 @@
 import Foundation
 
 enum Method: String {
-  case get, post, put, delete
+  case get, post, put, delete, patch
   var name: String { rawValue.uppercased() }
 }
 
