@@ -5,6 +5,7 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
+#if os(OSX)
 import AppKit
 
 private let dismissIdentifier = NSUserInterfaceItemIdentifier(rawValue: "dismissIdentifier")
@@ -89,3 +90,4 @@ extension NSAlert {
     NSApp.activate(ignoringOtherApps: true)
   }
 }
+#endif

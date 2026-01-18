@@ -5,6 +5,7 @@
 //  Copyright © 2021 Rok Gregoric. All rights reserved.
 //
 
+#if canImport(SwifterJSON)
 import SwifterJSON
 
 extension BaseRequest {
@@ -20,3 +21,4 @@ extension BaseRequest {
     request { data, _, _ in Run.main { completion(JSON(data)) } }
   }
 }
+#endif
