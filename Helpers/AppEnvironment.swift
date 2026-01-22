@@ -70,7 +70,7 @@ struct AppEnvironment {
     #endif
   }()
 
-  static var isTestFlight: Bool = _isTestFlight
+  static let isTestFlight: Bool = Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
 
   static let isUnitTest: Bool = ProcessInfo.processInfo.environment["UNITTEST"] == "1"
 
@@ -80,25 +80,6 @@ struct AppEnvironment {
 
   static let isDebuggerAttached: Bool = getppid() != 1
 
-  private static var _isTestFlight: Bool {
-    if #available(iOS 18.0, *) {
-      var value = false
-      Task {
-        do {
-          let result = try await AppTransaction.shared
-          switch result {
-            case .verified(let transaction):
-              value = transaction.environment == .sandbox
-            case .unverified:
-              value = false
-          }
-        } catch {
-          value = false
-        }
-      }
-      return value
-    } else {
-      return Bundle.main.appStoreReceiptURL?.lastPathComponent == "sandboxReceipt"
-    }
-  }
+  static var isDev: Bool { isSimulator || isRunningInPreview || isRunningFromXcode }
+  static var isTest: Bool { isDev || isTestFlight }
 }
