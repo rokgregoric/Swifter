@@ -5,6 +5,7 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
+#if canImport(RealmSwift)
 import RealmSwift
 
 extension List {
@@ -23,3 +24,4 @@ extension List {
     _ = index(of: element).map { remove(at: $0) }
   }
 }
+#endif

@@ -5,6 +5,7 @@
 //  Copyright © 2018 Rok Gregorič. All rights reserved.
 //
 
+#if canImport(SwifterJSON)
 import CoreData
 import Foundation
 import SwifterJSON
@@ -146,3 +147,4 @@ extension NSManagedObjectContext {
     return child
   }
 }
+#endif
