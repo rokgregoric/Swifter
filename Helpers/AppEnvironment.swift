@@ -6,9 +6,7 @@
 //
 
 import Foundation
-import StoreKit
 
-nonisolated
 struct AppEnvironment {
   static func value<T>(for key: String) -> T? {
     Bundle.main.infoDictionary?[key] as? T

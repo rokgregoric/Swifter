@@ -47,44 +47,34 @@ class Log {
     }.joined(" ")
   }
 
-  nonisolated
   var devLogging: Bool { AppEnvironment.isRunningFromXcode }
 
-  nonisolated
   class func dev(flag: Bool, level: Level = .verbose, _ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
     guard flag else { return }
     dev(level: level, message, file: file, function: function, line: line, context: context)
   }
 
-  nonisolated
   class func dev(level: Level = .verbose, _ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
-    Task { @MainActor in
-      guard shared.devLogging else { return }
-      custom(level: level, message: message, file: file, function: function, line: line, context: context)
-    }
+    guard shared.devLogging else { return }
+    custom(level: level, message: message, file: file, function: function, line: line, context: context)
   }
 
-  nonisolated
   class func verbose(_ message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .verbose, message: message, file: file, function: function, line: line, context: context)
   }
 
-  nonisolated
   class func debug(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .debug, message: message, file: file, function: function, line: line, context: context)
   }
 
-  nonisolated
   class func info(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .info, message: message, file: file, function: function, line: line, context: context)
   }
 
-  nonisolated
   class func warning(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .warning, message: message, file: file, function: function, line: line, context: context)
   }
 
-  nonisolated
   class func error(_ message: Any?..., file: String = #file, _ function: String = #function, line: Int = #line, context: String? = nil) {
     custom(level: .error, message: message, file: file, function: function, line: line, context: context)
   }
@@ -101,22 +91,17 @@ class Log {
     shared.filter = Filter(levels: levels, contexts: contexts.map { $0.lowercased() }, messages: messages.map { $0.lowercased() })
   }
 
-  nonisolated
   class func custom(level: Level, message: Any?..., file: String = #file, function: String = #function, line: Int = #line, context: String? = nil) {
-    Task { @MainActor in
-      let msg = stringify(message)
-      func logit() {
-        Task { @MainActor in
-          shared.custom(level: level, messages: msg, file: file, function: function, line: line, context: context)
-        }
-      }
-      if let f = shared.filter {
-        if f.levels.contains(level) { return logit() }
-        f.messages.forEach { if msg.lowercased().contains($0) { return logit() } }
-        if let c = context { f.contexts.forEach { if c.lowercased().contains($0) { return logit() } } }
-      } else {
-        logit()
-      }
+    let msg = stringify(message)
+    func logit() {
+      shared.custom(level: level, messages: msg, file: file, function: function, line: line, context: context)
+    }
+    if let f = shared.filter {
+      if f.levels.contains(level) { return logit() }
+      f.messages.forEach { if msg.lowercased().contains($0) { return logit() } }
+      if let c = context { f.contexts.forEach { if c.lowercased().contains($0) { return logit() } } }
+    } else {
+      logit()
     }
   }
 
