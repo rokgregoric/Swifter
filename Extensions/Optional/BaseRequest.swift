@@ -104,7 +104,7 @@ extension BaseRequest {
   func parse<T: Decodable>(_ type: T.Type, from data: Data?, status: Int?, error: Error?, completion: @escaping Block3<T?, Int?, Error?>) {
     var t: T?
     do {
-      t = try data?.tryDecode()
+      t = try data?.nilIfEmpty?.tryDecode()
     } catch let err {
       Log.error(err, context: "decode")
     }
