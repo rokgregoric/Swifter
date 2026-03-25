@@ -30,6 +30,11 @@ extension Date {
 
   var startOfDay: Date { Calendar.current.startOfDay(for: self) }
 
+  var startOfISOWeek: Date {
+    let cal = Calendar(identifier: .iso8601)
+    return cal.date(from: cal.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self))!
+  }
+
   var isInLast7days: Bool { Date().adding(days: -7).startOfDay < self }
 
   var relativeString: String? {
