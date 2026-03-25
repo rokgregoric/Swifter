@@ -95,6 +95,7 @@ extension XColor {
   }
 }
 
+#if os(iOS)
 extension Color {
   var uiColor: UIColor {
     UIColor(self)
@@ -108,3 +109,4 @@ extension Color {
     uiColor.darker(amount).uiColor
   }
 }
+#endif

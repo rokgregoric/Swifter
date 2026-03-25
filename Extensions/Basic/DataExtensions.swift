@@ -6,7 +6,11 @@
 //
 
 import Foundation
+#if os(iOS)
 import UIKit
+#elseif os(OSX)
+import AppKit
+#endif
 
 extension Data {
   var utf8string: String? { String(data: self, encoding: .utf8) }
