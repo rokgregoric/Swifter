@@ -80,6 +80,6 @@ struct AppEnvironment {
 
   static let isDebuggerAttached: Bool = getppid() != 1
 
-  static var isDev: Bool { isSimulator || isRunningInPreview || isRunningFromXcode }
+  static var isDev: Bool { isSimulator || isRunningInPreview || isRunningFromXcode || isDebug }
   static var isTest: Bool { isDev || isTestFlight }
 }
