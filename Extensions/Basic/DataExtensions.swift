@@ -23,12 +23,12 @@ extension Data {
 
   var JSONdictionary: [String: Any]? { JSONobject as? [String: Any] }
 
-  func tryDecode<T: Decodable>(_ type: T.Type? = nil) throws -> T {
-    try JSONDecoder().decode(T.self, from: self)
+  func tryDecode<T: Decodable>(_ type: T.Type? = nil, decoder: JSONDecoder = JSONDecoder()) throws -> T {
+    try decoder.decode(T.self, from: self)
   }
 
-  func decoded<T: Decodable>(_ type: T.Type? = nil) -> T? {
-    try? tryDecode(type)
+  func decoded<T: Decodable>(_ type: T.Type? = nil, decoder: JSONDecoder = JSONDecoder()) -> T? {
+    try? tryDecode(type, decoder: decoder)
   }
 
   init?(hexString: String) {
