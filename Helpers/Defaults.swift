@@ -61,6 +61,26 @@ class Defaults {
 }
 
 extension UserDefaults {
+  func object<T>(for key: Defaults.Key) -> T? {
+    object(forKey: key.rawValue) as? T
+  }
+
+  func data(for key: Defaults.Key) -> Data? {
+    object(for: key) as Data?
+  }
+
+  func set(_ value: Any?, for key: Defaults.Key) {
+    if let value {
+      set(value, forKey: key.rawValue)
+    } else {
+      removeObject(forKey: key.rawValue)
+    }
+  }
+
+  func removeObject(for key: Defaults.Key) {
+    removeObject(forKey: key.rawValue)
+  }
+
   func clear() {
     dictionaryRepresentation().forEach {
       removeObject(forKey: $0.0)
@@ -68,3 +88,5 @@ extension UserDefaults {
     synchronize()
   }
 }
+
+var UDefs: UserDefaults { .standard }
