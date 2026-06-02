@@ -48,6 +48,11 @@
   let isLargePhone = shorterScreenSide > 400 && isIphone
   let isTallPhone = longerScreenSide > 800 && isIphone
 
+  // SE / mini-sized phones where large fonts overflow fixed layouts
+  let isCompactPhone = (isSmallPhone || isMiniPhone) && isIphone
+  // iOS Display Zoom ("Zoomed") renders fewer points and upscales -> nativeScale > scale
+  let isZoomedDisplay = isIphone && UIScreen.main.nativeScale > UIScreen.main.scale
+
   let isNormalShortPhone = isNormalPhone && !isTallPhone // 4.7" - 6, 6s, 7, 8
   let isLargeShortPhone = isLargePhone && !isTallPhone // 5.5" - 6+, 6s+, 7+, 8+
 
