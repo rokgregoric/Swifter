@@ -9,59 +9,76 @@
 
   import UIKit
 
-  let mainScreenScale = UIScreen.main.scale // read only once since is expensive and impacts scrolling performance
-  var mainScreenSize: CGSize { isMac ? keyWindow?.frame.size ?? .zero : UIScreen.main.bounds.size }
+  // Optionally register the app window before configuring its first root.
+  // Without registration, global helpers use a foreground key window.
+  // Multi-window views should still use their own window or local geometry.
+  weak var sceneWindow: UIWindow?
+  var mainScreen: UIScreen? {
+    // Retain a fallback for app extensions, previews and legacy app lifecycles.
+    keyWindow?.screen ?? UIScreen.main
+  }
+  var mainScreenScale: CGFloat { mainScreen?.scale ?? 1 }
+  var mainScreenSize: CGSize {
+    keyWindow?.bounds.size ?? (isMac ? .zero : mainScreen?.bounds.size ?? .zero)
+  }
 
   #if EXTENSION
     let keyWindow: UIWindow? = nil
     let interfaceOrientation = UIInterfaceOrientation.unknown
   #else
     var keyWindow: UIWindow? {
+      if let window = sceneWindow { return window }
       if #available(iOS 13.0, *) {
-        return (UIApplication.shared.connectedScenes.first as? UIWindowScene)?.keyWindow
-      } else {
-        return UIApplication.shared.keyWindow
+        let scenes = UIApplication.shared.connectedScenes.compactMap { $0 as? UIWindowScene }
+        for state in [UIScene.ActivationState.foregroundActive, .foregroundInactive] {
+          if let window = scenes.filter({ $0.activationState == state })
+            .flatMap({ $0.windows }).first(where: { $0.isKeyWindow }) {
+            return window
+          }
+        }
+        // An app using the older app-delegate lifecycle has no window scene.
+        guard scenes.isEmpty else { return nil }
       }
+      return UIApplication.shared.keyWindow
     }
 
     var interfaceOrientation: UIInterfaceOrientation {
-      if #available(iOS 13.0, *) {
-        return keyWindow?.windowScene?.interfaceOrientation ?? .unknown
-      } else {
-        return UIApplication.shared.statusBarOrientation
+      if #available(iOS 13.0, *), let scene = keyWindow?.windowScene {
+        return scene.interfaceOrientation
       }
+      return UIApplication.shared.statusBarOrientation
     }
   #endif
 
   var isPortrait: Bool { isMac ? false : interfaceOrientation.isPortrait }
 
-  let shorterScreenSide = min(mainScreenSize.width, mainScreenSize.height)
-  let longerScreenSide = max(mainScreenSize.width, mainScreenSize.height)
+  var shorterScreenSide: CGFloat { min(mainScreenSize.width, mainScreenSize.height) }
+  var longerScreenSide: CGFloat { max(mainScreenSize.width, mainScreenSize.height) }
 
   let isMac = AppEnvironment.isiOSAppOnMac || AppEnvironment.isMacCatalystApp
   let isIpad = UIDevice.current.userInterfaceIdiom == .pad
   let isIphone = UIDevice.current.userInterfaceIdiom == .phone
 
-  let isSmallPhone = shorterScreenSide < 350 && isIphone
-  let isMiniPhone = shorterScreenSide > 350 && shorterScreenSide < 390 && isIphone
-  let isNormalPhone = shorterScreenSide > 350 && shorterScreenSide < 400 && isIphone
-  let isLargePhone = shorterScreenSide > 400 && isIphone
-  let isTallPhone = longerScreenSide > 800 && isIphone
+  var isSmallPhone: Bool { shorterScreenSide < 350 && isIphone }
+  var isMiniPhone: Bool { shorterScreenSide > 350 && shorterScreenSide < 390 && isIphone }
+  var isNormalPhone: Bool { shorterScreenSide > 350 && shorterScreenSide < 400 && isIphone }
+  var isLargePhone: Bool { shorterScreenSide > 400 && isIphone }
+  var isTallPhone: Bool { longerScreenSide > 800 && isIphone }
 
   // SE / mini-sized phones where large fonts overflow fixed layouts
-  let isCompactPhone = (isSmallPhone || isMiniPhone) && isIphone
+  var isCompactPhone: Bool { (isSmallPhone || isMiniPhone) && isIphone }
   // iOS Display Zoom ("Zoomed") renders fewer points and upscales -> nativeScale > scale
-  let isZoomedDisplay = isIphone && UIScreen.main.nativeScale > UIScreen.main.scale
+  var isZoomedDisplay: Bool { isIphone && (mainScreen?.nativeScale ?? 1) > mainScreenScale }
 
-  let isNormalShortPhone = isNormalPhone && !isTallPhone // 4.7" - 6, 6s, 7, 8
-  let isLargeShortPhone = isLargePhone && !isTallPhone // 5.5" - 6+, 6s+, 7+, 8+
+  var isNormalShortPhone: Bool { isNormalPhone && !isTallPhone } // 4.7" - 6, 6s, 7, 8
+  var isLargeShortPhone: Bool { isLargePhone && !isTallPhone } // 5.5" - 6+, 6s+, 7+, 8+
 
-  let isNormalTallPhone = isNormalPhone && isTallPhone // 5.8" - X, Xs, 11
-  let isLargeTallPhone = isLargePhone && isTallPhone // 6.1" & 6.5" - Xs-max, Xr, 11-max, 11r
+  var isNormalTallPhone: Bool { isNormalPhone && isTallPhone } // 5.8" - X, Xs, 11
+  var isLargeTallPhone: Bool { isLargePhone && isTallPhone } // 6.1" & 6.5" - Xs-max, Xr, 11-max, 11r
 
-  let isWidePad = (longerScreenSide / shorterScreenSide > 1.4) && isIpad // 11" -  non 4:3
+  var isWidePad: Bool { shorterScreenSide > 0 && (longerScreenSide / shorterScreenSide > 1.4) && isIpad } // 11" -  non 4:3
 
-  let isIpadMini = isIpad && shorterScreenSide < 750
+  var isIpadMini: Bool { isIpad && shorterScreenSide < 750 }
 
   private var _safeAreaInsets: UIEdgeInsets { keyWindow?.safeAreaInsets ?? .zero }
   private var _noTopSafeAreaInsets: UIEdgeInsets {
